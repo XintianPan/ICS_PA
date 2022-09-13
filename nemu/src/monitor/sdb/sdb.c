@@ -56,11 +56,23 @@ static int cmd_q(char *args) {
 static int cmd_help(char *args);
 
 static int cmd_si(char *args){
-	char * number = strtok(NULL, " ");
+	char *number = strtok(NULL, " ");
 	if(number == NULL)
 		cpu_exec(1);
 	else
 		cpu_exec(atoi(number));
+	return 0;
+}
+
+static int cmd_info(char *args){
+	char *status = strtok(NULL, " ");
+	if(strcmp("r", status) == 0){
+		isa_reg_display();
+	}else if(strcmp("w", status) == 0){
+		printf("Not implemented yet");
+	}else{
+		printf("Invalid parameter");
+	}
 	return 0;
 }
 
@@ -72,8 +84,8 @@ static struct {
   { "help", "Display information about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-  {"si", "Execute program with the given number of steps(default value 1)", cmd_si},
-
+  { "si", "Execute program with the given number of steps(default value 1)", cmd_si },
+  { "info", "Check registers' or watch point information", cmd_info },
   /* TODO: Add more commands */
 
 };
