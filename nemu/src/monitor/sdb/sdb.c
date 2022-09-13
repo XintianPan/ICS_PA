@@ -88,7 +88,7 @@ static int cmd_x(char *args){
 			printf("Please give an valid address!\n");
 		}else{
 			int n = atoi(number);
-			int len = strlen(express);
+			int len = strlen(express);		//bug fixed
 			if(len <= 2)
 				return 0;
 			else{
@@ -99,10 +99,10 @@ static int cmd_x(char *args){
 				}
 				return 0;
 			}
-		}
-	}
+ 		}
+ 	}
 	return 0;
-}
+} 
 
 static struct {
   const char *name;
