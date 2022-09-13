@@ -88,7 +88,7 @@ static int cmd_x(char *args){
 			printf("Please give an valid address!\n");
 		}else{
 			int n = atoi(number);
-			int len = strlen(args);
+			int len = strlen(number);
 			if(len <= 2)
 				return 0;
 			else{
