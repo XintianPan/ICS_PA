@@ -76,6 +76,31 @@ static int cmd_info(char *args){
 	return 0;
 }
 
+static int cmd_x(char *args){
+	char *number = strtok(NULL, " ");
+	if(number == NULL){
+		printf("No parameter received\n");
+		return 0;
+	}else{
+		char *express = strtok(NULL, " ");
+		if(express == NULL){
+			printf("Please give an valid address!\n");
+		}else{
+			int n = atoi(number);
+			int len = strlen(args);
+			if(len <= 2)
+				return 0;
+			else{
+				vaddr_t addr = strtol(args + 2, NULL, 16);
+				for(int i = 0; i < n; ++i){
+					printf("address: 0x%08x\t\tvalue: 0x%02x\n", addr, vaddr_read(addr, 1));
+				}
+				return 0;
+			}
+		}
+	}
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -85,7 +110,8 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Execute program with the given number of steps(default value 1)", cmd_si },
-  { "info", "Check registers' or watch point information", cmd_info },
+  { "info", "Check registers' or watch point's information", cmd_info },
+  { "x", "Scan memory", cmd_x },
   /* TODO: Add more commands */
 
 };
