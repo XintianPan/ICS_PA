@@ -15,6 +15,7 @@
 
 #include <isa.h>
 #include <cpu/cpu.h>
+#include <memory/padder.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
@@ -99,6 +100,7 @@ static int cmd_x(char *args){
 			}
 		}
 	}
+	return 0;
 }
 
 static struct {
