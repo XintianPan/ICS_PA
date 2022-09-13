@@ -55,6 +55,15 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_si(char *args){
+	char * number = strtok(NULL, " ");
+	if(number == NULL)
+		cpu_exec(1);
+	else
+		cpu_exec(atoi(number));
+	return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
