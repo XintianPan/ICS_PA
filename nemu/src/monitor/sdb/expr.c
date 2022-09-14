@@ -112,7 +112,7 @@ static bool make_token(char *e, int *endpos) {
 						tokens[*endpos].type = TK_L;
 						break;
 			case TK_R:	stacknum -= 1;
-						if(stacknum < 0) panic("Invaild expression: Bracket not matched");
+						if(stacknum < 0) panic("Invaild expression: Bracket not matched(Right Bracket)");
 						++(*endpos);
 						tokens[*endpos].type = TK_R;
 						break;
@@ -131,7 +131,9 @@ static bool make_token(char *e, int *endpos) {
 		 return false;
 		 }
 	}
-  }	
+  }
+	if(stacknum > 0)
+	  return false;	
   return true;
 }
 
