@@ -79,7 +79,9 @@ static int cmd_info(char *args){
 }
 
 static int cmd_x(char *args){
-	char *number = strtok(NULL, " ");
+	printf("%s\n", args);
+	char *number = strtok(args, " ");
+	printf("%s\n", args);
 	if(number == NULL){
 		printf("No parameter received\n");
 		return 0;
