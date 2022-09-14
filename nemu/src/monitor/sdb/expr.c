@@ -60,11 +60,11 @@ void init_regex() {
 
   for (i = 0; i < NR_REGEX; i ++) {
     ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED);
-    if (ret != 0) {
+     if (ret != 0) {
       regerror(ret, &re[i], error_msg, 128);
       panic("regex compilation failed: %s\n%s", error_msg, rules[i].regex);
     }
-  }
+  } 
 }
 
 typedef struct token {
@@ -78,6 +78,7 @@ static int nr_token __attribute__((used))  = 0;
 static bool make_token(char *e, int *endpos) {
   int position = 0;
   int i;
+  int stacknum = 0;
   regmatch_t pmatch;
 
   nr_token = 0;
@@ -106,19 +107,31 @@ static bool make_token(char *e, int *endpos) {
 							for(register int j = 0; j < substr_len; ++j) tokens[*endpos].str[j] = substr_start[j];
 							tokens[*endpos].type = TK_NUM;
 							break;
+			case TK_L:	stacknum += 1;
+						++(*endpos);
+						tokens[*endpos].type = TK_L;
+						break;
+			case TK_R:	stacknum -= 1;
+						if(stacknum < 0) panic("Invaild expression: Bracket not matched");
+						++(*endpos);
+						tokens[*endpos].type = TK_R;
+						break;
+			case '+':	++(*endpos);
+						tokens[*endpos].type = '+';
+						break;
+			case '-':	++(*endpos);
+						tokens[*endpos].type = '-';
 		   	default: break;				   
-         }
 
         break;
        }
     } 
-
-    if (i == NR_REGEX) {
-      printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
-      return false;
-     }
-  } 
-
+		if (i == NR_REGEX) {
+		 printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
+		 return false;
+		 }
+	}
+  }	
   return true;
 }
 
@@ -134,4 +147,21 @@ word_t expr(char *e, bool *success) {
   TODO();
 
   return 0;
+}
+
+static word_t eval(int start, int end){
+	word_t ret = 0;
+	if(start > end){
+		panic("Invaild Expression");
+		return 0;
+	}else if(start == end){
+		if(tokens[start].type == TK_NUM){
+			ret = atoi(tokens[start].str);
+			return ret;
+		}else{
+			panic("This is not a number");
+			return 0;
+		}
+	}
+	return 0;
 }
