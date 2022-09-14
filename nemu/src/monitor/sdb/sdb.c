@@ -84,7 +84,7 @@ static int cmd_x(char *args){
 		printf("No parameter received\n");
 		return 0;
 	}else{
-		char *express = strtok(NULL, " ");
+	// 	char *express = strtok(NULL, " ");
 		if(args == NULL){
 			printf("Please give an valid address!\n");
 		}else{
