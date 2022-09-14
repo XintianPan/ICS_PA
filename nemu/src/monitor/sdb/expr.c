@@ -153,6 +153,7 @@ word_t expr(char *e, bool *success) {
 }
 static word_t eval(int start, int end){
 	word_t ret = 0;
+	word_t stacknum = 0; // count bracket levels
 	if(start > end){
 		panic("Invaild Expression");
 		return 0;
@@ -163,6 +164,53 @@ static word_t eval(int start, int end){
 		}else{
 			panic("This is not a number");
 			return 0;
+		}
+	}else{
+		word_t level = 0xffffffff;
+		int index = -1;
+		if(tokens[start].type == TK_L && tokens[end].type == TK_R)
+			return eval(start + 1, end - 1)
+		for(register int i = start; i <= end; ++i){
+			switch(tokens[i].type){
+				case TK_NUM:
+				   break;
+				case TK_L:
+				   stacknum += 1;
+				   break;
+				case TK_R:
+				   stacknum -= 1;
+				   break;
+				case '+':
+				   if(i == start)
+					   panic("bad expression: + nothing to match on left");
+				   else if(i == end)
+					   panic("bad expression: + nothing to match on right");
+				   else{
+					   if(stacknum == 0){
+						   if((tokens[i - 1].type == TK_NUM || tokens[i - 1].type == TK_R)&&(tokens[i + 1].type == TK_NUM || tokens[i + 1].type == TK_L || tokens[i + 1].type == '-')){
+						   if(level >= 1){
+							   level = 1'
+								index = i;
+							}
+						   }else{
+							panic("bad expression");
+						   }
+						}
+				   } 
+				   break;
+				case '-':
+				   if(i == start){
+					   if(level >= 3){
+						level = 3;
+						index = i;	
+					   }
+					}else if(i == end){
+						panic("bad expression");
+					}
+					
+				   
+						   
+			}
 		}
 	}
 	return 0;
