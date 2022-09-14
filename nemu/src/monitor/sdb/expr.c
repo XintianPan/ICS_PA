@@ -75,7 +75,7 @@ typedef struct token {
 static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
-static bool make_token(char *e) {
+static bool make_token(char *e, int *endpos) {
   int position = 0;
   int i;
   regmatch_t pmatch;
@@ -100,29 +100,35 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
+			case TK_NOTYPE: break;
+			case TK_NUM:	if(substr_len > 31) painc("buffer overflow: integer is too big");
+							for(register int j = 0; j < substr_len; ++j) tokens[++(*endpos)].str[j] = substr_start[j];
+							tokens[*endpos].type = TK_NUM;
+							break;
 		   	default: break;				   
-        }
+         }
 
         break;
-      }
-    }
+       }
+    } 
 
     if (i == NR_REGEX) {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
-    }
-  }
+     }
+  } 
 
   return true;
 }
 
 
 word_t expr(char *e, bool *success) {
-  if (!make_token(e)) {
+	int endpos = -1;
+  if (!make_token(e, &endpos)) {
     *success = false;
     return 0;
   }
-
+	printf("%d\n", endpos);
   /* TODO: Insert codes to evaluate the expression. */
   TODO();
 
