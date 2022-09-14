@@ -147,11 +147,9 @@ word_t expr(char *e, bool *success) {
   }
 	printf("%d\n", endpos);
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
-
-  return 0;
+	word_t ret = eval(0, endpos);
+  return ret;
 }
-/*
 static word_t eval(int start, int end){
 	word_t ret = 0;
 	if(start > end){
@@ -168,4 +166,3 @@ static word_t eval(int start, int end){
 	}
 	return 0;
 }
-*/
