@@ -81,23 +81,23 @@ static int cmd_info(char *args){
 static int cmd_x(char *args){
 	printf("%s\n", args);
 	char *number = strtok(args, " ");
-	printf("%s\n", args);
 	if(number == NULL){
 		printf("No parameter received\n");
 		return 0;
 	}else{
-	// 	char *express = strtok(NULL, " ");
-		if(args == NULL){
+	 	char *express = strtok(NULL, "");
+		printf("%s\n", express);
+		if(express  == NULL){
 			printf("Please give an valid address!\n");
 		}else{
 			int n = atoi(number);
-			int len = strlen(args);		//bug fixed
+			int len = 10;		//bug fixed
 			if(len <= 2)
 				return 0;
 			else{ 
 				// vaddr_t addr = strtol(args + 2, NULL, 16);
 				bool succ = false;
-				vaddr_t addr = expr(args, &succ);
+				vaddr_t addr = expr(express, &succ);
 				for(int i = 0; i < n; ++i){
 					printf("address: 0x%08x\t\tvalue: 0x%02x\n", addr, vaddr_read(addr, 1));
 					addr += 1;
