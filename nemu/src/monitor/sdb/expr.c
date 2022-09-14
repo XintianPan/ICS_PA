@@ -148,7 +148,7 @@ word_t expr(char *e, bool *success) {
 
   return 0;
 }
-
+/*
 static word_t eval(int start, int end){
 	word_t ret = 0;
 	if(start > end){
@@ -165,3 +165,4 @@ static word_t eval(int start, int end){
 	}
 	return 0;
 }
+*/
