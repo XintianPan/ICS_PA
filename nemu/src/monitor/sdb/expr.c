@@ -132,8 +132,9 @@ static bool make_token(char *e, int *endpos) {
 		 }
 	}
   }
-	if(stacknum > 0)
-	  return false;	
+	if(stacknum > 0){
+	panic("Invalid Expression: Bracket not matched(Left)");
+	}
   return true;
 }
 
