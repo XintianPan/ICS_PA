@@ -101,7 +101,7 @@ static bool make_token(char *e, int *endpos) {
 
         switch (rules[i].token_type) {
 			case TK_NOTYPE: break;
-			case TK_NUM:	if(substr_len > 31) painc("buffer overflow: integer is too big");
+			case TK_NUM:	if(substr_len > 31) panic("buffer overflow: integer is too big");
 							for(register int j = 0; j < substr_len; ++j) tokens[++(*endpos)].str[j] = substr_start[j];
 							tokens[*endpos].type = TK_NUM;
 							break;
