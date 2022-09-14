@@ -24,6 +24,7 @@ static int is_batch_mode = false;
 void init_regex();
 void init_wp_pool();
 word_t vaddr_read(vaddr_t addr, int len);
+word_t expr(char *e, bool *success);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -84,19 +85,21 @@ static int cmd_x(char *args){
 		return 0;
 	}else{
 		char *express = strtok(NULL, " ");
-		if(express == NULL){
+		if(args == NULL){
 			printf("Please give an valid address!\n");
 		}else{
 			int n = atoi(number);
-			int len = strlen(express);		//bug fixed
+			int len = strlen(args);		//bug fixed
 			if(len <= 2)
 				return 0;
-			else{
-				vaddr_t addr = strtol(args + 2, NULL, 16);
+			else{ 
+				// vaddr_t addr = strtol(args + 2, NULL, 16);
+				bool succ = false;
+				vaddr_t addr = expr(args, &succ);
 				for(int i = 0; i < n; ++i){
 					printf("address: 0x%08x\t\tvalue: 0x%02x\n", addr, vaddr_read(addr, 1));
 					addr += 1;
-				}
+				} 
 				return 0;
 			}
  		}
