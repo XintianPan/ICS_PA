@@ -126,10 +126,13 @@ static bool make_token(char *e, int *endpos) {
 						break;
 			case '-':	++(*endpos);
 						tokens[*endpos].type = '-';
+						break;
 			case '*':	++(*endpos);
 						tokens[*endpos].type = '*';
+						break;
 			case '/':	++(*endpos);
 						tokens[*endpos].type = '/';
+						break;
 		   	default: break;				   
 
         break;
