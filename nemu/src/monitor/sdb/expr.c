@@ -21,7 +21,7 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_AND, TK_NUM, TK_L, TK_R, TK_NEG,
+  TK_NOTYPE = 256, TK_EQ, TK_AND, TK_NUM, TK_HEX, TK_L, TK_R, TK_NEG,
 
   /* TODO: Add more token types */
 
@@ -50,6 +50,7 @@ static struct rule {
   {"==", TK_EQ},        // equal
   {"&&", TK_AND},		// and
   {"[0-9]+", TK_NUM},	// number
+  {"0[x-X][0-9]+",TK_HEX}, //hex number
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -113,6 +114,11 @@ static bool make_token(char *e, int *endpos) {
 							for(register int j = 0; j < substr_len; ++j) tokens[*endpos].str[j] = substr_start[j];
 							tokens[*endpos].type = TK_NUM;
 							break;
+			case TK_HEX:	if(substr_len > 33) panic("buffer overflow: hex num is too big");
+							++(*endpos);
+							for(register int j = 0; j < substr_len - 1; ++j) tokens[*endpos].str[j] = substr_start[j + 2];
+							tokens[*endpos].type = TK_HEX;
+							break;	
 			case TK_L:	stacknum += 1;
 						++(*endpos);
 						tokens[*endpos].type = TK_L;
@@ -184,6 +190,9 @@ static word_t eval(int start, int end){
 	}else if(start == end){
 		if(tokens[start].type == TK_NUM){
 			ret = atoi(tokens[start].str);
+			return ret;
+		}else if(tokens[start].type == TK_HEX){
+			ret = strtol(tokens[start].str, NULL, 16);
 			return ret;
 		}else{
 			panic("This is not a number");
@@ -300,7 +309,8 @@ static word_t eval(int start, int end){
 				case TK_R:
 				   --num;
 				   break;
-
+				case TK_HEX:
+				   break;
 				default: break;
 					
 						   
@@ -332,5 +342,5 @@ static word_t eval(int start, int end){
 static bool ifmatched(int pos){
 	int left = tokens[pos - 1].type;
 	int right = tokens[pos + 1].type;
-	return ((left == TK_NUM) || (left == TK_R)) && ((right == TK_NUM) || (right == TK_L) || (right == TK_NEG));
+	return ((left == TK_NUM) || (left == TK_HEX) || (left == TK_R)) && ((right == TK_NUM) || (right == TK_HEX)  ||  (right == TK_L) || (right == TK_NEG));
 }
