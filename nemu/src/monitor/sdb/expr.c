@@ -249,7 +249,7 @@ static word_t eval(int start, int end){
 								index = i;
 							}
 						}else{
-							panic("bad expression");
+							panic("bad expression *");
 						}
 					}	
 				   }
