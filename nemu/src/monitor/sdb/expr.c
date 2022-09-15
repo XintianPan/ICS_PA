@@ -45,7 +45,7 @@ static struct rule {
   {"\\)", TK_R},			// right bracket 
   {"\\+", '+'},         // plus
   {"-", '-'},  // minus or negative
-  {"*", '*'},			// multipy
+  {"\\*", '*'},			// multipy
   {"/", '/'},			// division
   {"==", TK_EQ},        // equal
   {"&&", TK_AND},		// and
