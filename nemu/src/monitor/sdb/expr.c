@@ -49,7 +49,7 @@ static struct rule {
   {"\\*", '*'},						// multiply
   {"==", TK_EQ},        // equal
   {"&&", TK_AND},		// and
-  {"0[x,X][0-9]+", TK_HEX},		// hex num
+  {"0[x,X][0-9,a-f,A-F]+", TK_HEX},		// hex num
   {"[0-9]+", TK_NUM},	// number
 };
 
@@ -92,8 +92,8 @@ static bool make_token(char *e, int *endpos) {
 
   while (e[position] != '\0') {
     /* Try all rules one by one. */
-    for (i = 0; i < NR_REGEX; i ++) {
-      if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
+     for (i = 0; i < NR_REGEX; i ++) {
+       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
 
@@ -150,7 +150,7 @@ static bool make_token(char *e, int *endpos) {
 		 return false;
 		 }
 	}
-  }
+  } 
 	if(stacknum > 0){
 	panic("Invalid Expression: Bracket not matched(Left)");
 	}
