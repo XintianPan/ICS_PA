@@ -186,11 +186,11 @@ static word_t eval(int start, int end){
 			return 0;
 		}
 	}else{
+		if(tokens[start].type == TK_L && tokens[end].type == TK_R)
+			return eval(start + 1, end - 1);
 		int pri = -1;
 		int index = -1;
-		word_t stacknum = 0;// count bracket levels
-		if(tokens[start].type == TK_L && tokens[end].type == TK_R)
-			return eval(start + 1, end - 1)
+		word_t stacknum = 0;
 		for(int i = start; i <= end; ++i){
 	 		switch(tokens[i].type){
 				case TK_NUM:
