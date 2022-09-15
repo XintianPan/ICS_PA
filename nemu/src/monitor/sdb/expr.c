@@ -155,8 +155,8 @@ static bool make_token(char *e, int *endpos) {
 			}
 		}
 	}
-	for(int i = 0; i <= *endpos; ++i)
-		printf("%d\n", tokens[i].type);
+//	for(int i = 0; i <= *endpos; ++i)
+//		printf("%d\n", tokens[i].type);
 	return true; 
 }
 
@@ -208,7 +208,7 @@ static word_t eval(int start, int end){
 		int index = -1;
 		int num = 0;
 		for(int i = start; i <= end; ++i){
-			printf("stack: %d, index: %d\n", num, i);
+		//	printf("stack: %d, index: %d\n", num, i);
 	 		switch(tokens[i].type){
 				case '+':
 				   if(i == start)
@@ -217,7 +217,7 @@ static word_t eval(int start, int end){
 					   panic("bad expression: + nothing to match on right");
 	 			   else{
 	 				   if(num == 0){
-						   printf("reach here %d \n", i);
+						 //  printf("reach here %d \n", i);
 	 					if(ifmatched(i)){
 	 						if(pri <= OP_PM){
 								pri = OP_PM;
@@ -304,8 +304,8 @@ static word_t eval(int start, int end){
 				default: break;
 					
 						   
-			}
-	 	}
+ 			}
+ 	 	}
 		if(index == -1){printf("%d %d\n", start, end);	panic("no operator");}
 		switch(tokens[index].type){
 			case '+':
@@ -327,7 +327,7 @@ static word_t eval(int start, int end){
 				else
 					return eval(index + 1, end);
 			default: break;
-		}
+ 		}
 	 }
 	return 0;
 }
