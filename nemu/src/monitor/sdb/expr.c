@@ -148,7 +148,7 @@ static bool make_token(char *e, int *endpos) {
 	for(int i = 0; i <= *endpos; ++i){
 		if(tokens[i].type == '-'){
 			if((i == 0) || ((tokens[i-1].type != TK_NUM) && (tokens[i-1].type != TK_R))){
-				tokens[i].type == TK_NEG;
+				tokens[i].type = TK_NEG;
 			}
 		}
 	}
@@ -164,7 +164,7 @@ word_t expr(char *e, bool *success) {
   if (!make_token(e, &endpos)) {
     *success = false;
     return 0;
-  }
+  } 
 	printf("%d\n", endpos);
   /* TODO: Insert codes to evaluate the expression. */
 	word_t ret = eval(0, endpos);
@@ -174,7 +174,6 @@ word_t expr(char *e, bool *success) {
 
 static word_t eval(int start, int end){
 	word_t ret = 0;
-	word_t stacknum = 0; // count bracket levels
 	if(start > end){
 		panic("Invaild Expression");
 		return 0;
@@ -189,10 +188,11 @@ static word_t eval(int start, int end){
 	}else{
 		int pri = -1;
 		int index = -1;
+		word_t stacknum = 0;// count bracket levels
 		if(tokens[start].type == TK_L && tokens[end].type == TK_R)
 			return eval(start + 1, end - 1)
-		for(register int i = start; i <= end; ++i){
-			switch(tokens[i].type){
+		for(int i = start; i <= end; ++i){
+	 		switch(tokens[i].type){
 				case TK_NUM:
 				   break;
 				case TK_L:
@@ -206,10 +206,10 @@ static word_t eval(int start, int end){
 					   panic("bad expression: + nothing to match on left");
 				   else if(i == end)
 					   panic("bad expression: + nothing to match on right");
-				   else{
-					   if(stacknum == 0){
-						if(ifmatched(i)){
-							if(pri <= OP_PM){
+	 			   else{
+	 				   if(stacknum == 0){
+	 					if(ifmatched(i)){
+	 						if(pri <= OP_PM){
 								pri = OP_PM;
 								index = i;
 							}
@@ -230,12 +230,12 @@ static word_t eval(int start, int end){
 							if(pri <= OP_PM){
 								pri = OP_PM;
 								index = i;
-							}
+	 						}
 						}else{
 							panic("bad expression")
-						}
-					}	
-				   }
+	 					}
+	 				}	
+	 			   }
 				   break;
 				case '*':
 				   if(i == start)
@@ -286,7 +286,7 @@ static word_t eval(int start, int end){
 					
 						   
 			}
-		}
+	 	}
 		if(index == -1)	panic("no operator");
 		switch(tokens[index].type){
 			case '+':
@@ -309,12 +309,12 @@ static word_t eval(int start, int end){
 					return eval(index + 1, end);
 			default: break;
 		}
-	}
+	 }
 	return 0;
 }
 
 static bool ifmathched(int pos){
 	int left = tokens[pos - 1].type;
 	int right = tokens[pos + 1].type;
-	return ((left == TK_NUM) || (left == TK_R)) && ((right == TK_NUM) || (right == TK_L) || (right == TK_NEG);
+	return ((left == TK_NUM) || (left == TK_R)) && ((right == TK_NUM) || (right == TK_L) || (right == TK_NEG));
 }
