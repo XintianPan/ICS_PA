@@ -29,7 +29,7 @@ enum {
 
 enum{
 	OP_NEGPTR = 1,  OP_MD, OP_PM,  OP_EQN, OP_AND,
-}
+};
 
 static struct rule {
   const char *regex;
