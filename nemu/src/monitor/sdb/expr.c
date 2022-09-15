@@ -196,6 +196,7 @@ static word_t eval(int start, int end){
 		int index = -1;
 		int stacknum = 0;
 		for(int i = start; i <= end; ++i){
+			printf("%d\n", stacknum);
 	 		switch(tokens[i].type){
 				case '+':
 				   if(i == start)
@@ -282,10 +283,10 @@ static word_t eval(int start, int end){
 				case TK_NUM:
 				   break;
 				case TK_L:
-				   stacknum += 1;
+				  ++stacknum;
 				   break;
 				case TK_R:
-				   stacknum -= 1;
+				   --stacknum;
 				   break;
 
 				default: break;
