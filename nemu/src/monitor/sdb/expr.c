@@ -46,6 +46,7 @@ static struct rule {
   {"\\+", '+'},         // plus
   {"-", '-'},  // minus or negative
   {"/", '/'},			// division
+  {"\\*", '*'},						// multiply
   {"==", TK_EQ},        // equal
   {"&&", TK_AND},		// and
   {"[0-9]+", TK_NUM},	// number
@@ -153,9 +154,6 @@ static bool make_token(char *e, int *endpos) {
 				tokens[i].type = TK_NEG;
 			}
 		}
-	}
-	for(int i = 0; i <= *endpos; ++i){
-		printf("%d\n", tokens[i].type);
 	}
   return true;
 }
