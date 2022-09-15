@@ -21,7 +21,7 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_AND, TK_NUM, TK_HEX, TK_L, TK_R, TK_NEG,
+  TK_NOTYPE = 256, TK_EQ, TK_AND, TK_NUM, TK_HEX, TK_L, TK_R, TK_NEG, TK_DR,
 
   /* TODO: Add more token types */
 
@@ -30,6 +30,8 @@ enum {
 enum{
 	OP_NEGPTR = 1,  OP_MD, OP_PM,  OP_EQN, OP_AND,
 };
+
+word_t vaddr_read(vaddr_t addr, int len);
 
 static struct rule {
   const char *regex;
@@ -152,8 +154,13 @@ static bool make_token(char *e, int *endpos) {
 	}
 	for(int i = 0; i <= *endpos; ++i){
 		if(tokens[i].type == '-'){
-			if((i == 0) || ((tokens[i-1].type != TK_NUM) && (tokens[i-1].type != TK_R))){
+			if((i == 0) || ((tokens[i-1].type != TK_NUM) && (tokens[i-1].type != TK_R) && (token[i-1].type != TK_HEX)){
 				tokens[i].type = TK_NEG;
+			}
+		}
+		if(tokens[i].type == '*'){
+			if((i == 0) || ((tokens[i-1].type != TK_NUM) && (tokens[i-1].type != TK_R) && (tokens[i-1].type != TK_HEX)){
+				tokens[i].type = TK_DR;
 			}
 		}
 	}
@@ -297,6 +304,14 @@ static word_t eval(int start, int end){
 					}	
 				   } 
 				   break;
+				case TK_DR:
+				   if(num == 0){
+					if(pri < OP_NEGPTR){
+						pri = OP_NEGPTR;
+						index = i;
+					}
+				   }
+				   break;
 				case TK_NUM:
 				   break;
 				case TK_L:
@@ -328,7 +343,8 @@ static word_t eval(int start, int end){
 				return fir / sec;
 			case TK_NEG:
 				return -eval(index + 1, end);
-				
+			case TK_DR:
+				return vaddr_read(eval(index + 1, end), 4);
 			default: break;
  		}
 	 }
