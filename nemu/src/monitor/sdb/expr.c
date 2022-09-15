@@ -139,6 +139,7 @@ static bool make_token(char *e, int *endpos) {
 		   	default: break;				   
 
        }
+		break;
 	 } 
 	}
 	 if (i == NR_REGEX) {
