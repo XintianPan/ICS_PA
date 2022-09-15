@@ -152,7 +152,7 @@ static bool make_token(char *e, int *endpos) {
 		}
 	}
 	for(int i = 0; i <= *endpos; ++i){
-		printf("%d\n", tokens[i].type;
+		printf("%d\n", tokens[i].type);
 	}
   return true;
 }
