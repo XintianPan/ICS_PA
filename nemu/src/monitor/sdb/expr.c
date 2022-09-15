@@ -154,12 +154,12 @@ static bool make_token(char *e, int *endpos) {
 	}
 	for(int i = 0; i <= *endpos; ++i){
 		if(tokens[i].type == '-'){
-			if((i == 0) || ((tokens[i-1].type != TK_NUM) && (tokens[i-1].type != TK_R) && (token[i-1].type != TK_HEX)){
+			if((i == 0) || ((tokens[i-1].type != TK_NUM) && (tokens[i-1].type != TK_R) && (tokens[i-1].type != TK_HEX))){
 				tokens[i].type = TK_NEG;
-			}
-		}
+		 	}
+		} 
 		if(tokens[i].type == '*'){
-			if((i == 0) || ((tokens[i-1].type != TK_NUM) && (tokens[i-1].type != TK_R) && (tokens[i-1].type != TK_HEX)){
+			if((i == 0) || ((tokens[i-1].type != TK_NUM) && (tokens[i-1].type != TK_R) && (tokens[i-1].type != TK_HEX))){
 				tokens[i].type = TK_DR;
 			}
 		}
