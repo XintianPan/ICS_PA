@@ -196,7 +196,7 @@ static word_t eval(int start, int end){
 		int index = -1;
 		int num = 0;
 		for(int i = start; i <= end; ++i){
-			printf("stack: d\n, index: %d", num);
+			printf("stack: %d, index: %d\n", num, i);
 	 		switch(tokens[i].type){
 				case '+':
 				   if(i == start)
