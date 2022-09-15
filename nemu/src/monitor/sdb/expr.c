@@ -50,7 +50,7 @@ static struct rule {
   {"==", TK_EQ},        // equal
   {"&&", TK_AND},		// and
   {"[0-9]+", TK_NUM},	// number
-  {"0[x-X][0-9]+",TK_HEX}, //hex number
+  {"0[x,X][0-9]+",TK_HEX}, //hex number
 };
 
 #define NR_REGEX ARRLEN(rules)
