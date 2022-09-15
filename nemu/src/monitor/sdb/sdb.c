@@ -89,21 +89,19 @@ static int cmd_x(char *args){
 			printf("Please give an valid address!\n");
 		}else{
 			int n = atoi(number);
-			int len = 10;		//bug fixed
-			if(len <= 2)
-				return 0;
-			else{ 
 				// vaddr_t addr = strtol(args + 2, NULL, 16);
-				bool succ = false;
-				vaddr_t addr = expr(express, &succ);
-				if(succ)
-					printf("0x%x\n", addr);
+			bool succ = false;
+			vaddr_t addr = expr(express, &succ);
+			if(succ){
 				for(int i = 0; i < n; ++i){
 					printf("address: 0x%08x\t\tvalue: 0x%02x\n", addr, vaddr_read(addr, 1));
 					addr += 1;
 				} 
 				return 0;
-			}
+			}else{
+				printf("Invalid expression!\n");
+				return 0;
+			}	
  		}
  	}
 	return 0;
