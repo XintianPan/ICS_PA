@@ -290,7 +290,7 @@ static word_t eval(int start, int end){
 						   
 			}
 	 	}
-		if(index == -1) printf("%d %d\n", start, end),	panic("no operator");
+		if(index == -1){printf("%d %d\n", start, end);	panic("no operator");}
 		switch(tokens[index].type){
 			case '+':
 				return eval(start, index - 1) + eval(index + 1, end);
