@@ -21,11 +21,15 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_AND, TK_NUM, TK_L, TK_R
+  TK_NOTYPE = 256, TK_EQ, TK_AND, TK_NUM, TK_L, TK_R, TK_NEG,
 
   /* TODO: Add more token types */
 
 };
+
+enum{
+	OP_NEGPTR = 1,  OP_MD, OP_PM,  OP_EQN, OP_AND,
+}
 
 static struct rule {
   const char *regex;
@@ -40,7 +44,9 @@ static struct rule {
   {"\\(", TK_L},			// left bracket
   {"\\)", TK_R},			// right bracket 
   {"\\+", '+'},         // plus
-  {"-", '-'},			// minus or negative
+  {"-", '-'},  // minus or negative
+  {"*", '*'},			// multipy
+  {"/", '/'},			// division
   {"==", TK_EQ},        // equal
   {"&&", TK_AND},		// and
   {"[0-9]+", TK_NUM},	// number
@@ -121,6 +127,10 @@ static bool make_token(char *e, int *endpos) {
 						break;
 			case '-':	++(*endpos);
 						tokens[*endpos].type = '-';
+			case '*':	++(*endpos);
+						tokens[*endpos].type = '*';
+			case '/':	++(*endpos);
+						tokens[*endpos].type = '/';
 		   	default: break;				   
 
         break;
@@ -135,10 +145,19 @@ static bool make_token(char *e, int *endpos) {
 	if(stacknum > 0){
 	panic("Invalid Expression: Bracket not matched(Left)");
 	}
+	for(int i = 0; i <= *endpos; ++i){
+		if(tokens[i].type == '-'){
+			if((i == 0) || ((tokens[i-1].type != TK_NUM) && (tokens[i-1].type != TK_R))){
+				tokens[i].type == TK_NEG;
+			}
+		}
+	}
   return true;
 }
 
 static word_t eval(int start, int end);
+
+static bool ifmatched(int pos);
 
 word_t expr(char *e, bool *success) {
 	int endpos = -1;
@@ -149,8 +168,10 @@ word_t expr(char *e, bool *success) {
 	printf("%d\n", endpos);
   /* TODO: Insert codes to evaluate the expression. */
 	word_t ret = eval(0, endpos);
+	*success = true;
   return ret;
 }
+
 static word_t eval(int start, int end){
 	word_t ret = 0;
 	word_t stacknum = 0; // count bracket levels
@@ -166,7 +187,7 @@ static word_t eval(int start, int end){
 			return 0;
 		}
 	}else{
-		word_t level = 0xffffffff;
+		int pri = -1;
 		int index = -1;
 		if(tokens[start].type == TK_L && tokens[end].type == TK_R)
 			return eval(start + 1, end - 1)
@@ -187,31 +208,113 @@ static word_t eval(int start, int end){
 					   panic("bad expression: + nothing to match on right");
 				   else{
 					   if(stacknum == 0){
-						   if((tokens[i - 1].type == TK_NUM || tokens[i - 1].type == TK_R)&&(tokens[i + 1].type == TK_NUM || tokens[i + 1].type == TK_L || tokens[i + 1].type == '-')){
-						   if(level >= 1){
-							   level = 1'
+						if(ifmatched(i)){
+							if(pri <= OP_PM){
+								pri = OP_PM;
 								index = i;
 							}
-						   }else{
+						}else{
 							panic("bad expression");
-						   }
-						}
+						}	
+					   }
 				   } 
 				   break;
 				case '-':
-				   if(i == start){
-					   if(level >= 3){
-						level = 3;
-						index = i;	
-					   }
-					}else if(i == end){
-						panic("bad expression");
-					}
+				   if(i == start)
+					   panic("bad expression: - nothing to match on left");
+				   else if(i == end)
+					   panic("bad expression: - nothing to match on right");
+				   else{
+					if(stacknum == 0){
+						if(ifmatched(i)){
+							if(pri <= OP_PM){
+								pri = OP_PM;
+								index = i;
+							}
+						}else{
+							panic("bad expression")
+						}
+					}	
+				   }
+				   break;
+				case '*':
+				   if(i == start)
+					   panic("bad expression: * nothing to match on left");
+				   else if(i == end)
+					   panic("bad expression: * nothing to match on right");
+				   else{
+					if(stacknum == 0){
+						if(ifmatched(i)){
+							if(pri <= OP_MD){
+								pri = OP_MD;
+								index = i;
+							}
+						}else{
+							panic("bad expression");
+						}
+					}	
+				   }
+				   break;
+				case '/':		
+				   if(i == start)
+					   panic("bad expression: / nothing to match on left");
+				   else if(i == end)
+					   panic("bad expression: / nothing to match on right");
+				   else{
+					if(stacknum == 0){
+						if(ifmatched(i)){
+							if(pri <= OP_MD){
+								pri = OP_MD;
+								index = i;
+							}
+						}else{
+							panic("bad expression");
+						}
+					}	
+				   }
+				   break;
+				case TK_NEG:
+				   if(stacknum == 0){
+					if(pri <= OP_NEGPTR){
+						pri = OP_NEGPTR;
+						index = i;
+					}	
+				   }
+				   break;
+
+				default: break;
 					
-				   
 						   
 			}
 		}
+		if(index == -1)	panic("no operator");
+		switch(tokens[index].type){
+			case '+':
+				return eval(start, index - 1) + eval(index + 1, end);
+			case '-':
+				return eval(start, index - 1) - eval(index + 1, end);
+			case '*':
+				return eval(start, index - 1) * eval(index + 1, end);
+			case '/':
+				word_t fir = eval(start, index - 1);
+				word_t sec = eval(index + 1, end);
+				if(sec == 0)
+					panic("zero division error");
+				return fir / sec;
+			case TK_NEG:
+				int count = index - start + 1;
+				if((count & 1))
+					return -eval(index + 1, end);
+				else
+					return eval(index + 1, end);
+			default: break;
+		}
 	}
 	return 0;
+}
+
+static bool ifmathched(int pos){
+	int left = tokens[pos - 1].type;
+	int right = tokens[pos + 1].type;
+	return ((left == TK_NUM) || (left == TK_R)) && ((right == TK_NUM) || (right == TK_L) || (right == TK_NEG);
 }

@@ -96,6 +96,8 @@ static int cmd_x(char *args){
 				// vaddr_t addr = strtol(args + 2, NULL, 16);
 				bool succ = false;
 				vaddr_t addr = expr(express, &succ);
+				if(succ)
+					printf("0x%x\n", addr);
 				for(int i = 0; i < n; ++i){
 					printf("address: 0x%08x\t\tvalue: 0x%02x\n", addr, vaddr_read(addr, 1));
 					addr += 1;
