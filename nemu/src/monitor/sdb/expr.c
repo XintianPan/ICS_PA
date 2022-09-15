@@ -155,7 +155,9 @@ static bool make_token(char *e, int *endpos) {
 			}
 		}
 	}
-  return true;
+	for(int i = 0; i <= *endpos; ++i)
+		printf("%d\n", tokens[i].type);
+	return true; 
 }
 
 static word_t eval(int start, int end);
@@ -192,17 +194,9 @@ static word_t eval(int start, int end){
 			return eval(start + 1, end - 1);
 		int pri = -1;
 		int index = -1;
-		word_t stacknum = 0;
+		int stacknum = 0;
 		for(int i = start; i <= end; ++i){
 	 		switch(tokens[i].type){
-				case TK_NUM:
-				   break;
-				case TK_L:
-				   stacknum += 1;
-				   break;
-				case TK_R:
-				   stacknum -= 1;
-				   break;
 				case '+':
 				   if(i == start)
 					   panic("bad expression: + nothing to match on left");
@@ -210,6 +204,7 @@ static word_t eval(int start, int end){
 					   panic("bad expression: + nothing to match on right");
 	 			   else{
 	 				   if(stacknum == 0){
+						   printf("reach here %d \n", i);
 	 					if(ifmatched(i)){
 	 						if(pri <= OP_PM){
 								pri = OP_PM;
@@ -283,6 +278,14 @@ static word_t eval(int start, int end){
 						index = i;
 					}	
 				   }
+				   break;
+				case TK_NUM:
+				   break;
+				case TK_L:
+				   stacknum += 1;
+				   break;
+				case TK_R:
+				   stacknum -= 1;
 				   break;
 
 				default: break;
