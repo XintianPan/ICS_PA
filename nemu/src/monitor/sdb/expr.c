@@ -138,7 +138,6 @@ static bool make_token(char *e, int *endpos) {
 						break;
 		   	default: break;				   
 
-        break;
        }
     } printf("rules %d, i: %d\n", NR_REGEX,i );
 		if (i == NR_REGEX) {
