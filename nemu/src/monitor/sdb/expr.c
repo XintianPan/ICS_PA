@@ -232,7 +232,7 @@ static word_t eval(int start, int end){
 								index = i;
 	 						}
 						}else{
-							panic("bad expression")
+							panic("bad expression");
 	 					}
 	 				}	
 	 			   }
@@ -313,7 +313,7 @@ static word_t eval(int start, int end){
 	return 0;
 }
 
-static bool ifmathched(int pos){
+static bool ifmatched(int pos){
 	int left = tokens[pos - 1].type;
 	int right = tokens[pos + 1].type;
 	return ((left == TK_NUM) || (left == TK_R)) && ((right == TK_NUM) || (right == TK_L) || (right == TK_NEG));
