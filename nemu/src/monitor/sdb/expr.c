@@ -190,8 +190,20 @@ static word_t eval(int start, int end){
 			return 0;
 		}
 	}else{
-		if(tokens[start].type == TK_L && tokens[end].type == TK_R)
-			return eval(start + 1, end - 1);
+		if(tokens[start].type == TK_L && tokens[end].type == TK_R){
+			int s = 1;
+			bool flag = true;
+			for(int i = start + 1; i <= end - 1; ++i){
+				if(tokens[i].type == TK_L) ++s;
+				if(tokens[i].type == TK_R) --s;
+				if(s == 0){
+					flag = false;
+					break;
+				}
+			}	
+			if(flag)
+				return eval(start + 1, end - 1);
+		}
 		int pri = -1;
 		int index = -1;
 		int num = 0;
