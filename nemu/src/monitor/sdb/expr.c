@@ -139,12 +139,12 @@ static bool make_token(char *e, int *endpos) {
 		   	default: break;				   
 
        }
-    } printf("rules %d, i: %d\n", NR_REGEX,i );
-		if (i == NR_REGEX) {
+	 } 
+	}
+	 if (i == NR_REGEX) {
 		 printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
 		 return false;
 		 }
-	}
   } 
 	if(stacknum > 0){
 	panic("Invalid Expression: Bracket not matched(Left)");
