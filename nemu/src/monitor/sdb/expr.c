@@ -190,6 +190,8 @@ static word_t eval(int start, int end){
 		int index = -1;
 		word_t stacknum = 0;
 		for(int i = start; i <= end; ++i){
+			printf("%d\n", tokens[i].type);
+			assert(TK_NEG == '*');
 	 		switch(tokens[i].type){
 				case TK_NUM:
 				   break;
