@@ -194,9 +194,9 @@ static word_t eval(int start, int end){
 			return eval(start + 1, end - 1);
 		int pri = -1;
 		int index = -1;
-		int stacknum = 0;
+		int num = 0;
 		for(int i = start; i <= end; ++i){
-			printf("%d\n", stacknum);
+			printf("stack: d\n, index: %d", num);
 	 		switch(tokens[i].type){
 				case '+':
 				   if(i == start)
@@ -204,7 +204,7 @@ static word_t eval(int start, int end){
 				   else if(i == end)
 					   panic("bad expression: + nothing to match on right");
 	 			   else{
-	 				   if(stacknum == 0){
+	 				   if(num == 0){
 						   printf("reach here %d \n", i);
 	 					if(ifmatched(i)){
 	 						if(pri <= OP_PM){
@@ -223,7 +223,7 @@ static word_t eval(int start, int end){
 				   else if(i == end)
 					   panic("bad expression: - nothing to match on right");
 				   else{
-					if(stacknum == 0){
+					if(num == 0){
 						if(ifmatched(i)){
 							if(pri <= OP_PM){
 								pri = OP_PM;
@@ -241,7 +241,7 @@ static word_t eval(int start, int end){
 				   else if(i == end)
 					   panic("bad expression: * nothing to match on right");
 				   else{
-					if(stacknum == 0){
+					if(num == 0){
 						if(ifmatched(i)){
 							if(pri <= OP_MD){
 								pri = OP_MD;
@@ -251,8 +251,8 @@ static word_t eval(int start, int end){
 							printf("%d\n", tokens[i].type);
 							panic("bad expression *");
 						}
-					}	
-				   }
+					} 	
+				   } 
 				   break;
 				case '/':		
 				   if(i == start)
@@ -260,7 +260,7 @@ static word_t eval(int start, int end){
 				   else if(i == end)
 					   panic("bad expression: / nothing to match on right");
 				   else{
-					if(stacknum == 0){
+					if(num == 0){
 						if(ifmatched(i)){
 							if(pri <= OP_MD){
 								pri = OP_MD;
@@ -269,24 +269,24 @@ static word_t eval(int start, int end){
 						}else{
 							panic("bad expression");
 						}
-					}	
-				   }
+					} 	
+				   } 
 				   break;
 				case TK_NEG:
-				   if(stacknum == 0){
+				   if(num == 0){
 					if(pri <= OP_NEGPTR){
 						pri = OP_NEGPTR;
 						index = i;
 					}	
-				   }
+				   } 
 				   break;
 				case TK_NUM:
 				   break;
 				case TK_L:
-				  ++stacknum;
+				  ++num;
 				   break;
 				case TK_R:
-				   --stacknum;
+				   --num;
 				   break;
 
 				default: break;
