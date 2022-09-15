@@ -286,7 +286,7 @@ static word_t eval(int start, int end){
 				   break;
 				case TK_NEG:
 				   if(num == 0){
-					if(pri <= OP_NEGPTR){
+					if(pri < OP_NEGPTR){
 						pri = OP_NEGPTR;
 						index = i;
 					}	
@@ -321,11 +321,8 @@ static word_t eval(int start, int end){
 					panic("zero division error");
 				return fir / sec;
 			case TK_NEG:
-				int count = index - start + 1;
-				if((count & 1))
-					return -eval(index + 1, end);
-				else
-					return eval(index + 1, end);
+				return -eval(index + 1, end);
+				
 			default: break;
  		}
 	 }
