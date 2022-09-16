@@ -24,6 +24,8 @@ static int is_batch_mode = false;
 void init_regex();
 void init_wp_pool();
 void print_wp();
+void delete_wp(int num);
+void add_wp(char* express);
 word_t vaddr_read(vaddr_t addr, int len);
 word_t expr(char *e, bool *success);
 
@@ -58,6 +60,41 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_p(char *args){
+	if(args == NULL){
+		puts("No args!");
+	}else{
+		char *express = strtok(NULL, "");
+		bool succ = false;
+		word_t ret = expr(express, &succ);
+		if(!succ)
+			puts("Bad expression");
+		else
+			printf("%u\n", ret);
+	}
+	return 0;
+}
+
+static int cmd_w(char *args){
+	if(args == NULL){
+		puts("No args!");
+	}else{
+		char *express = strtok(NULL, "");
+		add_wp(express);
+	}
+	return 0;
+}
+
+static int cmd_d(char *args){
+	if(args == NULL){
+		puts("No args!");
+	}else{
+		char *number = strtok(NULL, " ");
+		int num = atoi(number);
+		delete_wp(num);
+	}
+	return 0;
+}
 static int cmd_si(char *args){
 	char *number = strtok(NULL, " ");
 	if(number == NULL)
@@ -123,6 +160,9 @@ static struct {
   { "si", "Execute program with the given number of steps(default value 1)", cmd_si },
   { "info", "Check registers' or watch point's information", cmd_info },
   { "x", "Scan memory", cmd_x },
+  { "p", "Evaluate expression", cmd_p},
+  { "w", "Add watchpoint", cmd_w},
+  { "d", "Delete a watchpoint", cmd_d},
   /* TODO: Add more commands */
 
 };
