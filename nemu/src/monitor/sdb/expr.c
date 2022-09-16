@@ -188,15 +188,18 @@ word_t expr(char *e, bool *success) {
     return 0;
   } 
   /* TODO: Insert codes to evaluate the expression. */
-	word_t ret = eval(0, endpos);
 	*success = true;
+	word_t ret = eval(0, endpos, success);
   return ret;
 }
 
-static word_t eval(int start, int end){
+static word_t eval(int start, int end, bool *success){
 	word_t ret = 0;
+	if(!(*success))
+		return 0;
 	if(start > end){
-		panic("Invaild Expression");
+		*success = false;
+		printf("Invaild Expression\n");
 		return 0;
 	}else if(start == end){
 		if(tokens[start].type == TK_NUM){
@@ -209,10 +212,11 @@ static word_t eval(int start, int end){
 			bool succ = false;
 			ret = isa_reg_str2val(tokens[start].str, &succ);
 			if(!succ)
-				printf("no such register!");
+				printf("no such register!\n");
 			return ret;
 		}else{
-			panic("This is not a number");
+			*success = false;
+			puts("This is not a number");
 			return 0;
 		}
 	}else{
@@ -238,9 +242,9 @@ static word_t eval(int start, int end){
 	 		switch(tokens[i].type){
 				case '+':
 				   if(i == start)
-					   panic("bad expression: + nothing to match on left");
+					  *success = false,  puts("bad expression: + nothing to match on left");
 				   else if(i == end)
-					   panic("bad expression: + nothing to match on right");
+					   *success = false, puts("bad expression: + nothing to match on right");
 	 			   else{
 	 				   if(num == 0){
 						 //  printf("reach here %d \n", i);
@@ -250,7 +254,8 @@ static word_t eval(int start, int end){
 								index = i;
 							}
 						}else{
-							panic("bad expression");
+							*success = false;
+							puts("bad expression");
 						}	
 					   }
 				   } 

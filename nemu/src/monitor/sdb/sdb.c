@@ -67,6 +67,10 @@ static int cmd_si(char *args){
 }
 
 static int cmd_info(char *args){
+	if(args == NULL){
+		printf("please pass parameter!\n");
+		return 0;
+	}
 	char *status = strtok(NULL, " ");
 	if(strcmp("r", status) == 0){
 		isa_reg_display();
