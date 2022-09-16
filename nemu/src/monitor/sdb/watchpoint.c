@@ -93,7 +93,7 @@ void add_wp(char *express){
 		puts("pool is used up");
 		return;
 	}else{
-		sscanf(new_node->express, "%s", express);
+		sscanf(express, "%s",new_node->express);
 		new_node->oldval = ret;
 		new_node->next = head;
 		head = new_node;
