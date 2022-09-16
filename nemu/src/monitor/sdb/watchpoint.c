@@ -131,6 +131,6 @@ bool ifchange(){
 void print_wp(){
 	WP* tmp = head;
 	while(tmp != NULL){
-		printf("Watchpoin %d:\t\tExpression: %s\t\tValue: %d\n",tmp->NO ,tmp->express, tmp->val);
+		printf("Watchpoin %d:\t\tExpression: %s\t\tValue: %d\n",tmp->NO ,tmp->express, tmp->oldval);
 	}
 }
