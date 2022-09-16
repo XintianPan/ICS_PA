@@ -205,7 +205,7 @@ static word_t eval(int start, int end){
 			return ret;
 		}else if(tokens[start].type == TK_REG){
 			bool succ = false;
-			ret = isa_reg_str2val(tokens[start].type, &succ);
+			ret = isa_reg_str2val(tokens[start].str, &succ);
 			if(!succ)
 				printf("no such register!");
 			return ret;
