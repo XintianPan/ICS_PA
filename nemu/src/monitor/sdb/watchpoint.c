@@ -39,6 +39,8 @@ void add_wp(char * express);
 
 void free_wp(WP *wp,WP* pre);
 
+void print_wp();
+
 bool ifchange();
 
 void init_wp_pool() {
@@ -124,4 +126,11 @@ bool ifchange(){
 		}		
 	}
 	return false;
+}
+
+void print_wp(){
+	WP* tmp = head;
+	while(tmp != NULL){
+		printf("Watchpoin %d:\t\tExpression: %s\t\tValue: %d\n",tmp->NO ,tmp->express, tmp->val);
+	}
 }

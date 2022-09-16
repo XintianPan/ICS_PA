@@ -75,7 +75,7 @@ static int cmd_info(char *args){
 	if(strcmp("r", status) == 0){
 		isa_reg_display();
 	}else if(strcmp("w", status) == 0){
-		printf("Not implemented yet\n");
+		print_wp();
 	}else{
 		printf("Invalid parametet\n");
 	}
