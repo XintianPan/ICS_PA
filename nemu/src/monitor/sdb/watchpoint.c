@@ -21,7 +21,6 @@ typedef struct watchpoint {
   int NO;
   struct watchpoint *next;
 	word_t oldval;
-	word_t newval;
 	char * express;
   /* TODO: Add more members if necessary */
 
@@ -29,6 +28,18 @@ typedef struct watchpoint {
 
 static WP wp_pool[NR_WP] = {};
 static WP *head = NULL, *free_ = NULL;
+
+WP* new_wp();
+
+word_t expr(char* e, bool* success);
+
+void delete_wp(int number);
+
+void add_wp(char * express);
+
+void free_wp(WP *wp,WP* pre);
+
+bool ifchange();
 
 void init_wp_pool() {
   int i;
@@ -42,4 +53,75 @@ void init_wp_pool() {
 }
 
 /* TODO: Implement the functionality of watchpoint */
+WP* new_wp(){
+	if(free_ == NULL){
+		puts("pool is used up");
+		assert(0);
+		return NULL;
+	}else{
+		WP* new_node = free_;
+		free_ = free_->next;
 
+		return new_node;
+	}
+	return NULL;
+}
+
+void free_wp(WP* wp, WP* pre){
+	if(pre == NULL){
+		head = wp->next;
+		wp->next = free_;
+		free_ = wp;
+	}else{
+		pre->next = wp->next;
+		wp->next = free_;
+		free_ = wp;
+	}
+}
+
+void add_wp(char *express){
+	bool succ = false;
+	word_t ret = expr(express, &succ);
+	if(!succ){
+		puts("bad expression!");
+		return;
+	}
+	WP* new_node = new_wp();
+	if(new_node == NULL){
+		puts("pool is used up");
+		return;
+	}else{
+		new_node->express = express;
+		new_node->oldval = ret;
+		new_node->next = head;
+		head = new_node;
+		return;
+	}
+}
+
+void delete_wp(int num){
+	WP* start = head;
+	WP* pre = NULL;
+	while(start != NULL && start->NO != num){
+		pre = start;
+		start = start->next;	
+	}
+	if(start == NULL)
+		puts("Invalid number");
+	else
+		free_wp(start, pre);
+}
+
+bool ifchange(){
+	WP* tmp = head;
+	bool succ = false;
+	word_t ret;
+	while(tmp != NULL){
+		ret = expr(tmp->express, &succ);
+		if(ret != tmp->oldval){
+			printf("Change at watchpoint %d\n Expression %s\nOld value: %u\nNew value: %u\n", tmp->NO, tmp->express, tmp->oldval, ret);
+			return true;
+		}		
+	}
+	return false;
+}
