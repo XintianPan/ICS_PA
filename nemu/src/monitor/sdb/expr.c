@@ -289,19 +289,6 @@ static word_t eval(int start, int end, bool *success){
 						}	
 					   }
 				   } 
-				   else{
-					if(num == 0){
-						if(ifmatched(i)){
-							if(pri <= OP_PM){
-								pri = OP_PM;
-								index = i;
-	  						}
-						}else{
-							*success = false;
-							puts("bad expression");
-	  					}
-	  				}	
-	  			   }
 				   break;
 				case '*':
 				   if(i == start)
