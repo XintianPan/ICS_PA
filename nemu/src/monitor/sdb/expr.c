@@ -49,6 +49,7 @@ static struct rule {
   {"/", '/'},			// division
   {"\\*", '*'},						// multiply
   {"==", TK_EQ},        // equal
+  {"!=", TK_NEQ},						// not equal
   {"&&", TK_AND},		// and
   {"0[x,X][0-9,a-f,A-F]+", TK_HEX},		// hex num
   {"[0-9]+", TK_NUM},	// number
@@ -155,7 +156,11 @@ static bool make_token(char *e, int *endpos) {
 			case TK_EQ: ++(*endpos);
 						tokens[*endpos].type = TK_EQ;
 						break;
-		   	default: break;				   
+			case TK_NEQ: ++(*endpos);
+						tokens[*endpos].type = TK_NEQ;
+						break;
+			
+			default: break;				   
 
        }
 		break;
@@ -346,7 +351,26 @@ static word_t eval(int start, int end, bool *success){
 					} 	
 				   } 
 				   break;
-			case TK_NEG:
+				case TK_EQ:		
+				   if(i == start)
+					  *success = false,  puts("bad expression: !=  nothing to match on left");
+				   else if(i == end)
+					   	   *success = false, puts("bad expression: != nothing to match on right");
+	 			   else{
+	 				if(num == 0){
+	 					if(ifmatched(i)){
+	 						if(pri <= OP_EQN){
+								pri = OP_EQN;
+								index = i;
+							}
+						}else{
+							*success = false;
+							puts("bad expression");
+						}
+					} 	
+				   } 
+				   break;
+				case TK_NEG:
 				   if(num == 0){
 					if(pri < OP_NEGPTR){
 						pri = OP_NEGPTR;
@@ -395,6 +419,8 @@ static word_t eval(int start, int end, bool *success){
 				return fir / sec;
 			case TK_EQ:
 				return (eval(start, index - 1, success) == eval(index + 1, end, success));
+			case TK_NEQ:
+				return (eval(start, index - 1, success) != eval(index + 1, end, success));
 			case TK_NEG:
 				return -eval(index + 1, end, success);
 			case TK_DR:
