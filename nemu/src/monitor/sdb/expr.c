@@ -21,8 +21,7 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_AND, TK_NUM, TK_HEX, TK_L, TK_R, TK_NEG, TK_DR,
-
+  TK_NOTYPE = 256, TK_EQ, TK_AND, TK_NUM, TK_HEX, TK_L, TK_R, TK_NEG, TK_DR, TK_REG,
   /* TODO: Add more token types */
 
 };
@@ -53,6 +52,7 @@ static struct rule {
   {"&&", TK_AND},		// and
   {"0[x,X][0-9,a-f,A-F]+", TK_HEX},		// hex num
   {"[0-9]+", TK_NUM},	// number
+  {"$[$0,ra,sp,gp,tp,t0,t1,t2,s0,s1,a0,a1,a2,a3,a4,a5,a6,a7,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,t3,t4,t5,t6]", TK_REG},						// register 
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -107,15 +107,21 @@ static bool make_token(char *e, int *endpos) {
 
         switch (rules[i].token_type) {
 			case TK_NOTYPE: break;
+			case TK_REG:	++(*endpos);
+							for(register int j = 0; j < substr_len; ++j) tokens[*endpos].str[j] = substr_start[j + 1];
+							tokens[*endpos].str[substr_len] = '\0';
+							break;
 			case TK_NUM:	if(substr_len > 31) panic("buffer overflow: integer is too big");
 							++(*endpos);
 							for(register int j = 0; j < substr_len; ++j) tokens[*endpos].str[j] = substr_start[j];
 							tokens[*endpos].type = TK_NUM;
+							tokens[*endpos].str[substr_len] = '\0';
 							break;
 			case TK_HEX:	if(substr_len > 33) panic("buffer overflow: hex num is too big");
 							++(*endpos);
 							for(register int j = 0; j < substr_len - 1; ++j) tokens[*endpos].str[j] = substr_start[j + 2];
 							tokens[*endpos].type = TK_HEX;
+							tokens[*endpos].str[substr_len] = '\0';
 							break;	
 			case TK_L:	stacknum += 1;
 						++(*endpos);
@@ -196,6 +202,12 @@ static word_t eval(int start, int end){
 			return ret;
 		}else if(tokens[start].type == TK_HEX){
 			ret = strtol(tokens[start].str, NULL, 16);
+			return ret;
+		}else if(tokens[start].type == TK_REG){
+			bool succ = false;
+			ret = isa_reg_str2val(tokens[start].type, &succ);
+			if(!succ)
+				printf("no such register!");
 			return ret;
 		}else{
 			panic("This is not a number");
@@ -322,6 +334,8 @@ static word_t eval(int start, int end){
 				   break;
 				case TK_HEX:
 				   break;
+				case TK_REG:
+				   break;
 				default: break;
 					
 						   
@@ -354,5 +368,5 @@ static word_t eval(int start, int end){
 static bool ifmatched(int pos){
 	int left = tokens[pos - 1].type;
 	int right = tokens[pos + 1].type;
-	return ((left == TK_NUM) || (left == TK_HEX) || (left == TK_R)) && ((right == TK_NUM) || (right == TK_HEX)  ||  (right == TK_L) || (right == TK_NEG));
+	return ((left == TK_NUM) || (left == TK_REG) || (left == TK_HEX) || (left == TK_R)) && ((right == TK_NUM) || (right == TK_HEX)  || (right == TK_REG) || (right == TK_L) || (right == TK_NEG));
 }
