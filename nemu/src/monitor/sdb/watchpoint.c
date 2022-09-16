@@ -21,7 +21,7 @@ typedef struct watchpoint {
   int NO;
   struct watchpoint *next;
 	word_t oldval;
-	char * express;
+	char express[64];
   /* TODO: Add more members if necessary */
 
 } WP;
@@ -87,19 +87,19 @@ void add_wp(char *express){
 	if(!succ){
 		puts("bad expression!");
 		return;
-	}
+ 	}
 	WP* new_node = new_wp();
 	if(new_node == NULL){
 		puts("pool is used up");
 		return;
 	}else{
-		new_node->express = express;
+		sscanf(new_node->express, "%s", express);
 		new_node->oldval = ret;
 		new_node->next = head;
 		head = new_node;
 		return;
-	}
-}
+ 	}
+} 
 
 void delete_wp(int num){
 	WP* start = head;
