@@ -21,7 +21,7 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_AND, TK_NUM, TK_HEX, TK_L, TK_R, TK_NEG, TK_DR, TK_REG,
+  TK_NOTYPE = 256, TK_EQ, TK_NEQ, TK_AND, TK_NUM, TK_HEX, TK_L, TK_R, TK_NEG, TK_DR, TK_REG, TK_PC,
   /* TODO: Add more token types */
 
 };
@@ -52,7 +52,8 @@ static struct rule {
   {"&&", TK_AND},		// and
   {"0[x,X][0-9,a-f,A-F]+", TK_HEX},		// hex num
   {"[0-9]+", TK_NUM},	// number
-  {"(\\$)([\\$,r,s,g,t,s,a])([0-9,a,p])([0,1]*)", TK_REG},						// register 
+  {"(\\$)([\\$,r,s,g,t,s,a])([0-9,a,p])([0,1]*)", TK_REG},						// register
+  {"\\$pc", TK_PC},		//PC counter  
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -107,12 +108,17 @@ static bool make_token(char *e, int *endpos) {
 
         switch (rules[i].token_type) {
 			case TK_NOTYPE: break;
+			case TK_PC:		++(*endpos);
+							for(register int j = 0; i < substr_len; ++j) tokens[*endpos].str[j] = substr_start[j];
+							tokens[*endpos].type = TK_REG;
+							tokens[*endpos].str[substr_len] = '\0';
+							break;
 			case TK_REG:	++(*endpos);
 							if(substr_len > 32) panic("buffer overflow: register name");
 							for(register int j = 0; j < substr_len - 1; ++j) tokens[*endpos].str[j] = substr_start[j + 1];
 							tokens[*endpos].type = TK_REG;
 							printf("%s\n", tokens[*endpos].str);
-							tokens[*endpos].str[substr_len] = '\0';
+							tokens[*endpos].str[substr_len - 1] = '\0';
 							break;
 			case TK_NUM:	if(substr_len > 31) panic("buffer overflow: integer is too big");
 							++(*endpos);
@@ -122,9 +128,9 @@ static bool make_token(char *e, int *endpos) {
 							break;
 			case TK_HEX:	if(substr_len > 33) panic("buffer overflow: hex num is too big");
 							++(*endpos);
-							for(register int j = 0; j < substr_len - 1; ++j) tokens[*endpos].str[j] = substr_start[j + 2];
+							for(register int j = 0; j < substr_len - 2; ++j) tokens[*endpos].str[j] = substr_start[j + 2];
 							tokens[*endpos].type = TK_HEX;
-							tokens[*endpos].str[substr_len] = '\0';
+							tokens[*endpos].str[substr_len - 2] = '\0';
 							break;	
 			case TK_L:	stacknum += 1;
 						++(*endpos);
