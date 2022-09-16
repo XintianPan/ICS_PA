@@ -153,6 +153,9 @@ static bool make_token(char *e, int *endpos) {
 			case '/':	++(*endpos);
 						tokens[*endpos].type = '/';
 						break;
+			case TK_EQ: ++(*endpos);
+						tokens[*endpos].type = TK_EQ;
+						break;
 		   	default: break;				   
 
        }
@@ -193,7 +196,7 @@ word_t expr(char *e, bool *success) {
   if (!make_token(e, &endpos)) {
     *success = false;
     return 0;
-  } 
+  }  
   /* TODO: Insert codes to evaluate the expression. */
 	*success = true;
 	word_t ret = eval(0, endpos, success);
@@ -204,7 +207,7 @@ static word_t eval(int start, int end, bool *success){
 	word_t ret = 0;
 	if(!(*success))
 		return 0;
-	if(start > end){
+	if(start > end){ 
 		*success = false;
 		printf("Invaild Expression\n");
 		return 0;
@@ -219,15 +222,15 @@ static word_t eval(int start, int end, bool *success){
 			bool succ = false;
 			ret = isa_reg_str2val(tokens[start].str, &succ);
 			if(!succ)
-				printf("no such register!\n");
+				*success = false, printf("no such register!\n");
 			return ret;
 		}else{
 			*success = false;
 			puts("This is not a number");
 			return 0;
-		}
+		} 
 	}else{
-		if(tokens[start].type == TK_L && tokens[end].type == TK_R){
+		if (tokens[start].type == TK_L && tokens[end].type == TK_R){
 			int s = 1;
 			bool flag = true;
 			for(int i = start + 1; i <= end - 1; ++i){
@@ -259,6 +262,26 @@ static word_t eval(int start, int end, bool *success){
 	 						if(pri <= OP_PM){
 								pri = OP_PM;
 								index = i;
+					 		}
+						}else{
+							*success = false;
+							puts("bad expression");
+					 	}	
+					    }
+				   }  
+				   break;
+				case '-':
+				   if(i == start)
+					  *success = false,  puts("bad expression: - nothing to match on left");
+				   else if(i == end)
+					   *success = false, puts("bad expression: - nothing to match on right");
+	 			   else{
+	 				   if(num == 0){
+						 //  printf("reach here %d \n", i);
+	 					if(ifmatched(i)){
+	 						if(pri <= OP_PM){
+								pri = OP_PM;
+								index = i;
 							}
 						}else{
 							*success = false;
@@ -266,30 +289,25 @@ static word_t eval(int start, int end, bool *success){
 						}	
 					   }
 				   } 
-				   break;
-				case '-':
-				   if(i == start)
-					   panic("bad expression: - nothing to match on left");
-				   else if(i == end)
-					   panic("bad expression: - nothing to match on right");
 				   else{
 					if(num == 0){
 						if(ifmatched(i)){
 							if(pri <= OP_PM){
 								pri = OP_PM;
 								index = i;
-	 						}
+	  						}
 						}else{
-							panic("bad expression");
-	 					}
-	 				}	
-	 			   }
+							*success = false;
+							puts("bad expression");
+	  					}
+	  				}	
+	  			   }
 				   break;
 				case '*':
 				   if(i == start)
-					   panic("bad expression: * nothing to match on left");
+					  *success = false,  puts("bad expression: * nothing to match on left");
 				   else if(i == end)
-					   panic("bad expression: * nothing to match on right");
+						   *success = false, puts("bad expression: / nothing to match on right");
 				   else{
 					if(num == 0){
 						if(ifmatched(i)){
@@ -298,37 +316,57 @@ static word_t eval(int start, int end, bool *success){
 								index = i;
 							}
 						}else{
-							printf("%d\n", tokens[i].type);
-							panic("bad expression *");
+							*success = false;
+							puts("bad expression *");
 						}
 					} 	
 				   } 
 				   break;
 				case '/':		
 				   if(i == start)
-					   panic("bad expression: / nothing to match on left");
+					  *success = false,  puts("bad expression: / nothing to match on left");
 				   else if(i == end)
-					   panic("bad expression: / nothing to match on right");
-				   else{
-					if(num == 0){
-						if(ifmatched(i)){
-							if(pri <= OP_MD){
+					   	   *success = false, puts("bad expression: / nothing to match on right");
+	 			   else{
+	 				if(num == 0){
+	 					if(ifmatched(i)){
+	 						if(pri <= OP_MD){
 								pri = OP_MD;
 								index = i;
 							}
 						}else{
-							panic("bad expression");
+							*success = false;
+							puts("bad expression");
 						}
 					} 	
 				   } 
 				   break;
-				case TK_NEG:
+				case TK_EQ:		
+				   if(i == start)
+					  *success = false,  puts("bad expression: ==  nothing to match on left");
+				   else if(i == end)
+					   	   *success = false, puts("bad expression: == nothing to match on right");
+	 			   else{
+	 				if(num == 0){
+	 					if(ifmatched(i)){
+	 						if(pri <= OP_EQN){
+								pri = OP_EQN;
+								index = i;
+							}
+						}else{
+							*success = false;
+							puts("bad expression");
+						}
+					} 	
+				   } 
+				   break;
+			case TK_NEG:
 				   if(num == 0){
 					if(pri < OP_NEGPTR){
 						pri = OP_NEGPTR;
 						index = i;
-					}	
-				   } 
+	 				}	
+	 			   } 
 				   break;
 				case TK_DR:
 				   if(num == 0){
@@ -336,7 +374,7 @@ static word_t eval(int start, int end, bool *success){
 						pri = OP_NEGPTR;
 						index = i;
 					}
-				   }
+	 			   }
 				   break;
 				case TK_NUM:
 				   break;
@@ -354,7 +392,7 @@ static word_t eval(int start, int end, bool *success){
 					
 						   
  			}
- 	 	}
+ 	 	} 
 		if(index == -1){printf("%d %d\n", start, end);	panic("no operator");}
 		switch(tokens[index].type){
 			case '+':
@@ -369,6 +407,8 @@ static word_t eval(int start, int end, bool *success){
 				if(sec == 0)
 					*success = false, puts("zero division error");
 				return fir / sec;
+			case TK_EQ:
+				return (eval(start, index - 1, success) == eval(index + 1, end, success));
 			case TK_NEG:
 				return -eval(index + 1, end, success);
 			case TK_DR:
