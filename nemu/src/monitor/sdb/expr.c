@@ -351,7 +351,7 @@ static word_t eval(int start, int end, bool *success){
 					} 	
 				   } 
 				   break;
-				case TK_EQ:		
+				case TK_NEQ:		
 				   if(i == start)
 					  *success = false,  puts("bad expression: !=  nothing to match on left");
 				   else if(i == end)
