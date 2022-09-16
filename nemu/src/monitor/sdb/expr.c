@@ -109,8 +109,9 @@ static bool make_token(char *e, int *endpos) {
         switch (rules[i].token_type) {
 			case TK_NOTYPE: break;
 			case TK_PC:		++(*endpos);
-							for(register int j = 0; i < substr_len; ++j) tokens[*endpos].str[j] = substr_start[j];
+							for(register int j = 0; i < substr_len - 1; ++j) tokens[*endpos].str[j] = substr_start[j + 1];
 							tokens[*endpos].type = TK_REG;
+							tokens[*endpos].str[substr_len - 1] = '\0';
 							printf("%s\n", tokens[*endpos].str);
 							break;
 			case TK_REG:	++(*endpos);
