@@ -177,7 +177,7 @@ static bool make_token(char *e, int *endpos) {
 	return true; 
 }
 
-static word_t eval(int start, int end);
+static word_t eval(int start, int end, bool *success);
 
 static bool ifmatched(int pos);
 
