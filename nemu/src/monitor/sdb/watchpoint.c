@@ -123,7 +123,8 @@ bool ifchange(){
 		if(ret != tmp->oldval){
 			printf("Change at watchpoint %d\n Expression %s\nOld value: %u\nNew value: %u\n", tmp->NO, tmp->express, tmp->oldval, ret);
 			return true;
-		}		
+		}
+		tmp = tmp->next;		
 	}
 	return false;
 }
