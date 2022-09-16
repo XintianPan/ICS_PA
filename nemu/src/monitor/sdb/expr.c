@@ -220,7 +220,7 @@ static word_t eval(int start, int end, bool *success){
 			return 0;
 		}
 	}else{
-		if(tokens[start].type == TK_L && tokens[end].type == TK_R){
+		if(tokens[start].type == TK_L && tokens[end].type == T K_R){
 			int s = 1;
 			bool flag = true;
 			for(int i = start + 1; i <= end - 1; ++i){
@@ -232,7 +232,7 @@ static word_t eval(int start, int end, bool *success){
 				}
 			}	
 			if(flag)
-				return eval(start + 1, end - 1);
+				return eval(start + 1, end - 1, success);
 		}
 		int pri = -1;
 		int index = -1;
@@ -351,21 +351,21 @@ static word_t eval(int start, int end, bool *success){
 		if(index == -1){printf("%d %d\n", start, end);	panic("no operator");}
 		switch(tokens[index].type){
 			case '+':
-				return eval(start, index - 1) + eval(index + 1, end);
+				return eval(start, index - 1, success) + eval(index + 1, end, success);
 			case '-':
-				return eval(start, index - 1) - eval(index + 1, end);
+				return eval(start, index - 1, success) - eval(index + 1, end, success);
 			case '*':
-				return eval(start, index - 1) * eval(index + 1, end);
+				return eval(start, index - 1, success) * eval(index + 1, end, success);
 			case '/':
-				word_t fir = eval(start, index - 1);
-				word_t sec = eval(index + 1, end);
+				word_t fir = eval(start, index - 1, success);
+				word_t sec = eval(index + 1, end, success);
 				if(sec == 0)
-					panic("zero division error");
+					*success = false, puts("zero division error");
 				return fir / sec;
 			case TK_NEG:
-				return -eval(index + 1, end);
+				return -eval(index + 1, end, success);
 			case TK_DR:
-				return vaddr_read(eval(index + 1, end), 4);
+				return vaddr_read(eval(index + 1, end, success), 4);
 			default: break;
  		}
 	 }
