@@ -121,7 +121,7 @@ bool ifchange(){
 	while(tmp != NULL){
 		ret = expr(tmp->express, &succ);
 		if(ret != tmp->oldval){
-			printf("Change at watchpoint %d\n Expression %s\nOld value: %u\nNew value: %u\n", tmp->NO, tmp->express, tmp->oldval, ret);
+			printf("Change at watchpoint %d\nExpression %s\nOld value: %u\nNew value: %u\n", tmp->NO, tmp->express, tmp->oldval, ret);
 			tmp->oldval = ret;
 			return true;
 		}
