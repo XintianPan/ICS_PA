@@ -159,7 +159,10 @@ static bool make_token(char *e, int *endpos) {
 			case TK_NEQ: ++(*endpos);
 						tokens[*endpos].type = TK_NEQ;
 						break;
-			
+			case TK_AND: ++(*endpos);
+						tokens[*endpos].type = TK_AND;
+						break;	 
+		
 			default: break;				   
 
        }
@@ -370,6 +373,25 @@ static word_t eval(int start, int end, bool *success){
 					} 	
 				   } 
 				   break;
+				case TK_AND:		
+				   if(i == start)
+					  *success = false,  puts("bad expression: &&  nothing to match on left");
+				   else if(i == end)
+					   	   *success = false, puts("bad expression: && nothing to match on right");
+	 			   else{
+	 				if(num == 0){
+	 					if(ifmatched(i)){
+	 						if(pri <= OP_AND){
+								pri = OP_AND;
+								index = i;
+							}
+						}else{
+							*success = false;
+							puts("bad expression");
+						}
+					} 	
+				   } 
+				   break;
 				case TK_NEG:
 				   if(num == 0){
 					if(pri < OP_NEGPTR){
@@ -421,6 +443,8 @@ static word_t eval(int start, int end, bool *success){
 				return (eval(start, index - 1, success) == eval(index + 1, end, success));
 			case TK_NEQ:
 				return (eval(start, index - 1, success) != eval(index + 1, end, success));
+			case TK_AND:
+				return (eval(start, index - 1, success) && eval(index + 1, end, success));
 			case TK_NEG:
 				return -eval(index + 1, end, success);
 			case TK_DR:
