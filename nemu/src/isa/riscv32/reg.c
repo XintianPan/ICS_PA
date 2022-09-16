@@ -35,13 +35,14 @@ word_t isa_reg_str2val(const char *s, bool *success) {
 	*success = false;
 	if(strcmp("$pc", s) == 0){
 		*success = true;
-		return cpu.pc;
-	}
-	for(int i = 0; i < 32; ++i){
-		if(strcmp(s, regs[i]) == 0){
-			*success = true;
-			ret = cpu.gpr[i];
-			return ret;
+		ret = cpu.pc;
+	}else{
+		for(int i = 0; i < 32; ++i){
+			if(strcmp(s, regs[i]) == 0){
+				*success = true;
+				ret = cpu.gpr[i];
+				break;
+			}
 		}
 	}
    	return ret;

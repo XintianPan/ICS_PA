@@ -112,6 +112,7 @@ static bool make_token(char *e, int *endpos) {
 							for(register int j = 0; i < substr_len; ++j) tokens[*endpos].str[j] = substr_start[j];
 							tokens[*endpos].type = TK_REG;
 							tokens[*endpos].str[substr_len] = '\0';
+							printf("%s\n", tokens[*endpos].str);
 							break;
 			case TK_REG:	++(*endpos);
 							if(substr_len > 32) panic("buffer overflow: register name");
