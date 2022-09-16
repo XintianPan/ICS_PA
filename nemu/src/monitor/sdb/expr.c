@@ -52,7 +52,7 @@ static struct rule {
   {"&&", TK_AND},		// and
   {"0[x,X][0-9,a-f,A-F]+", TK_HEX},		// hex num
   {"[0-9]+", TK_NUM},	// number
-  {"(\\$)([\\$,r,s,g,t,s,a])([0-9,a,p])([0,1]\\{0,1\\})", TK_REG},						// register 
+  {"(\\$)([\\$,r,s,g,t,s,a])([0-9,a,p])([0,1]*)", TK_REG},						// register 
 };
 
 #define NR_REGEX ARRLEN(rules)
