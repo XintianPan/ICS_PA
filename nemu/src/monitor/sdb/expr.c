@@ -37,9 +37,6 @@ static struct rule {
   int token_type;
 } rules[] = {
 
-  /* TODO: Add more rules.
-   * Pay attention to the precedence level of different rules.
-   */
 
   {" +", TK_NOTYPE},    // spaces
   {"\\(", TK_L},			// left bracket
@@ -115,18 +112,18 @@ static bool make_token(char *e, int *endpos) {
 							tokens[*endpos].str[substr_len] = '\0';
 							break;
 			case TK_REG:	++(*endpos);
-							if(substr_len > 32) panic("buffer overflow: register name");
+							if(substr_len > 32) {puts("buffer overflow: register name"); return false;}
 							for(register int j = 0; j < substr_len - 1; ++j) tokens[*endpos].str[j] = substr_start[j + 1];
 							tokens[*endpos].type = TK_REG;
 							tokens[*endpos].str[substr_len - 1] = '\0';
 							break;
-			case TK_NUM:	if(substr_len > 31) panic("buffer overflow: integer is too big");
+			case TK_NUM:	if(substr_len > 31) {puts("buffer overflow: integer is too big"); return false;}
 							++(*endpos);
 							for(register int j = 0; j < substr_len; ++j) tokens[*endpos].str[j] = substr_start[j];
 							tokens[*endpos].type = TK_NUM;
 							tokens[*endpos].str[substr_len] = '\0';
 							break;
-			case TK_HEX:	if(substr_len > 33) panic("buffer overflow: hex num is too big");
+			case TK_HEX:	if(substr_len > 33) {puts("buffer overflow: hex num is too big");return false;}
 							++(*endpos);
 							for(register int j = 0; j < substr_len - 2; ++j) tokens[*endpos].str[j] = substr_start[j + 2];
 							tokens[*endpos].type = TK_HEX;
@@ -137,7 +134,7 @@ static bool make_token(char *e, int *endpos) {
 						tokens[*endpos].type = TK_L;
 						break;
 			case TK_R:	stacknum -= 1;
-						if(stacknum < 0) panic("Invaild expression: Bracket not matched(Right Bracket)");
+						if(stacknum < 0) {puts("Invaild expression: Bracket not matched(Right Bracket)"); return false;}
 						++(*endpos);
 						tokens[*endpos].type = TK_R;
 						break;
@@ -175,7 +172,8 @@ static bool make_token(char *e, int *endpos) {
 		 }
   } 
 	if(stacknum > 0){
-	panic("Invalid Expression: Bracket not matched(Left)");
+	puts("Invalid Expression: Bracket not matched(Left)");
+	return false;
 	}
 	for(int i = 0; i <= *endpos; ++i){
 		if(tokens[i].type == '-'){
@@ -204,7 +202,6 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }  
-  /* TODO: Insert codes to evaluate the expression. */
 	*success = true;
 	word_t ret = eval(0, endpos, success);
   return ret;
@@ -425,7 +422,7 @@ static word_t eval(int start, int end, bool *success){
 						   
  			}
  	 	} 
-		if(index == -1){printf("%d %d\n", start, end);	panic("no operator");}
+		if(index == -1){printf("%d %d\n", start, end);	puts("no operator"); *success = false; return 0;}
 		switch(tokens[index].type){
 			case '+':
 				return eval(start, index - 1, success) + eval(index + 1, end, success);
