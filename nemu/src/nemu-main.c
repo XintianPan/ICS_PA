@@ -30,10 +30,10 @@ int main(int argc, char *argv[]) {
 	  puts("No file!");
   else{ 
 	  word_t ret = 0;
-	  char buf[300] = {};
-	  memset(buf, 0, sizeof buf);
-	  while(fscanf(fp, "%u %[^\n]%*c", &ret, buf) != EOF){
-		  int len = strlen(buf);
+	  size_t len = 0;
+	  char* buf = NULL;
+	  while(getline(&buf, &len, fp) != -1){
+		  ret = atoi(strtol(buf, " "));
 		  printf("%u %d  %s\n", ret, len, buf);
 		  memset(buf, 0, sizeof buf);
  	  }
