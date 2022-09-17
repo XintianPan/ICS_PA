@@ -29,8 +29,8 @@ int main(int argc, char *argv[]) {
 	  puts("No file!");
   else{
 	 word_t ret;
-	word_t cmp; 
-	while(fscanf(fp,"%u %s",cmp, buf) != EOF){
+	word_t cmp = 0; 
+	while(fscanf(fp,"%d %s",cmp, buf) != EOF){
 		bool succ = false;
 		ret = expr(buf, &succ);
 		if(succ){
