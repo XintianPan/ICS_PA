@@ -32,7 +32,6 @@ int main(int argc, char *argv[]) {
 	  memset(buf, 0, sizeof buf);
 	  while(fscanf(fp, "%u %s", &ret, buf) != EOF){
 		  printf("%u %s\n", ret, buf);
-		  bool succ = false;
 		  memset(buf, 0, sizeof buf);
 	  }
 	}
