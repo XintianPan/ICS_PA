@@ -20,7 +20,6 @@ void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
 word_t expr(char* e, bool* success);
-static char*  buf;
 
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
@@ -30,7 +29,8 @@ int main(int argc, char *argv[]) {
   else{ 
 	 word_t ret = 0;
 	word_t cmp = 0;
-   puts("OK");	
+   puts("OK");
+	char buf[6555366];   
 	while(fscanf(fp,"%u %s\n", &cmp, buf) != EOF){
 		bool succ = false;
 		ret = expr(buf, &succ);
