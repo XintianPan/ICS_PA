@@ -27,24 +27,11 @@ int main(int argc, char *argv[]) {
   if(fp == NULL)
 	  puts("No file!");
   else{ 
-	 word_t ret = 0;
-	word_t cmp = 0;
-   puts("OK");
-	char buf[65536 + 128];   
-	while(fscanf(fp,"%s",buf) != EOF){
-		ret = atoi(strtok(buf, " "));
-		bool succ = false;
-		ret = expr(buf, &succ);
-		if(succ){
-			if(cmp == ret)
-				puts("YES");
-			else
-				puts("NO");
-		}else
-			puts("NO");
+	  word_t ret = 0;
+	  if(fscanf(fp, "%u", &ret) != EOF)
+		  printf("%u\n", ret);
 	}
-	fclose(fp);
-  }
+  fclose(fp);
 #ifdef CONFIG_TARGET_AM
   am_init_monitor();
 #else
