@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
   FILE *fp = fopen("input", "r");
   if(fp == NULL)
-	  puts("No file!")
+	  puts("No file!");
   else{
 	fscanf(fp,"%s",buf);
 	bool succ = false;
