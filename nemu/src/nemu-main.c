@@ -30,8 +30,15 @@ int main(int argc, char *argv[]) {
 	  word_t ret = 0;
 	  char buf[65536] = {};
 	  memset(buf, 0, sizeof buf);
-	  if(fscanf(fp, "%u %s", &ret, buf) != EOF)
+	  while(fscanf(fp, "%u %s", &ret, buf) != EOF){
 		  printf("%u %s\n", ret, buf);
+		  bool succ = false;
+		  word_t cmp = expr(buf, &succ);
+		  if(succ)
+			  if(cmp == ret)
+				  puts("YES")
+		  memset(buf, 0, sizeof buf);
+	  }
 	}
   fclose(fp);
 #ifdef CONFIG_TARGET_AM
