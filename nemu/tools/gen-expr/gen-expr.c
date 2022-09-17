@@ -108,8 +108,8 @@ int main(int argc, char *argv[]) {
   } 
   int i;
   for (i = 0; i < loop; i ++) {
-		buf[65535] = '\0';
-	  gen_rand_expr(0, 65534);
+		buf[300] = '\0';
+	  gen_rand_expr(0, 299);
 
     sprintf(code_buf, code_format, buf);
 
