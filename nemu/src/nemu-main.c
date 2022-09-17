@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
 	  word_t ret = 0;
 	  char buf[65536] = {};
 	  memset(buf, 0, sizeof buf);
-	  while(fscanf(fp, "%u %[^\n]%*c", &ret, buf) != EOF){
+	  if(fscanf(fp, "%u %[^\n]%*c", &ret, buf) != EOF){
 		  printf("%u %s\n", ret, buf);
 		  bool succ = false;
 		  word_t cmp = expr(buf, &succ);
