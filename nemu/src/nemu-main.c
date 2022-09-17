@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
 	  char buf[300] = {};
 	  memset(buf, 0, sizeof buf);
 	  while(fscanf(fp, "%u %[^\n]%*c", &ret, buf) != EOF){
-		  int len = strlen(buf)'
+		  int len = strlen(buf);
 		  printf("%u %d  %s\n", ret, len, buf);
 		  memset(buf, 0, sizeof buf);
  	  }
