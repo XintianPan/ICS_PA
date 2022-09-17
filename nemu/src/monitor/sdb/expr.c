@@ -432,8 +432,8 @@ static word_t eval(int start, int end, bool *success){
 			case '*':
 				return eval(start, index - 1, success) * eval(index + 1, end, success);
 			case '/':
-				uint32_t fir = eval(start, index - 1, success);
-				uint32_t sec = eval(index + 1, end, success);
+				uint32_t fir; fir = eval(start, index - 1, success);
+				uint32_t sec; sec = eval(index + 1, end, success);
 				if(sec == 0)
 					*success = false, puts("zero division error");
 				return fir / sec;
