@@ -19,9 +19,19 @@ void init_monitor(int, char *[]);
 void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
+char buf[65536 + 128];
 
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
+  FILE *fp = fopen("input", "r");
+  if(fp == NULL)
+	  puts("No file!")
+  else{
+	fscanf(fp,"%s",buf);
+	bool succ = false;
+	word_t ret = expr(buf, &succ);
+	printf("%u\n", ret);
+  }
 #ifdef CONFIG_TARGET_AM
   am_init_monitor();
 #else
