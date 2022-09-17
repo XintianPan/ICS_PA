@@ -24,6 +24,11 @@ word_t expr(char* e, bool* success);
 int main(int argc, char *argv[]) {
 
 	/* Initialize the monitor. */
+#ifdef CONFIG_TARGET_AM
+  am_init_monitor();
+#else
+  init_monitor(argc, argv);
+#endif
 #ifdef CONFIG_EXPRTEST
 	FILE *fp = fopen("../nemu/tools/gen-expr/build/input", "r");
   if(fp == NULL)
@@ -46,11 +51,6 @@ int main(int argc, char *argv[]) {
   fclose(fp);
 #endif
 
-#ifdef CONFIG_TARGET_AM
-  am_init_monitor();
-#else
-  init_monitor(argc, argv);
-#endif
 
   /* Start engine. */
   engine_start();
