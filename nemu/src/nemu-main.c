@@ -33,10 +33,6 @@ int main(int argc, char *argv[]) {
 	  while(fscanf(fp, "%u %s", &ret, buf) != EOF){
 		  printf("%u %s\n", ret, buf);
 		  bool succ = false;
-		  word_t cmp = expr(buf, &succ);
-		  if(succ)
-			  if(cmp == ret)
-				  puts("YES");
 		  memset(buf, 0, sizeof buf);
 	  }
 	}
