@@ -20,7 +20,7 @@ void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
 word_t expr(char* e, bool* success);
-static char buf[65536 + 128] = {};
+static char*  buf;
 
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
