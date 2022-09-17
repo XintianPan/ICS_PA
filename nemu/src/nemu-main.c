@@ -28,8 +28,10 @@ int main(int argc, char *argv[]) {
 	  puts("No file!");
   else{ 
 	  word_t ret = 0;
-	  if(fscanf(fp, "%u", &ret) != EOF)
-		  printf("%u\n", ret);
+	  char buf[65536] = {};
+	  memset(0, buf, sizeof buf);
+	  if(fscanf(fp, "%u %s", &ret, buf) != EOF)
+		  printf("%u %s\n", ret, buf);
 	}
   fclose(fp);
 #ifdef CONFIG_TARGET_AM
