@@ -30,8 +30,8 @@ int main(int argc, char *argv[]) {
 	 word_t ret = 0;
 	word_t cmp = 0;
    puts("OK");
-	char buf[65536];   
-	while(fscanf(fp,"%s\n", &cmp, buf) != EOF){
+	char buf[65536 + 128];   
+	while(fscanf(fp,"%s",buf) != EOF){
 		ret = atoi(strtok(buf, " "));
 		bool succ = false;
 		ret = expr(buf, &succ);
