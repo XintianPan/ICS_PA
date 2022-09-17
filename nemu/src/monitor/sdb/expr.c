@@ -22,7 +22,6 @@
 
 enum {
   TK_NOTYPE = 256, TK_EQ, TK_NEQ, TK_AND, TK_NUM, TK_HEX, TK_L, TK_R, TK_NEG, TK_DR, TK_REG, TK_PC,
-  /* TODO: Add more token types */
 
 };
 
@@ -80,7 +79,7 @@ typedef struct token {
   char str[32];
 } Token;
 
-static Token tokens[128] __attribute__((used)) = {};
+static Token tokens[256] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e, int *endpos) {
@@ -177,12 +176,12 @@ static bool make_token(char *e, int *endpos) {
 	}
 	for(int i = 0; i <= *endpos; ++i){
 		if(tokens[i].type == '-'){
-			if((i == 0) || ((tokens[i-1].type != TK_NUM) && (tokens[i-1].type != TK_R) && (tokens[i-1].type != TK_HEX))){
+			if((i == 0) || ((tokens[i-1].type != TK_NUM) && (tokens[i-1].type != TK_R) && (tokens[i-1].type != TK_HEX) && (tokens[i-1].type != TK_REG) && (tokens[i-1].type != TK_PC){
 				tokens[i].type = TK_NEG;
 		 	}
 		} 
 		if(tokens[i].type == '*'){
-			if((i == 0) || ((tokens[i-1].type != TK_NUM) && (tokens[i-1].type != TK_R) && (tokens[i-1].type != TK_HEX))){
+			if((i == 0) || ((tokens[i-1].type != TK_NUM) && (tokens[i-1].type != TK_R) && (tokens[i-1].type != TK_HEX) && (tokens[i-1].type != TK_REG) && (tokens[i-1].type != TK_PC)){
 				tokens[i].type = TK_DR;
 			}
 		}
