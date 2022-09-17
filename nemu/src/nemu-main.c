@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
 		  printf("%u %s\n", ret, buf);
 		  buf[65535] = '\0';
 		  bool succ = false;
-		  word_t cmp = expr(buf, &succ);
+		  word_t cmp = expr((char *)buf, &succ);
 		  if(succ)
 			  if(cmp == ret)
 				  puts("YES");
