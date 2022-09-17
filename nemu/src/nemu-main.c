@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
 		  word_t cmp = expr(buf, &succ);
 		  if(succ)
 			  if(cmp == ret)
-				  puts("YES")
+				  puts("YES");
 		  memset(buf, 0, sizeof buf);
 	  }
 	}
