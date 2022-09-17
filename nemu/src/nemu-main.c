@@ -28,7 +28,11 @@ int main(int argc, char *argv[]) {
 	FILE *fp = fopen("../nemu/tools/gen-expr/build/input", "r");
   if(fp == NULL)
 	  puts("No file!");
-  else{ 
+  else{
+	  bool succ = false;
+	 printf("%u\n", expr("1",&succ);
+			if(succ)
+		   puts(YES);	
 	  word_t ret = 0;
 	  size_t len = 0;
 	  char* buf = NULL;
