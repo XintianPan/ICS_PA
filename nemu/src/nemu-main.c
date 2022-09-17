@@ -34,6 +34,7 @@ int main(int argc, char *argv[]) {
 	  memset(buf, 0, sizeof buf);
 	  if(fscanf(fp, "%u %[^\n]%*c", &ret, buf) != EOF){
 		  printf("%u %s\n", ret, buf);
+		  buf[65535] = '\0';
 		  bool succ = false;
 		  word_t cmp = expr(buf, &succ);
 		  if(succ)
