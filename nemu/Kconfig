@@ -122,6 +122,10 @@ config WATCHPOINT
   bool "Enable Watchpoint function"
   default n
 
+config EXPRTEST
+  bool "Enable expression testing"
+  default n
+
 endmenu
 
 menu "Testing and Debugging"
