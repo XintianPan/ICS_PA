@@ -48,7 +48,7 @@ static struct rule {
   {"!=", TK_NEQ},						// not equal
   {"&&", TK_AND},		// and
   {"0[x,X][0-9,a-f,A-F]+", TK_HEX},		// hex num
-  {"[0-9]+", TK_NUM},	// number
+  {"[0-9]+U*", TK_NUM},	// number
   {"(\\$)([\\$,r,s,g,t,s,a])([0-9,a,p])([0,1]*)", TK_REG},						// register
   {"\\$pc", TK_PC},		//PC counter  
 };

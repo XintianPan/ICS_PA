@@ -20,17 +20,17 @@ void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
 word_t expr(char* e, bool* success);
-char buf[65536 + 128];
+static char buf[65536 + 128] = {};
 
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
   FILE *fp = fopen("../nemu/tools/gen-expr/build/input", "r");
   if(fp == NULL)
 	  puts("No file!");
-  else{
+  else{ 
 	 word_t ret = 0;
 	word_t cmp = 0; 
-	while(fscanf(fp,"%u %s", &cmp, buf) != EOF){
+	whil e(fscanf(fp,"%u %s\u", &cmp, buf) != EOF){
 		bool succ = false;
 		ret = expr(buf, &succ);
 		if(succ){
