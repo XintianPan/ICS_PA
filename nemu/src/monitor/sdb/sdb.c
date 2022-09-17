@@ -74,7 +74,7 @@ static int cmd_p(char *args){
 	}
 	return 0;
 }
-
+#ifdef CONFIG_WATCHPOINT
 static int cmd_w(char *args){
 	if(args == NULL){
 		puts("No args!");
@@ -84,9 +84,9 @@ static int cmd_w(char *args){
 	}
 	return 0;
 }
-
+#endif
 static int cmd_d(char *args){
-	if(args == NULL){
+	if (args == NULL){
 		puts("No args!");
 	}else{
 		char *number = strtok(NULL, " ");
@@ -105,18 +105,22 @@ static int cmd_si(char *args){
 }
 
 static int cmd_info(char *args){
-	if(args == NULL){
+	if( args == NULL){
 		printf("please pass parameter!\n");
 		return 0;
 	}
 	char *status = strtok(NULL, " ");
 	if(strcmp("r", status) == 0){
 		isa_reg_display();
-	}else if(strcmp("w", status) == 0){
-		print_wp();
-	}else{
-		printf("Invalid parametet\n");
 	}
+#ifdef CONFIG_WATCHPOINT
+	else if(strcmp("w", status) == 0){
+		print_wp();
+	}
+#endif	
+	else{
+		printf("Invalid parametet\n");
+	} 
 	return 0;
 }
 
@@ -161,7 +165,9 @@ static struct {
   { "info", "Check registers' or watch point's information", cmd_info },
   { "x", "Scan memory", cmd_x },
   { "p", "Evaluate expression", cmd_p},
+#ifdef CONFIG_WATCHPOINT
   { "w", "Add watchpoint", cmd_w},
+#endif
   { "d", "Delete a watchpoint", cmd_d},
 
 };
