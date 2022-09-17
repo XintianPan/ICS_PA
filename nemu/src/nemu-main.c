@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
 	  char* rebuf = NULL;
 	  while(getline(&buf, &len, fp) != -1){
 		  ret = atoi(strtok(buf, " "));
-		  rebuf = strtok(NULL, "");
+		  rebuf = strtok(NULL, "\n");
 		  printf("%u  %s\n", ret, rebuf);
  	  }
  	}
