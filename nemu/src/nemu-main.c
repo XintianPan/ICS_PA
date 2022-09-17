@@ -34,8 +34,7 @@ int main(int argc, char *argv[]) {
 	  char* buf = NULL;
 	  while(getline(&buf, &len, fp) != -1){
 		  ret = atoi(strtol(buf, " "));
-		  printf("%u %d  %s\n", ret, len, buf);
-		  memset(buf, 0, sizeof buf);
+		  printf("%u  %s\n", ret, buf);
  	  }
  	}
   fclose(fp);
