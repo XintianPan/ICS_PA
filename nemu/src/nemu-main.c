@@ -32,9 +32,11 @@ int main(int argc, char *argv[]) {
 	  word_t ret = 0;
 	  size_t len = 0;
 	  char* buf = NULL;
+	  char* rebuf = NULL;
 	  while(getline(&buf, &len, fp) != -1){
 		  ret = atoi(strtok(buf, " "));
-		  printf("%u  %s\n", ret, buf);
+		  rebuf = strtok(NULL, "");
+		  printf("%u  %s\n", ret, rebuf);
  	  }
  	}
   fclose(fp);
