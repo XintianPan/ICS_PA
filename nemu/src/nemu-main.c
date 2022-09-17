@@ -30,11 +30,10 @@ int main(int argc, char *argv[]) {
 	  puts("No file!");
   else{ 
 	  word_t ret = 0;
-	  char buf[65536] = {};
+	  char buf[300] = {};
 	  memset(buf, 0, sizeof buf);
 	  if(fscanf(fp, "%u %[^\n]%*c", &ret, buf) != EOF){
 		  printf("%u %s\n", ret, buf);
-		  buf[65535] = '\0';
 		  bool succ = false;
 		  word_t cmp = expr((char *)buf, &succ);
 		  if(succ)
