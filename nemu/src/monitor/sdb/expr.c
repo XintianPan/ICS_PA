@@ -80,7 +80,7 @@ typedef struct token {
   char str[32];
 } Token;
 
-static Token tokens[32] __attribute__((used)) = {};
+static Token tokens[128] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e, int *endpos) {
@@ -203,7 +203,8 @@ word_t expr(char *e, bool *success) {
     return 0;
   }  
 	*success = true;
-	word_t ret = eval(0, endpos, success);
+	word_t ret;
+	ret = eval(0, endpos, success);
   return ret;
 }
 
@@ -448,7 +449,7 @@ static word_t eval(int start, int end, bool *success){
 				return vaddr_read(eval(index + 1, end, success), 4);
 			default: break;
  		}
-	 }
+	 } 
 	return 0;
 }
 
