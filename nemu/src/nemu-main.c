@@ -36,11 +36,7 @@ int main(int argc, char *argv[]) {
 	  while(getline(&buf, &len, fp) != -1){
 		  ret = atoi(strtok(buf, " "));
 		  rebuf = strtok(NULL, "\n");
-		  bool succ = false;
-		  word_t cm = expr(rebuf, &succ);
-		 if(succ)
-			if(cm == ret)
-			   puts("YES");	
+		  printf("%d\n", strlen(rebuf));
  	  }
  	}
   fclose(fp);
