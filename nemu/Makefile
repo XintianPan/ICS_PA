@@ -59,3 +59,10 @@ else
 # Include rules to build NEMU
 include $(NEMU_HOME)/scripts/native.mk
 endif
+
+COUNT_TOTAL := $(shell find . -name "*.c" -or -name "*.h" | xargs grep -v "^$$" | wc -l)
+COUNT_NEW := $(shell expr $(COUNT_TOTAL) - 20340)
+
+count:
+	@echo $(COUNT_TOTAL) lines in nemu
+	@echo $(COUNT_NEW) lines added after pa0
