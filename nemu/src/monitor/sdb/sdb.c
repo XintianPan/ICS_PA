@@ -119,7 +119,7 @@ static int cmd_info(char *args){
 	}
 #endif	
 	else{
-		printf("Invalid parametet\n");
+		printf("Invalid parameter\n");
 	} 
 	return 0;
 }
