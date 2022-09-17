@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
 	  size_t len = 0;
 	  char* buf = NULL;
 	  while(getline(&buf, &len, fp) != -1){
-		  ret = atoi(strtol(buf, " "));
+		  ret = atoi(strtok(buf, " "));
 		  printf("%u  %s\n", ret, buf);
  	  }
  	}
