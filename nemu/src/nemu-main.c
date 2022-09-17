@@ -29,6 +29,7 @@ int main(int argc, char *argv[]) {
 #else
   init_monitor(argc, argv);
 #endif
+
 #ifdef CONFIG_EXPRTEST
 	FILE *fp = fopen("../nemu/tools/gen-expr/build/input", "r");
   if(fp == NULL)
@@ -45,9 +46,19 @@ int main(int argc, char *argv[]) {
 	  while(getline(&buf, &len, fp) != -1){
 		  ret = atoi(strtok(buf, " "));
 		  rebuf = strtok(NULL, "\n");
-		  printf("%u %s %ld\n",ret, rebuf, strlen(rebuf));
- 	  }
- 	}
+		  succ = false;
+		  word_t cm = expr(rebuf, &succ);
+		  if(succ){
+			  if(ret == cm){
+				  puts("YES");
+			  }else{
+				puts("NO");	
+			  }
+		  }else{
+			puts("NO");	
+		  }
+  	  }
+  	}
   fclose(fp);
 #endif
 
