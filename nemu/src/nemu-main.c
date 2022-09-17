@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
   else{ 
 	 word_t ret = 0;
 	word_t cmp = 0; 
-	while(fscanf(fp,"%u %s\u", &cmp, buf) != EOF){
+	while(fscanf(fp,"%u %s\n", &cmp, buf) != EOF){
 		bool succ = false;
 		ret = expr(buf, &succ);
 		if(succ){
