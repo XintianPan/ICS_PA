@@ -30,9 +30,9 @@ int main(int argc, char *argv[]) {
 	  puts("No file!");
   else{
 	  bool succ = false;
-	 printf("%u\n", expr("1",&succ);
+	 printf("%u\n", expr("1",&succ));
 			if(succ)
-		   puts(YES);	
+		   puts("YES");	
 	  word_t ret = 0;
 	  size_t len = 0;
 	  char* buf = NULL;
