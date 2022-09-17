@@ -108,9 +108,8 @@ int main(int argc, char *argv[]) {
   } 
   int i;
   for (i = 0; i < loop; i ++) {
-		buf[30] = '\0';
-	  gen_rand_expr(0, 29);
-
+		buf[65535] = '\0';
+	  gen_rand_expr(0, 65534);
     sprintf(code_buf, code_format, buf);
 
     FILE *fp = fopen("/tmp/.code.c", "w");
