@@ -176,12 +176,12 @@ static bool make_token(char *e, int *endpos) {
 	}
 	for(int i = 0; i <= *endpos; ++i){
 		if(tokens[i].type == '-'){
-			if((i == 0) || ((tokens[i-1].type != TK_NUM) && (tokens[i-1].type != TK_R) && (tokens[i-1].type != TK_HEX) && (tokens[i-1].type != TK_REG) && (tokens[i-1].type != TK_PC){
+			if((i == 0) || ((tokens[i-1].type != TK_NUM) && (tokens[i-1].type != TK_R) && (tokens[i-1].type != TK_HEX) && (tokens[i-1].type != TK_REG) && (tokens[i-1].type != TK_PC))){
 				tokens[i].type = TK_NEG;
-		 	}
-		} 
+		  	}
+		}  
 		if(tokens[i].type == '*'){
-			if((i == 0) || ((tokens[i-1].type != TK_NUM) && (tokens[i-1].type != TK_R) && (tokens[i-1].type != TK_HEX) && (tokens[i-1].type != TK_REG) && (tokens[i-1].type != TK_PC)){
+			if((i == 0) || ((tokens[i-1].type != TK_NUM) && (tokens[i-1].type != TK_R) && (tokens[i-1].type != TK_HEX) && (tokens[i-1].type != TK_REG) && (tokens[i-1].type != TK_PC))){
 				tokens[i].type = TK_DR;
 			}
 		}
