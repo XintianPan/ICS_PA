@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
   if(fp == NULL)
 	  puts("No file!");
   else{ 
-	if(fscanf(fp,"%s",buf) != EOF);{
+	if(fscanf(fp,"%s",buf) != EOF){
 		bool succ = false;
 		word_t ret = expr(buf, &succ);
 		printf("%u\n", ret);
