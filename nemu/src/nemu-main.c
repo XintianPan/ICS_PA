@@ -29,7 +29,8 @@ int main(int argc, char *argv[]) {
 	  puts("No file!");
   else{ 
 	 word_t ret = 0;
-	word_t cmp = 0; 
+	word_t cmp = 0;
+   puts("OK");	
 	while(fscanf(fp,"%u %s\n", &cmp, buf) != EOF){
 		bool succ = false;
 		ret = expr(buf, &succ);
@@ -41,6 +42,7 @@ int main(int argc, char *argv[]) {
 		}else
 			puts("NO");
 	}
+	fclose(fp);
   }
 #ifdef CONFIG_TARGET_AM
   am_init_monitor();
