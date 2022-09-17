@@ -24,14 +24,22 @@ char buf[65536 + 128];
 
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
-  FILE *fp = fopen("input", "r");
+  FILE *fp = fopen("../nemu/tools/gen-expr/build/input", "r");
   if(fp == NULL)
 	  puts("No file!");
-  else{ 
-	if(fscanf(fp,"%s",buf) != EOF){
+  else{
+	 word_t ret;
+	word_t cmp; 
+	while(fscanf(fp,"%u %s",cmp, buf) != EOF){
 		bool succ = false;
-		word_t ret = expr(buf, &succ);
-		printf("%u\n", ret);
+		ret = expr(buf, &succ);
+		if(succ){
+			if(cmp == ret)
+				puts("YES");
+			else
+				puts("NO");
+		}else
+			puts("NO");
 	}
   }
 #ifdef CONFIG_TARGET_AM
