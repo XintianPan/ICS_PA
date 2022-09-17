@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 	  word_t ret = 0;
 	  char buf[65536] = {};
 	  memset(buf, 0, sizeof buf);
-	  while(fscanf(fp, "%u %s", &ret, buf) != EOF){
+	  if(fscanf(fp, "%u %s", &ret, buf) != EOF){
 		  printf("%u %s\n", ret, buf);
 		  memset(buf, 0, sizeof buf);
 	  }
