@@ -32,13 +32,8 @@ int main(int argc, char *argv[]) {
 	  word_t ret = 0;
 	  char buf[300] = {};
 	  memset(buf, 0, sizeof buf);
-	  if(fscanf(fp, "%u %[^\n]%*c", &ret, buf) != EOF){
+	  while(fscanf(fp, "%u %[^\n]%*c", &ret, buf) != EOF){
 		  printf("%u %s\n", ret, buf);
-		  bool succ = false;
-		  word_t cmp = expr((char *)buf, &succ);
-		  if(succ)
-			  if(cmp == ret)
-				  puts("YES");
 		  memset(buf, 0, sizeof buf);
  	  }
  	}
