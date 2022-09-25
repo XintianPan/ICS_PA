@@ -44,7 +44,6 @@ endif
 endif
 
 ## 2. General Compilation Targets
-override ARGS = --batch
 ### Create the destination directory (`build/$ARCH`)
 WORK_DIR  = $(shell pwd)
 DST_DIR   = $(WORK_DIR)/build/$(ARCH)
