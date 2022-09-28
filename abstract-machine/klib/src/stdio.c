@@ -12,16 +12,10 @@ int printf(const char *fmt, ...) {
 } 
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
-  panic("Not implemented");
-}
-
-int sprintf(char *out, const char *fmt, ...) {
-	va_list ap;
-	char *s;
+ 	char *s;
 	int d;
-	size_t j = -1;
 	size_t i = 0;
-	va_start(ap, fmt);
+	size_t j;
 	while(*fmt){
 		if(*fmt == '%'){
 			++fmt;
@@ -56,6 +50,15 @@ int sprintf(char *out, const char *fmt, ...) {
 	}
 	out[i] = '\0';
 	return i;
+}
+
+int sprintf(char *out, const char *fmt, ...) {
+	va_list ap;
+	int done;
+	va_start(ap, fmt);
+		done = vsprintf(out, fmt, ap);
+	va_end(ap);
+	return done;
 }
 
 int snprintf(char *out, size_t n, const char *fmt, ...) {
