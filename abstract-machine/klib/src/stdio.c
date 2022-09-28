@@ -6,6 +6,9 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 static char _std_num_buf[20];
+static char *_std_num_lo = "0123456789abcdef";
+//static char *_std_num_up = "0123456789ABCDEF";
+
 
 int printf(const char *fmt, ...) {
   panic("Not implemented");
@@ -14,17 +17,22 @@ int printf(const char *fmt, ...) {
 int vsprintf(char *out, const char *fmt, va_list ap) {
  	char *s;
 	int d;
+	char c;
 	size_t i = 0;
 	size_t j;
 	while(*fmt){
 		if(*fmt == '%'){
 			++fmt;
 			switch(*fmt){
+				case 'c':
+					c = (char)va_arg(ap, int);
+					out[i++] = c;
+					break;
 				case 'd':
 					d = va_arg(ap, int);
 					j = -1;
 					do{
-						_std_num_buf[++j] = d % 10 + '0';
+						_std_num_buf[++j] = _std_num_lo[ d % 10];
 						d /= 10;
 					}while(d);
 					for(register int k = j; k >= 0; --k)
