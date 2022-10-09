@@ -49,7 +49,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   s->snpc = pc;
   isa_exec_once(s);
   cpu.pc = s->dnpc;
-#if defined(CONFIG_ITRACE) || defined(CONFIG_IRINGBUF)
+#if defined(CONFIG_IRINGBUF)
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
 #endif
 #ifdef CONFIG_ITRACE
