@@ -36,7 +36,7 @@ bool ifchange();
 #ifdef CONFIG_IRINGBUF
 #define BUFLEN 20
 static char iringbuf[BUFLEN][128];
-static buf_index = 0;
+static int buf_index = -1;
 #endif
 
 
@@ -67,7 +67,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   uint8_t *inst = (uint8_t *)&s->isa.inst.val;
   for (i = ilen - 1; i >= 0; i --) {
     p += snprintf(p, 4, " %02x", inst[i]);
-  }
+  } 
   int ilen_max = MUXDEF(CONFIG_ISA_x86, 8, 4);
   int space_len = ilen_max - ilen;
   if (space_len < 0) space_len = 0;
@@ -77,6 +77,26 @@ static void exec_once(Decode *s, vaddr_t pc) {
 
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
+#endif
+#ifdef CONFIG_IRINGBUF
+  buf_index = (buf_index + 1) % BUFLEN;
+  char *buf = iringbuf[buf_index];
+  memset(buf, 0, sizeof(iringbuf[buf_index]));
+  buf += snprintf(p, sizeof(iringbuf[buf_index]), FMT_WORD ":", s->pc);
+  int inslen = s->snpc - s->pc;
+  int j;
+  uint8_t *instr = (uint8_t *)&s->isa.inst.val;
+  for(j = inslen - 1; j >= 0; --j){
+    buf += snprintf(buf, 4, " %02x", instr[j]);
+  }
+  int inslen_max = MUXDEF(CONFIG_ISA_x86, 8, 4);
+  int s_len = inslen_max - inslen;
+  if(s_len < 0) s_len = 0;
+  s_len = s_len * 3 + 1;
+  memset(buf, ' ', space_len);
+  buf += s_len;
+  disassemble(buf, iringbuf[buf_index] + sizeof(iringbuf[buf_index]) - buf,
+		 MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, inslen); 
 #endif
 }
 
@@ -88,7 +108,7 @@ static void execute(uint64_t n) {
     trace_and_difftest(&s, cpu.pc);
     if (nemu_state.state != NEMU_RUNNING) break;
     IFDEF(CONFIG_DEVICE, device_update());
-  }
+  } 
 }
 
 static void statistic() {
@@ -100,8 +120,24 @@ static void statistic() {
   else Log("Finish running in less than 1 us and can not calculate the simulation frequency");
 }
 
+#ifdef CONFIG_IRINGBUF
+static void iringbufshow(){
+	for(int i = 0; i < BUFLEN; ++i){
+		if(iringbuf[i] == '\0')
+			break;
+		if(i != buf_index)
+			printf("    %s\n", iringbuf[i]);
+		else
+			printf("--> %s\n", iringbuf[i]);
+	}
+}
+#endif
+
 void assert_fail_msg() {
   isa_reg_display();
+#ifdef CONFIG_IRINGBUF
+  iringbufshow();
+#endif
   statistic();
 }
 
