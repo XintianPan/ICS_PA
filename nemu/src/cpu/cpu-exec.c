@@ -131,7 +131,7 @@ static void iringbufshow(){
 		}
 		else{
 			printf("--> %s\n", iringbuf[i]);
-			log_wirte("--> %s\n", iringbuf[i]);
+			log_write("--> %s\n", iringbuf[i]);
 		}
 	}
 }
