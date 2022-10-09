@@ -81,7 +81,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
 #ifdef CONFIG_IRINGBUF
   buf_index = (buf_index + 1) % BUFLEN;
   printf("%d\n", buf_index);
-  printf("%d\n", sizeof[buf_index]);
+  printf("%ld\n", sizeof(iringbuf[buf_index]));
   char *buf = iringbuf[buf_index];
   memset(buf, 0, sizeof(iringbuf[buf_index]));
   buf += snprintf(p, sizeof(iringbuf[buf_index]), FMT_WORD ":", s->pc);
