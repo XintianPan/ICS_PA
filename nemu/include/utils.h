@@ -30,6 +30,14 @@ typedef struct {
 
 extern NEMUState nemu_state;
 
+typedef struct{
+	char func_name[64];
+	paddr_t start_addr;
+	size_t func_size;
+} Func_info;
+
+extern Func_info elf_func[2048];
+
 // ----------- timer -----------
 
 uint64_t get_time();
