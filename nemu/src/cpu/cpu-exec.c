@@ -80,8 +80,6 @@ static void exec_once(Decode *s, vaddr_t pc) {
 #endif
 #ifdef CONFIG_IRINGBUF
   buf_index = (buf_index + 1) % BUFLEN;
-  printf("%d\n", buf_index);
-  printf("%ld\n", sizeof(iringbuf[buf_index]));
   char *buf = iringbuf[buf_index];
   memset(buf, 0, sizeof(iringbuf[buf_index]));
   buf += snprintf(buf, sizeof(iringbuf[buf_index]), FMT_WORD ":", s->pc);
@@ -99,7 +97,6 @@ static void exec_once(Decode *s, vaddr_t pc) {
   buf += s_len;
   disassemble(buf, iringbuf[buf_index] + sizeof(iringbuf[buf_index]) - buf,
 		 MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, inslen); 
-  printf("%s\n%s\n", s->logbuf, buf);
 #endif
 }
 
