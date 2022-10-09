@@ -84,7 +84,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   printf("%ld\n", sizeof(iringbuf[buf_index]));
   char *buf = iringbuf[buf_index];
   memset(buf, 0, sizeof(iringbuf[buf_index]));
-  buf += snprintf(p, sizeof(iringbuf[buf_index]), FMT_WORD ":", s->pc);
+  buf += snprintf(buf, sizeof(iringbuf[buf_index]), FMT_WORD ":", s->pc);
   int inslen = s->snpc - s->pc;
   int j;
   uint8_t *instr = (uint8_t *)&s->isa.inst.val;
