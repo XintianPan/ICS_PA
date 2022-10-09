@@ -42,7 +42,15 @@ void sdb_set_batch_mode();
 static char *log_file = NULL;
 static char *diff_so_file = NULL;
 static char *img_file = NULL;
+static char elf_file[256];
 static int difftest_port = 1234;
+
+static void gen_elf(){
+	strcpy(elf_file, img_file);
+	size_t len = strlen(elf_file);
+	strcpy(elf_file + len - 3, "elf");
+	puts(elf_file);
+}
 
 static long load_img() {
   if (img_file == NULL) {
@@ -82,7 +90,7 @@ static int parse_args(int argc, char *argv[]) {
       case 'p': sscanf(optarg, "%d", &difftest_port); break;
       case 'l': log_file = optarg; break;
       case 'd': diff_so_file = optarg; break;
-      case 1: img_file = optarg; puts(img_file); return 0;
+      case 1: img_file = optarg; gen_elf(); return 0;
       default:
         printf("Usage: %s [OPTION...] IMAGE [args]\n\n", argv[0]);
         printf("\t-b,--batch              run with batch mode\n");
