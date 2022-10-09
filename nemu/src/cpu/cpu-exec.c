@@ -78,7 +78,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
 #endif
-#ifdef CONFIG_IRINGBUF
+#ifndef CONFIG_IRINGBUF
   buf_index = (buf_index + 1) % BUFLEN;
   char *buf = iringbuf[buf_index];
   memset(buf, 0, sizeof(iringbuf[buf_index]));
