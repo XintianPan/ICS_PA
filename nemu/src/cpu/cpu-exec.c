@@ -67,7 +67,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   uint8_t *inst = (uint8_t *)&s->isa.inst.val;
   for (i = ilen - 1; i >= 0; i --) {
     p += snprintf(p, 4, " %02x", inst[i]);
-  } 
+  }  
   int ilen_max = MUXDEF(CONFIG_ISA_x86, 8, 4);
   int space_len = ilen_max - ilen;
   if (space_len < 0) space_len = 0;
@@ -80,6 +80,8 @@ static void exec_once(Decode *s, vaddr_t pc) {
 #endif
 #ifndef CONFIG_IRINGBUF
   buf_index = (buf_index + 1) % BUFLEN;
+  printf("%d\n", buf_index);
+  printf("%d\n", sizeof[buf_index]);
   char *buf = iringbuf[buf_index];
   memset(buf, 0, sizeof(iringbuf[buf_index]));
   buf += snprintf(p, sizeof(iringbuf[buf_index]), FMT_WORD ":", s->pc);
@@ -93,7 +95,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   int s_len = inslen_max - inslen;
   if(s_len < 0) s_len = 0;
   s_len = s_len * 3 + 1;
-  memset(buf, ' ', space_len);
+  memset(buf, ' ', s_len);
   buf += s_len;
   disassemble(buf, iringbuf[buf_index] + sizeof(iringbuf[buf_index]) - buf,
 		 MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, inslen); 
