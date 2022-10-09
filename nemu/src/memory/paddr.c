@@ -35,7 +35,7 @@ static char buf[256];
 static word_t pmem_read(paddr_t addr, int len) {
   word_t ret = host_read(guest_to_host(addr), len);
 #ifdef CONFIG_MTRACE
-  memset(buf, 0, sizeof buf);
+//  memset(buf, 0, sizeof buf);
   sprintf(buf, rformat, 2 * len);
   printf(buf, addr, len, ret);
   log_write(buf, addr, len, ret);
@@ -45,8 +45,8 @@ static word_t pmem_read(paddr_t addr, int len) {
 
 static void pmem_write(paddr_t addr, int len, word_t data) {
 #ifdef CONFIG_MTRACE
-	memset(buf, 0, sizeof buf);
-	sprintf(buf, wformat, 2 * len);
+//	memset(buf, 0, sizeof buf);
+	sprintf(buf, wformat, 2 * len, 2 * len);
 	printf(buf, addr, len, host_read(guest_to_host(addr), len), data);
 	log_write(buf, addr, len, host_read(guest_to_host(addr), len), data);
 #endif
