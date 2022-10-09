@@ -99,6 +99,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   buf += s_len;
   disassemble(buf, iringbuf[buf_index] + sizeof(iringbuf[buf_index]) - buf,
 		 MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, inslen); 
+  printf("%s\n%s\n", s->logbuf, buf);
 #endif
 }
 
