@@ -134,8 +134,10 @@ static void iringbufshow(){
 #endif
 
 void assert_fail_msg() {
+  printf("Register Value:\n");
   isa_reg_display();
 #ifdef CONFIG_IRINGBUF
+  puts("Recent called instructions");
   iringbufshow();
 #endif
   statistic();
