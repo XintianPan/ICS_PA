@@ -125,10 +125,14 @@ static void iringbufshow(){
 	for(int i = 0; i < BUFLEN; ++i){
 		if(iringbuf[i][0] == '\0')
 			break;
-		if(i != buf_index)
+		if(i != buf_index){
 			printf("    %s\n", iringbuf[i]);
-		else
+			log_write("   %s\n", iringbuf[i]);
+		}
+		else{
 			printf("--> %s\n", iringbuf[i]);
+			log_wirte("--> %s\n", iringbuf[i]);
+		}
 	}
 }
 #endif
@@ -137,7 +141,7 @@ void assert_fail_msg() {
   printf("Register Value:\n");
   isa_reg_display();
 #ifdef CONFIG_IRINGBUF
-  puts("Recent called instructions");
+  puts("Recent called instructions:");
   iringbufshow();
 #endif
   statistic();
