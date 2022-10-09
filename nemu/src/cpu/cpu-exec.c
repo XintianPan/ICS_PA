@@ -127,7 +127,7 @@ static void iringbufshow(){
 			break;
 		if(i != buf_index){
 			printf("    %s\n", iringbuf[i]);
-			log_write("   %s\n", iringbuf[i]);
+			log_write("    %s\n", iringbuf[i]);
 		}
 		else{
 			printf("--> %s\n", iringbuf[i]);
