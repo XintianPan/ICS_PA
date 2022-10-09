@@ -33,6 +33,13 @@ static bool g_print_step = false;
 void device_update();
 bool ifchange();
 
+#ifdef CONFIG_IRINGBUF
+#define BUFLEN 20
+static char iringbuf[BUFLEN][128];
+static buf_index = 0;
+#endif
+
+
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
@@ -49,7 +56,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   s->snpc = pc;
   isa_exec_once(s);
   cpu.pc = s->dnpc;
-#if defined(CONFIG_IRINGBUF)
+#if defined(CONFIG_ITRACE) || defined(CONFIG_IRINGBUF)
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
 #endif
 #ifdef CONFIG_ITRACE
