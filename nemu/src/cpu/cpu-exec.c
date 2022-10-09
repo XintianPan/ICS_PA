@@ -123,7 +123,7 @@ static void statistic() {
 #ifdef CONFIG_IRINGBUF
 static void iringbufshow(){
 	for(int i = 0; i < BUFLEN; ++i){
-		if(iringbuf[i] == '\0')
+		if(iringbuf[i][0] == '\0')
 			break;
 		if(i != buf_index)
 			printf("    %s\n", iringbuf[i]);
