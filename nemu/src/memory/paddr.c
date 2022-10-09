@@ -26,14 +26,29 @@ static uint8_t pmem[CONFIG_MSIZE] PG_ALIGN = {};
 
 uint8_t* guest_to_host(paddr_t paddr) { return pmem + paddr - CONFIG_MBASE; }
 paddr_t host_to_guest(uint8_t *haddr) { return haddr - pmem + CONFIG_MBASE; }
+#ifdef CONFIG_MTRACE
+static char *rformat = "read from addr 0x%%08x, with length: %%d bytes Value: 0x%%%dx\n";
+static char *wformat = "addr: 0x%%08x, length: %%d bytes Old Value: 0x%%%dx New Value: 0x%%%dx\n";
+static char buf[256];
+#endif
 
 static word_t pmem_read(paddr_t addr, int len) {
   word_t ret = host_read(guest_to_host(addr), len);
+#ifdef CONFIG_MTRACE
+  sprintf(buf, rformat, 2 * len);
+  printf(buf, addr, len, ret);
+  log_write(buf, addr, len, ret);
+#endif
   return ret;
 }
 
 static void pmem_write(paddr_t addr, int len, word_t data) {
-  host_write(guest_to_host(addr), len, data);
+#ifdef CONFIG_MTRACE
+	sprintf(buf, wformat, 2 * len);
+	printf(buf, addr, len, host_read(guest_to_host(addr), len), data);
+	log_write(buf, addr, len, host_read(guest_to_host(addr), len), data);
+#endif
+	host_write(guest_to_host(addr), len, data);
 }
 
 static void out_of_bound(paddr_t addr) {
