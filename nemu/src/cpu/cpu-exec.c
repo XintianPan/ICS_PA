@@ -80,7 +80,7 @@ void f_trace(){
 }
 
 void trace_rec(paddr_t cur_pc, paddr_t jmp_addr){
-	int c_addr, n_addr;
+	int c_addr = -1; int n_addr = -1;
 	for(int i = 0; i < elf_func_num; ++i){
 		if(elf_func[i].start_addr <= cur_pc && cur_pc < elf_func[i].start_addr + elf_func[i].func_size){
 			c_addr = i;
