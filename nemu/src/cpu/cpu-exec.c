@@ -70,7 +70,7 @@ void f_trace(){
 		for(int i = 0; i < cur->space_len; ++i){
 			printf("  ");
 		}
-		if(type == 1){
+		if(cur->type == 1){
 			printf("call[%s@0x%08x]\n", cur->func_name, cur->func_addr);
 		}else{
 			printf("ret[%s]\n", cur->func_name);
