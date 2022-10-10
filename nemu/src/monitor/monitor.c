@@ -100,16 +100,43 @@ static void fetch_elf() {
 		fseek(fp, elf_head.e_shoff, SEEK_SET);
 		num_byte = fread(elf_shdr, sizeof(Elf32_Shdr) * elf_head.e_shnum, 1, fp);
 		assert(num_byte);
+		Elf32_Sym *elf_sym = NULL;
+		char *elf_str = NULL;
+		size_t sym_size = 0;
 		for(int i = 0; i < elf_head.e_shnum; ++i){
-			if(elf_shdr[i].sh_type == SHT_SYMTAB)
+			if(elf_shdr[i].sh_type == SHT_SYMTAB){
 				puts("symbol table");
+				elf_sym = (Elf32_Sym *)malloc(elf_shdr[i].sh_size);
+				assert(elf_sym);
+				sym_size = elf_shdr[i].sh_size / elf_shdr[i].sh_entsize;
+				rewind(fp);
+				fseek(fp, elf_shdr[i].sh_offset, SEEK_SET);
+			    num_byte = fread(elf_sym, elf_shdr[i].sh_size, 1, fp);
+				assert(num_byte);
+		 	}
 		    else if(elf_shdr[i].sh_type == SHT_STRTAB){
 				if(i == elf_head.e_shstrndx)
 					puts("not i want");
-				else
+			 	else{ 
 					puts("string table");
+					elf_str = (char *)malloc(elf_shdr[i].sh_size);
+					assert(elf_str);
+					rewind(fp);
+					fseek(fp, elf_shdr[i].sh_offset, SEEK_SET);
+					num_byte = fread(elf_str, elf_shdr[i].sh_size, 1, fp); 
+					assert(num_byte);
+			 	}
+			}  
+		} 
+		char *temp;
+		for(int i = 0; i < sym_size; ++i){
+			if(elf_sym[i].st_info == STT_FUNC){
+				temp = elf_str + elf_sym[i].st_name;
+				printf("0x%08x: %s\n", elf_sym[i].st_value, temp);
 			}
 		}
+		free(elf_sym);
+		free(elf_str);
 		free(elf_shdr);
 		fclose(fp);
  	}
