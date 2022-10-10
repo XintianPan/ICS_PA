@@ -111,7 +111,7 @@ void trace_rec(paddr_t cur_pc, paddr_t jmp_addr){
 				if(ft_tail->type == 1)
 					ft_tail->nxt->space_len = ft_tail->space_len + 1;
 				else
-					ft_tail->nxt->space_len = ft_tail->spcae_len;
+					ft_tail->nxt->space_len = ft_tail->space_len;
 				ft_tail = ft_tail->nxt;
 				strcpy(ft_tail->func_name, elf_func[n_addr].func_name);
 				ft_tail->cur_addr = cur_pc;
@@ -133,7 +133,7 @@ void trace_rec(paddr_t cur_pc, paddr_t jmp_addr){
 				if(ft_tail->type == 0)
 					ft_tail->nxt->space_len = ft_tail->space_len - 1;
 				else
-					ft_tail->nxt->space_len = ft_tail->spcae_len;
+					ft_tail->nxt->space_len = ft_tail->space_len;
 				ft_tail = ft_tail->nxt;
 				strcpy(ft_tail->func_name, elf_func[n_addr].func_name);
 				ft_tail->cur_addr = cur_pc;

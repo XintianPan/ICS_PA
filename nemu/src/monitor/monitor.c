@@ -19,11 +19,6 @@
 
 
 #ifdef CONFIG_FTRACE
-typedef struct{
-	char func_name[64];
-	paddr_t start_addr;
-	size_t func_size;
-} Func_info;
 
 Func_info elf_func[2048];
 
@@ -162,7 +157,7 @@ static int parse_args(int argc, char *argv[]) {
     {0          , 0                , NULL,  0 },
   };
   int o;
-  whil e ( (o = getopt_long(argc, argv, "-bhl:d:p:", table, NULL)) != -1) {
+  while ( (o = getopt_long(argc, argv, "-bhl:d:p:", table, NULL)) != -1) {
     swi tch (o) {
       case 'b': sdb_set_batch_mode(); break;
       case 'p': sscanf(optarg, "%d", &difftest_port); break;
