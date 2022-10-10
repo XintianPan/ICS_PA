@@ -59,7 +59,7 @@ void destruct(){
 		pre = ft_head;
 		ft_head = ft_head->nxt;
 		free(pre);
-	}
+	} 
 	ft_head = ft_tail = NULL;
 }
 
@@ -67,6 +67,7 @@ void f_trace(){
 	__FUNC_TRACE *cur = ft_head;
 	while(cur != NULL){
 		printf("0x%08x:", cur->cur_addr);
+		log_write("0x%08x:", cur->cur_addr);
 		for(int i = 0; i < cur->space_len; ++i){
 			printf("  ");
 			log_write("  ");
@@ -83,7 +84,6 @@ void f_trace(){
 }
 
 void trace_rec(paddr_t cur_pc, paddr_t jmp_addr){
-	printf("0x%08x, 0x%08x\n", cur_pc, jmp_addr);
 	int c_addr = -1; int n_addr = -1;
 	for(int i = 0; i < elf_func_num; ++i){
 		if(elf_func[i].start_addr <= cur_pc && cur_pc < elf_func[i].start_addr + elf_func[i].func_size){
@@ -165,7 +165,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
-  if (g_print_step) { puts("here");IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
+  if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
 #ifdef CONFIG_WATCHPOINT	
   if (ifchange()) {nemu_state.state = NEMU_STOP; return;}
 #endif
