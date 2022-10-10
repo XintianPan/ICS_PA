@@ -23,9 +23,9 @@ typedef struct{
 	size_t func_size;
 } Func_info;
 
-extern Func_info elf_func[2048];
+Func_info elf_func[2048];
 
-extern int elf_func_num;
+int elf_func_num = 0;
 
 void init_rand();
 void init_log(const char *log_file);
