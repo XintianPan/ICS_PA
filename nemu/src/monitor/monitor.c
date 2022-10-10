@@ -103,8 +103,12 @@ static void fetch_elf() {
 		for(int i = 0; i < elf_head.e_shnum; ++i){
 			if(elf_shdr[i].sh_type == SHT_SYMTAB)
 				puts("symbol table");
-		    else if(elf_shdr[i].sh_type == SHT_STRTAB)
-				puts("string table");
+		    else if(elf_shdr[i].sh_type == SHT_STRTAB){
+				if(i == elf_head.e_shstrndx)
+					puts("not i want");
+				else
+					puts("string table");
+			}
 		}
 		free(elf_shdr);
 		fclose(fp);
