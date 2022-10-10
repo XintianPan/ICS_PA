@@ -64,6 +64,7 @@ void destruct(){
 }
 
 void f_trace(){
+	puts("here");
 	__FUNC_TRACE *cur = ft_head;
 	while(cur != NULL){
 		printf("0x%08x:", cur->cur_addr);
@@ -80,6 +81,7 @@ void f_trace(){
 }
 
 void trace_rec(paddr_t cur_pc, paddr_t jmp_addr){
+	printf("0x%08x, 0x%08x\n", cur_pc, jmp_addr);
 	int c_addr = -1; int n_addr = -1;
 	for(int i = 0; i < elf_func_num; ++i){
 		if(elf_func[i].start_addr <= cur_pc && cur_pc < elf_func[i].start_addr + elf_func[i].func_size){
