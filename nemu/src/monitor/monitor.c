@@ -15,6 +15,17 @@
 
 #include <isa.h>
 #include <memory/paddr.h>
+#include <elf.h>
+
+typedef struct{
+	char func_name[64];
+	paddr_t start_addr;
+	size_t func_size;
+} Func_info;
+
+extern Func_info elf_func[2048];
+
+//extern int elf_func_num = -1;
 
 void init_rand();
 void init_log(const char *log_file);
@@ -74,8 +85,33 @@ static long load_img() {
   return size;
 }
 
+static void fetch_elf() {
+	FILE *fp;
+	fp = fopen(elf_file, "rb");
+	if(fp == NULL){
+		Log("No elf file found");
+	}else{
+		Elf32_Ehdr elf_head;
+		uint32_t shnum, num_byte;
+		num_byte = fread(&elf_head, sizeof(Elf32_Ehdr), 1, fp);
+		assert(num_byte);
+		Elf32_Shdr *elf_shdr = (Elf32_Shdr *)malloc(sizeof(Elf32_Shdr) * elf_head.e_shnum);
+		assert(elf_shdr != NULL);
+		fseek(fp, elf_head.e_shoff, SEEK_SET);
+		num_byte = fread(elf_shdr, sizeof(Elf32_Shdr) * elf_head.e_shnum, 1, fp);
+		assert(num_byte);
+		for(int i = 0; i < elf_head.e_shnum; ++i){
+			if(elf_shdr[i].sh_type == SHT_SYMTAB)
+				puts("symbol table");
+		    else if(elf_shdr[i].sh_type == SHT_STRTAB)
+				puts("string table");
+		}
+		fclose(fp);
+ 	}
+}
+
 static int parse_args(int argc, char *argv[]) {
-  const struct option table[] = {
+   const struct option table[] = {
     {"batch"    , no_argument      , NULL, 'b'},
     {"log"      , required_argument, NULL, 'l'},
     {"diff"     , required_argument, NULL, 'd'},
@@ -128,6 +164,7 @@ void init_monitor(int argc, char *argv[]) {
   /* Load the image to memory. This will overwrite the built-in image. */
   long img_size = load_img();
 
+  fetch_elf();
   /* Initialize differential testing. */
   init_difftest(diff_so_file, img_size, difftest_port);
 

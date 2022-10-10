@@ -36,8 +36,6 @@ typedef struct{
 	size_t func_size;
 } Func_info;
 
-extern Func_info elf_func[2048];
-
 // ----------- timer -----------
 
 uint64_t get_time();
