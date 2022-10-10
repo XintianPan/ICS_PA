@@ -108,6 +108,7 @@ static void fetch_elf() {
 				puts("symbol table");
 				elf_sym = (Elf32_Sym *)malloc(elf_shdr[i].sh_size);
 				assert(elf_sym);
+				printf("%u %u\n", elf_shdr[i].sh_size, elf_shdr[i].sh_entsize);
 				sym_size = elf_shdr[i].sh_size / elf_shdr[i].sh_entsize;
 				rewind(fp);
 				fseek(fp, elf_shdr[i].sh_offset, SEEK_SET);
