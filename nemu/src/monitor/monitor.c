@@ -17,6 +17,8 @@
 #include <memory/paddr.h>
 #include <elf.h>
 
+
+#ifdef CONFIG_FTRACE
 typedef struct{
 	char func_name[64];
 	paddr_t start_addr;
@@ -26,6 +28,7 @@ typedef struct{
 Func_info elf_func[2048];
 
 int elf_func_num = 0;
+#endif
 
 void init_rand();
 void init_log(const char *log_file);
@@ -53,15 +56,19 @@ void sdb_set_batch_mode();
 static char *log_file = NULL;
 static char *diff_so_file = NULL;
 static char *img_file = NULL;
+#ifdef CONFIG_FTRACE
 static char elf_file[256];
+#endif
 static int difftest_port = 1234;
 
+#ifdef CONFIG_FTRACE
 static void gen_elf(){
 	strcpy(elf_file, img_file);
 	size_t len = strlen(elf_file);
 	strcpy(elf_file + len - 3, "elf");
 	puts(elf_file);
 }
+#endif
 
 static long load_img() {
   if (img_file == NULL) {
@@ -85,6 +92,7 @@ static long load_img() {
   return size;
 }
 
+#ifdef CONFIG_FTRACE
 static void fetch_elf() {
 	FILE *fp;
 	fp = fopen(elf_file, "rb");
@@ -105,10 +113,8 @@ static void fetch_elf() {
 		size_t sym_size = 0;
 		for(int i = 0; i < elf_head.e_shnum; ++i){
 			if(elf_shdr[i].sh_type == SHT_SYMTAB){
-				puts("symbol table");
 				elf_sym = (Elf32_Sym *)malloc(elf_shdr[i].sh_size);
 				assert(elf_sym);
-				printf("%u %u\n", elf_shdr[i].sh_size, elf_shdr[i].sh_entsize);
 				sym_size = elf_shdr[i].sh_size / elf_shdr[i].sh_entsize;
 				rewind(fp);
 				fseek(fp, elf_shdr[i].sh_offset, SEEK_SET);
@@ -117,9 +123,8 @@ static void fetch_elf() {
 		 	}
 		    else if(elf_shdr[i].sh_type == SHT_STRTAB){
 				if(i == elf_head.e_shstrndx)
-					puts("not i want");
+					continue;
 			 	else{ 
-					puts("string table");
 					elf_str = (char *)malloc(elf_shdr[i].sh_size);
 					assert(elf_str);
 					rewind(fp);
@@ -146,7 +151,7 @@ static void fetch_elf() {
 		fclose(fp);
  	}
 }
-
+#endif
 static int parse_args(int argc, char *argv[]) {
    const struct option table[] = {
     {"batch"    , no_argument      , NULL, 'b'},
@@ -157,13 +162,17 @@ static int parse_args(int argc, char *argv[]) {
     {0          , 0                , NULL,  0 },
   };
   int o;
-  while ( (o = getopt_long(argc, argv, "-bhl:d:p:", table, NULL)) != -1) {
-    switch (o) {
+  whil e ( (o = getopt_long(argc, argv, "-bhl:d:p:", table, NULL)) != -1) {
+    swi tch (o) {
       case 'b': sdb_set_batch_mode(); break;
       case 'p': sscanf(optarg, "%d", &difftest_port); break;
       case 'l': log_file = optarg; break;
       case 'd': diff_so_file = optarg; break;
-      case 1: img_file = optarg; gen_elf(); return 0;
+      case 1: img_file = optarg;
+#ifdef CONFIG_FTRACE
+			  gen_elf();
+#endif 
+			  return 0;
       default:
         printf("Usage: %s [OPTION...] IMAGE [args]\n\n", argv[0]);
         printf("\t-b,--batch              run with batch mode\n");
@@ -201,7 +210,10 @@ void init_monitor(int argc, char *argv[]) {
   /* Load the image to memory. This will overwrite the built-in image. */
   long img_size = load_img();
 
+#ifdef CONFIG_FTRACE  
   fetch_elf();
+#endif
+
   /* Initialize differential testing. */
   init_difftest(diff_so_file, img_size, difftest_port);
 
