@@ -25,7 +25,7 @@ typedef struct{
 
 extern Func_info elf_func[2048];
 
-//extern int elf_func_num = -1;
+extern int elf_func_num;
 
 void init_rand();
 void init_log(const char *log_file);
@@ -88,7 +88,7 @@ static long load_img() {
 static void fetch_elf() {
 	FILE *fp;
 	fp = fopen(elf_file, "rb");
-	if(fp == NULL){
+	if(fp == NULL){  
 		Log("No elf file found");
 	}else{
 		Elf32_Ehdr elf_head;
@@ -130,12 +130,16 @@ static void fetch_elf() {
 			}  
 		} 
 		char *temp;
+		elf_func_num = 0;
 		for(int i = 0; i < sym_size; ++i){
 			if(ELF32_ST_TYPE(elf_sym[i].st_info) == STT_FUNC){
 				temp = elf_str + elf_sym[i].st_name;
-				printf("0x%08x: %s\n", elf_sym[i].st_value, temp);
-			}
-		}
+				strcpy(elf_func[elf_func_num].func_name, temp);
+				elf_func[elf_func_num].start_addr = elf_sym[i].st_value;
+				elf_func[elf_func_num].func_size = elf_sym[i].st_size;
+				++elf_func_num;
+		  	}
+		}  
 		free(elf_sym);
 		free(elf_str);
 		free(elf_shdr);
