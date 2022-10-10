@@ -117,6 +117,7 @@ void trace_rec(paddr_t cur_pc, paddr_t jmp_addr){
 				ft_tail = ft_tail->nxt;
 				strcpy(ft_tail->func_name, elf_func[n_addr].func_name);
 				ft_tail->cur_addr = cur_pc;
+				ft_tail->func_addr = jmp_addr;
 				ft_tail->type = 1;
 				ft_tail->nxt = NULL;
 			}	
