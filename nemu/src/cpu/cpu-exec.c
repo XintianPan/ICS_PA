@@ -234,7 +234,7 @@ static void execute(uint64_t n) {
 }
 
 static void statistic() {
-  #ifdef CONFIG_FTARCE
+  #ifdef CONFIG_FTRACE
     f_trace();
 	destruct();
   #endif
