@@ -106,6 +106,7 @@ static void fetch_elf() {
 		    else if(elf_shdr[i].sh_type == SHT_STRTAB)
 				puts("string table");
 		}
+		free(elf_shdr);
 		fclose(fp);
  	}
 }
