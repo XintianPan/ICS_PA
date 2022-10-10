@@ -92,7 +92,7 @@ static void fetch_elf() {
 		Log("No elf file found");
 	}else{
 		Elf32_Ehdr elf_head;
-		uint32_t shnum, num_byte;
+		uint32_t num_byte;
 		num_byte = fread(&elf_head, sizeof(Elf32_Ehdr), 1, fp);
 		assert(num_byte);
 		Elf32_Shdr *elf_shdr = (Elf32_Shdr *)malloc(sizeof(Elf32_Shdr) * elf_head.e_shnum);
