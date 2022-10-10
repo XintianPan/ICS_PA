@@ -131,6 +131,7 @@ static void fetch_elf() {
 		} 
 		char *temp;
 		for(int i = 0; i < sym_size; ++i){
+			puts("here");
 			if(elf_sym[i].st_info == STT_FUNC){
 				temp = elf_str + elf_sym[i].st_name;
 				printf("0x%08x: %s\n", elf_sym[i].st_value, temp);
