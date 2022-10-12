@@ -26,11 +26,27 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 	int d;
 	char c;
 	size_t i = 0;
+	int pad = 0;
 	size_t j;
 	while(*fmt){
 		if(*fmt == '%'){
 			++fmt;
 			switch(*fmt){
+				case '0':
+					++fmt;
+					pad = *fmt - '0';
+					++fmt;
+					d = va_arg(ap, int);
+					j = -1;
+					do{
+						_std_num_buf[++j] = _std_num_lo[ d % 10];
+						d /= 10;
+					}while(d);
+					for(int k = pad - 1; k > j; --k)
+						out[i++] = '0';
+					for(int k = j; j >= 0; --k)
+						out[i++] = _std_num_buf[k];
+					break;
 				case 'c':
 					c = (char)va_arg(ap, int);
 					out[i++] = c;
