@@ -36,16 +36,12 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 					++fmt;
 					pad = *fmt - '0';
 					++fmt;
-					putch('h');
-					putch('\n');
 					d = va_arg(ap, int);
 					j = -1;
 					do{
 						_std_num_buf[++j] = _std_num_lo[ d % 10];
 						d /= 10;
 					}while(d);
-					putch('o');
-					putch('\n');
 					for(int k = pad - 1; k > j; --k)
 						out[i++] = '0';
 					for(int k = j; k >= 0; --k)
