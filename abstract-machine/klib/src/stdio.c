@@ -36,6 +36,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 					++fmt;
 					pad = *fmt - '0';
 					++fmt;
+					putch('h');
 					d = va_arg(ap, int);
 					j = -1;
 					do{
