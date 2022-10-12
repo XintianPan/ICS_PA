@@ -6,12 +6,19 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 static char _std_num_buf[20];
+static char _std_out_buf[1000000 + 5];
 static char *_std_num_lo = "0123456789abcdef";
 //static char *_std_num_up = "0123456789ABCDEF";
 
 
 int printf(const char *fmt, ...) {
-  panic("Not implemented");
+	va_list ap;
+	int done;
+	va_start(ap, fmt);
+		done = vsprintf(_std_out_buf, fmt, ap);
+	va_end(ap);
+    putstr(_std_out_buf);
+	return done;
 } 
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
