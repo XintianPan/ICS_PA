@@ -48,7 +48,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 					putch('\n');
 					for(int k = pad - 1; k > j; --k)
 						out[i++] = '0';
-					for(int k = j; j >= 0; --k)
+					for(int k = j; k >= 0; --k)
 						out[i++] = _std_num_buf[k];
 					break;
 				case 'c':
