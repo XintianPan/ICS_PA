@@ -66,17 +66,17 @@ void destruct(){
 void f_trace(){
 	__FUNC_TRACE *cur = ft_head;
 	while(cur != NULL){
-		printf("0x%08x:", cur->cur_addr);
+	//	printf("0x%08x:", cur->cur_addr);
 		log_write("0x%08x:", cur->cur_addr);
 		for(int i = 0; i < cur->space_len; ++i){
-			printf("  ");
+		//	printf("  ");
 			log_write("  ");
 		}
 		if(cur->type == 1){
-			printf("call[%s@0x%08x]\n", cur->func_name, cur->func_addr);
+		//	printf("call[%s@0x%08x]\n", cur->func_name, cur->func_addr);
 			log_write("call[%s@0x%08x]\n", cur->func_name, cur->func_addr);
 		}else{
-			printf("ret[%s]\n", cur->func_name);
+		//	printf("ret[%s]\n", cur->func_name);
 			log_write("ret[%s]\n", cur->func_name);
 		}
 		cur = cur->nxt;
