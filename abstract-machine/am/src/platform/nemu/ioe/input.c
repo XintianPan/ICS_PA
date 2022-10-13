@@ -5,5 +5,5 @@
 
 void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) {
 	kbd->keycode = inb(KBD_ADDR);
-	kbd->keydown = (inb(KBD_ADDR + 2) & KEYDOWN_MASK) ? true : false;
+	kbd->keydown = (inb(KBD_ADDR) & KEYDOWN_MASK) ? true : false;
 }
