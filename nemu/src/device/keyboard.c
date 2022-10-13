@@ -61,7 +61,6 @@ static uint32_t key_dequeue() {
     key = key_queue[key_f];
     key_f = (key_f + 1) % KEY_QUEUE_LEN;
   }
-  puts("here");
   return key;
 }
 
@@ -75,10 +74,8 @@ void send_key(uint8_t scancode, bool is_keydown) {
 #define _KEY_NONE 0
 
 static uint32_t key_dequeue() {
-  printf("here\n");
   AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
   uint32_t am_scancode = ev.keycode | (ev.keydown ? KEYDOWN_MASK : 0);
-  printf("%d 0x%08x 0x%08x\n", ev.keydown, ev.keycode, am_scancode);
   return am_scancode;
 }
 #endif
