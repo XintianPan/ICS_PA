@@ -22,7 +22,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
 		x = ctl->x, y = ctl->y, w = ctl->w, h = ctl->h;
 		for(int i = 0; i < h; ++i){
 			for(int j = 0; j < w; ++j){
-				fb[x + j + 400 * (y + i)] = pix[j + h * i];
+				fb[x + j + 400 * (y + i)] = pix[j + w * i];
 			}
 		}
 	}
