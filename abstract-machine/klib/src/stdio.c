@@ -41,7 +41,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 					do{
 						_std_num_buf[++j] = _std_num_lo[ d % 10];
 						d /= 10;
-					}while(d);
+	 				}while(d);
 					for(int k = pad - 1; k > j; --k)
 						out[i++] = '0';
 					for(int k = j; k >= 0; --k)
@@ -57,7 +57,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 					do{
 						_std_num_buf[++j] = _std_num_lo[ d % 10];
 						d /= 10;
-					}while(d);
+	 				}while(d);
 					for(register int k = j; k >= 0; --k)
 						out[i++] = _std_num_buf[k];
 					break;
@@ -66,19 +66,19 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 					while(*s){
 						out[i++] = *s;
 						++s;
-					}
+	 				}
 					break;
 				case '%':
 					out[i++] = *fmt;
 					break;
 				default:
 					break;
-			}
+	 		}
 		}else{
 			out[i++] = *fmt; 
-		}
+	 	}
 		++fmt;	
-	}
+	} 
 	out[i] = '\0';
 	return i;
 }
@@ -93,11 +93,74 @@ int sprintf(char *out, const char *fmt, ...) {
 }
 
 int snprintf(char *out, size_t n, const char *fmt, ...) {
-  panic("Not implemented");
+  va_list ap;
+  int done;
+  va_start(ap, fmt);
+	done = vsnprintf(out, n, fmt, ap);
+  va_end(ap);
+  return done;
 }
 
 int vsnprintf(char *out, size_t n, const char *fmt, va_list ap) {
-  panic("Not implemented");
+	char *s;
+	char c;
+	int d;
+	size_t i = 0;
+	int pad = 0;
+	size_t j;
+	while(*fmt && i < n - 1){
+		if(*fmt == '%'){
+			++fmt;
+			switch(*fmt){
+				case '0':
+					++fmt;
+					pad = *fmt - '0';
+					++fmt;
+					d = va_arg(ap, int);
+					j = -1;
+					do{
+						_std_num_buf[++j] = _std_num_lo[ d % 10];
+						d /= 10;
+	 				}while(d);
+					for(int k = pad - 1; k > j; --k)
+						out[i++] = '0';
+					for(int k = j; k >= 0; --k)
+						out[i++] = _std_num_buf[k];
+					break;
+				case 'c':
+					c = (char)va_arg(ap, int);
+					out[i++] = c;
+					break;
+				case 'd':
+					d = va_arg(ap, int);
+					j = -1;
+					do{
+						_std_num_buf[++j] = _std_num_lo[ d % 10];
+						d /= 10;
+	 				}while(d);
+					for(register int k = j; k >= 0; --k)
+						out[i++] = _std_num_buf[k];
+					break;
+				case 's':
+					s = va_arg(ap, char *);
+					while(*s){
+						out[i++] = *s;
+						++s;
+	 				}
+					break;
+				case '%':
+					out[i++] = *fmt;
+					break;
+				default:
+					break;
+	 		}
+		}else{
+			out[i++] = *fmt; 
+	 	}
+		++fmt;	
+	} 
+	out[i] = '\0';
+	return i;
 }
 
 #endif
