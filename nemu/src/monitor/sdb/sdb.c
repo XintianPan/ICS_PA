@@ -86,6 +86,7 @@ static int cmd_w(char *args){
 }
 #endif
 static int cmd_d(char *args){
+	int a = 0;
 	if (args == NULL){
 		puts("No args!");
 	}else{

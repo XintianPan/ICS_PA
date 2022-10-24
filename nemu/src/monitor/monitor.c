@@ -24,7 +24,6 @@ Func_info elf_func[2048];
 
 int elf_func_num = 0;
 #endif
-int a = 0;
 void init_rand();
 void init_log(const char *log_file);
 void init_mem();
