@@ -24,7 +24,7 @@
 #include <generated/autoconf.h>
 #include <macro.h>
 
-static volatile int dummy;
+static volatile int dummy = 0;
 #ifdef CONFIG_TARGET_AM
 #include <klib.h>
 #else
