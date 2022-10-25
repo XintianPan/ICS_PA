@@ -39,7 +39,7 @@ static void audio_pla(void *userdata, uint8_t *stream, int len){
 		for(; i < nread; ++i) stream[i] = sbuf[i];
 		if(nread < len) memset(stream + nread, 0, len - nread);
 		i = 0;
-		for(; i < audio_base[reg_count] - nread; ++i) sbuf[i] = sbuf[nread + i];
+		for(; i < CONFIG_SB_SIZE - nread; ++i) sbuf[i] = sbuf[nread + i];
 		audio_base[reg_count] -= nread;
 	}else{
 		memset(stream, 0, len);
