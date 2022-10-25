@@ -42,7 +42,6 @@ static void audio_pla(void *userdata, uint8_t *stream, int len){
 }
 
 static void audio_io_handler(uint32_t offset, int len, bool is_write) {
-	puts("ok");
 	if(!is_write && offset == 16){
 		puts("here");
 		SDL_AudioSpec s = {};
