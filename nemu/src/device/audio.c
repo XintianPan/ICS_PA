@@ -33,17 +33,18 @@ static uint32_t *audio_base = NULL;
 static void audio_pla(void *userdata, uint8_t *stream, int len){
 	int nread = len;
 	int count = audio_base[reg_count];
-	if(count < len) nread = count;
-	int i = 0;
-	for(; i < nread; ++i) stream[i] = sbuf[i];
-	if(nread < len) memset(stream + nread, 0, len - nread);
-	if(nread < count) memmove(sbuf, sbuf + nread, count - nread);
-	audio_base[reg_count] -= nread;
+	if(count > 0){
+		if(count < len) nread = count;
+		int i = 0;
+		for(; i < nread; ++i) stream[i] = sbuf[i];
+		if(nread < len) memset(stream + nread, 0, len - nread);
+		if(nread < count) memmove(sbuf, sbuf + nread, count - nread);
+		audio_base[reg_count] -= nread;
+	}
 }
 
 static void audio_io_handler(uint32_t offset, int len, bool is_write) {
 	if(is_write && offset == 16){
-		puts("here");
 		SDL_AudioSpec s = {};
 		s.format = AUDIO_S16SYS;
 		s.userdata = NULL;
