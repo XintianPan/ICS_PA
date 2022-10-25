@@ -32,14 +32,13 @@ static uint32_t *audio_base = NULL;
 
 static void audio_pla(void *userdata, uint8_t *stream, int len){
 	int nread = len;
-	int count = audio_base[reg_count];
-	if(count > 0){
-		if(count < len) nread = count;
+	if(audio_base[reg_count] > 0){
+		if(audio_base[reg_count] < len) nread = audio_base[reg_count];
 		int i = 0;
 		for(; i < nread; ++i) stream[i] = sbuf[i];
 		if(nread < len) memset(stream + nread, 0, len - nread);
 		i = 0;
-		for(; i < CONFIG_SB_SIZE - nread; ++i) sbuf[i] = sbuf[nread + i];
+		for(; i < audio_base[reg_count] - nread; ++i) sbuf[i] = sbuf[nread + i];
 		audio_base[reg_count] -= nread;
 	}else{
 		memset(stream, 0, len);
