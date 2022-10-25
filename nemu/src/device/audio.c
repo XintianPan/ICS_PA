@@ -30,8 +30,32 @@ enum {
 static uint8_t *sbuf = NULL;
 static uint32_t *audio_base = NULL;
 
+static void audio_pla(void *userdata, uint8_t *stream, int len){
+	int nread = len;
+	int count = audio_base[reg_count];
+	if(count < len) nread = count;
+	int i = 0;
+	for(; i < nread; ++i) stream[i] = sbuf[i];
+	if(nread < len) memset(stream + nread, 0, len - nread);
+	if(nread < count) memmove(sbuf, sbuf + nread, count - nread);
+	count -= nread;
+}
+
 static void audio_io_handler(uint32_t offset, int len, bool is_write) {
-	puts("here");
+	if(!is_write && offset == 16){
+		SDL_AudioSpec s = {};
+		s.format = AUDIO_S16SYS;
+		s.userdata = NULL;
+		s.freq = audio_base[reg_freq];
+		s.channels = audio_base[reg_channels];
+		s.samples = audio_base[reg_samples];
+		s.callback = audio_pla;
+		audio_base[reg_sbuf_size] = CONFIG_SB_SIZE;
+		audio_base[reg_count] = 0;
+		SDL_InitSubSystem(SDL_INIT_AUDIO);
+		SDL_OpenAudio(&s, NULL);
+		SDL_PauseAudio(0);
+	}
 }
 
 void init_audio() {
@@ -42,7 +66,6 @@ void init_audio() {
 #else
   add_mmio_map("audio", CONFIG_AUDIO_CTL_MMIO, audio_base, space_size, audio_io_handler);
 #endif
-
   sbuf = (uint8_t *)new_space(CONFIG_SB_SIZE);
   add_mmio_map("audio-sbuf", CONFIG_SB_ADDR, sbuf, CONFIG_SB_SIZE, NULL);
 }
