@@ -32,7 +32,7 @@ static uint32_t *audio_base = NULL;
 
 static void audio_pla(void *userdata, uint8_t *stream, int len){
 	int nread = len;
-	static volatile int *count = (int *)&audio_base[reg_count];
+	static volatile int *count = (int *)(&audio_base[reg_count]);
 	if(*count > 0){
 		if(*count < len) nread = *count;
 		int i = 0;
