@@ -33,11 +33,6 @@ static bool g_print_step = false;
 void device_update();
 bool ifchange();
 
-#ifdef CONFIG_ETRACE
-	extern char etr_buf[20][256];
-	extern int id;
-#endif
-
 #ifdef CONFIG_FTRACE
 
 extern Func_info elf_func[2048];
@@ -245,11 +240,6 @@ static void statistic() {
   #ifdef CONFIG_FTRACE
     f_trace();
 	destruct();
-  #endif
-  #ifdef CONFIG_ETRACE
-    for(int i = 0; i <= id; ++i){
-		Log("%s", etr_buf[i]);
-	}
   #endif
   IFNDEF(CONFIG_TARGET_AM, setlocale(LC_NUMERIC, ""));
 #define NUMBERIC_FMT MUXDEF(CONFIG_TARGET_AM, "%", "%'") PRIu64
