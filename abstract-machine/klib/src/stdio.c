@@ -72,6 +72,16 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 					for(register int k = j; k >= 0; --k)
 						out[i++] = _std_num_buf[k];
 					break;
+				case 'x':
+					u = va_arg(ap, unsigned int);
+					j = -1;
+					do{
+						_std_num_buf[++j] = _std_num_lo[ u % 16];
+						u /= 16;
+					}while(u);
+					for(register int k = j; k >= 0; --k)
+						out[i++] = _std_num_buf[k];
+					break;
 				case 's':
 					s = va_arg(ap, char *);
 					while(*s){
