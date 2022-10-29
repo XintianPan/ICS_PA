@@ -27,11 +27,12 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 //  printf("exception %u\n", NO);
 #ifdef CONFIG_ETRACE
 	if(id != 19){
+		puts("here");
 		switch(NO){
 			case 0xffffffff: sprintf(etr_buf[++id], "Expection happen at 0x%08x, Number: 0x%08x, Event name: %s\n", cpu.pc, NO, "Yeild"); break;
 		}
 	}else{
-		for(int i = 0; i < 20; ++i){
+		for(int i =  0; i < 20; ++i){
 			log_write("%s", etr_buf[i]);
 		}
 		id = -1;
