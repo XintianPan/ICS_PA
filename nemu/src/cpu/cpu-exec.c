@@ -33,10 +33,6 @@ static bool g_print_step = false;
 void device_update();
 bool ifchange();
 
-#ifdef CONFIG_ETRACE
- extern volatile char etr_buf[1024];
- extern volatile bool etr_en;
-#endif
 
 #ifdef CONFIG_FTRACE
 
@@ -179,9 +175,6 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   if (jmp_check) trace_rec(_this->pc, dnpc);
 #endif
 
-#ifdef CONFIG_ETRACE
- if(etr_en) {  log_write("exception\n");}
-#endif
 }
 
 static void exec_once(Decode *s, vaddr_t pc) {

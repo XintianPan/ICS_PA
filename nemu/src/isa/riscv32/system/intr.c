@@ -27,10 +27,8 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
    */
 //  printf("exception %u\n", NO);
 #ifdef CONFIG_ETRACE
-	    log_write("fuck\nfuck\n");
 		switch(NO){  
-			case 0xffffffff: sprintf(etr_buf,"Excection happen at 0x%08x, Number: 0x%08x, Event name: %s", cpu.pc, NO, "Yeild");
-							 etr_en = true;
+			case 0xffffffff: log_write("Excection happen at 0x%08x, Number: 0x%08x, Event name: %s", cpu.pc, NO, "Yeild");
 			                 break;
 		}
 #endif
