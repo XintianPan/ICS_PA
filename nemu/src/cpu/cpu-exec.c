@@ -248,7 +248,7 @@ static void statistic() {
   #endif
   #ifdef CONFIG_ETRACE
 	printf("%d\n", id);
-    for(int i = 0; i <= id; ++i) log_write("%s", etr_buf[i]);
+    for(int i = 0; i <= id; ++i) printf("%s", etr_buf[i]);
   #endif
   IFNDEF(CONFIG_TARGET_AM, setlocale(LC_NUMERIC, ""));
 #define NUMBERIC_FMT MUXDEF(CONFIG_TARGET_AM, "%", "%'") PRIu64
