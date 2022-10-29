@@ -34,8 +34,7 @@ void device_update();
 bool ifchange();
 
 #ifdef CONFIG_ETRACE
- extern char etr_buf[256];
- char local_buf[256];
+ extern char etr_buf[1024];
  extern bool etr_en;
 #endif
 
@@ -181,7 +180,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #endif
 
 #ifdef CONFIG_ETRACE  
- if(etr_en) { memcpy(local_buf, etr_buf, 256); printf("%s\n", etr_buf); log_write("%s\n", local_buf); etr_en = false;}
+ if(etr_en) {  printf("%s\n", etr_buf); log_write("%s\n", etr_buf); etr_en = false;}
 #endif
 }
 

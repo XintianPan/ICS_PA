@@ -16,18 +16,18 @@
 #include <isa.h>
 
 #ifdef CONFIG_ETRACE
-  char etr_buf[256];
+  char etr_buf[1024];
   bool etr_en = false;
 #endif
 
-word_t isa_raise_intr(word_t NO, vaddr_t epc) {
-  /* TODO: Trigger an  interrupt/exception with ``NO''.
+word_t isa_raise_in tr(word_t NO, vaddr_t epc) {
+  /* TODO: Trigger a n  interrupt/exception with ``NO''.
    * Then return the address of the interrupt/exception vector.
    */
 //  printf("exception %u\n", NO);
 #ifdef CONFIG_ETRACE
-		switch(NO){ 
-			case 0xffffffff: sprintf(etr_buf,"Expection happen at 0x%08x, Number: 0x%08x, Event name: %s", cpu.pc, NO, "Yeild");
+		switch(NO){  
+			case 0xffffffff: sprintf(etr_buf,"Excection happen at 0x%08x, Number: 0x%08x, Event name: %s", cpu.pc, NO, "Yeild");
 							 etr_en = true;
 			                 break;
 		}
