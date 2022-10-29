@@ -35,6 +35,7 @@ bool ifchange();
 
 #ifdef CONFIG_ETRACE
  extern char etr_buf[256];
+ char local_buf[256];
  extern bool etr_en;
 #endif
 
@@ -179,9 +180,8 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   if (jmp_check) trace_rec(_this->pc, dnpc);
 #endif
 
-#ifdef CONFIG_ETRACE
-  
- if(etr_en) {printf("%s\n", etr_buf); log_write("%s\n", etr_buf); etr_en = false;}
+#ifdef CONFIG_ETRACE  
+ if(etr_en) { memcpy(local_buf, etr_buf); printf("%s\n", etr_buf); log_write("%s\n", local_buf); etr_en = false;}
 #endif
 }
 
