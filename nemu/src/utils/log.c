@@ -29,7 +29,7 @@ void init_log(const char *log_file) {
 }
 
 bool log_enable() {
-    printf("%llu\n", g_nr_guest_inst);
+    printf("%lu\n", g_nr_guest_inst);
    	return MUXDEF(CONFIG_TRACE, (g_nr_guest_inst >= CONFIG_TRACE_START) &&
          (g_nr_guest_inst <= CONFIG_TRACE_END), false);
 }
