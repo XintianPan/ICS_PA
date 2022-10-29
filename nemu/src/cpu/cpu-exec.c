@@ -167,7 +167,6 @@ static int buf_index = -1;
 
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
-  log_write("fuck\n");
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
@@ -181,7 +180,8 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #endif
 
 #ifdef CONFIG_ETRACE
- if(etr_en) {log_write("%s\n", etr_buf); etr_en = false;}
+  
+ if(etr_en) {printf("%s\n", etr_buf); log_write("%s\n", etr_buf); etr_en = false;}
 #endif
 }
 
