@@ -22,9 +22,58 @@
 #define R(i) gpr(i)
 #define Mr vaddr_read
 #define Mw vaddr_write
+#define S(i) cpu.sys[i]
+
+word_t isa_raise_intr(word_t NO, vaddr_t epc);
+
+static inline void csrw(vaddr_t rd, word_t rs_imm, vaddr_t csr){
+	vaddr_t id = -1;
+	switch(csr){
+		case 0x300: id = 0; break; //mstatus
+		case 0x305: id = 1; break; //mtvec
+		case 0x341: id = 2; break; //mepc
+		case 0x342: id = 3; break; //mcause
+	}
+	if(rd != 0) R(rd) = S(id);
+	S(id) = rs_imm;
+}
+static inline void csrs(vaddr_t rd, word_t rs_imm, vaddr_t csr){
+	vaddr_t id = -1;
+	switch(csr){
+		case 0x300: id = 0; break; //mstatus
+		case 0x305: id = 1; break; //mtvec
+		case 0x341: id = 2; break; //mepc
+		case 0x342: id = 3; break; //mcause
+	}
+	if(rd != 0) R(rd) = S(id);
+	uint32_t t;
+	for(int i = 0; i < 32; ++i){
+		t = 1 << i;
+		if((t & rs_imm)) S(id) |= t;
+	}
+}
+static inline void csrc(vaddr_t rd, word_t rs_imm, vaddr_t csr){
+	vaddr_t id = -1;
+	switch(csr){
+		case 0x300: id = 0; break; //mstatus
+		case 0x305: id = 1; break; //mtvec
+		case 0x341: id = 2; break; //mepc
+		case 0x342: id = 3; break; //mcause
+	}
+	if(rd != 0) R(rd) = S(id);
+	uint32_t t;
+	for(int i = 0; i < 32; ++i){
+		t = 1 << i;
+		if((t & rs_imm)){
+			if((t & S(id))){
+				S(id) ^= t;
+			}
+		}
+	}
+}
 
 enum {
-  TYPE_I, TYPE_U, TYPE_S, TYPE_R, TYPE_J, TYPE_B, TYPE_IS, // I commands for shifting
+  TYPE_I, TYPE_U, TYPE_S, TYPE_R, TYPE_J, TYPE_B, TYPE_IS, TYPE_CS, TYPE_CSI,// I commands for shifting
   TYPE_N, // none
 };
 
@@ -36,14 +85,15 @@ enum {
 #define immB() do { *imm = (SEXT(BITS(i, 31, 31), 1) << 12) | (BITS(i, 30, 25) << 5) | (BITS(i, 11, 8) << 1) | (BITS(i, 7, 7) << 11);} while(0)
 #define immJ() do { *imm = (SEXT(BITS(i, 31, 31), 1) << 20) | (BITS(i, 30, 21) << 1) | (BITS(i, 20, 20) << 11) | (BITS(i, 19, 12) << 12);} while(0)
 #define immIS() do { *imm = BITS(i, 24, 20); } while(0)
-
+#define immCS() do { *imm = BITS(i, 19, 15); } while(0)
+#define addrCSR() do { *src2 = BITS(i, 31, 20); } while(0)
 static void decode_operand(Decode *s, int *dest, word_t *src1, word_t *src2, word_t *imm, int type) {
   uint32_t i = s->isa.inst.val;
   int rd  = BITS(i, 11, 7);
   int rs1 = BITS(i, 19, 15);
   int rs2 = BITS(i, 24, 20);
   *dest = rd;
-  switch (type) {
+  switch (type) { 
     case TYPE_I: src1R();          immI(); break;
 	case TYPE_IS: src1R();        immIS(); break;
     case TYPE_U:                   immU(); break;
@@ -51,10 +101,12 @@ static void decode_operand(Decode *s, int *dest, word_t *src1, word_t *src2, wor
 	case TYPE_R: src1R(); src2R();         break;
 	case TYPE_J:				   immJ(); break;
 	case TYPE_B: src1R(); src2R(); immB(); break;
+	case TYPE_CS:addrCSR(); src1R();       break;
+	case TYPE_CSI:addrCSR();      immCS(); break;
   }
 }
 
-static int decode_exec(Decode *s, bool *jmp) { 
+static int decode_exec(Decode *s, bool *jmp) {  
   int dest = 0;
   uint64_t rel = 0;
   word_t src1 = 0, src2 = 0, imm = 0;
@@ -120,7 +172,16 @@ static int decode_exec(Decode *s, bool *jmp) {
   INSTPAT("??????? ????? ????? 001 ????? 01000 11", sh     , S, Mw(src1 + imm, 2, src2));
   INSTPAT("??????? ????? ????? 000 ????? 01000 11", sb     , S, Mw(src1 + imm, 1, src2));
 
+  INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , CS, csrw(dest, src1, src2));
+  INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , CS, csrs(dest, src1, src2));
+  INSTPAT("??????? ????? ????? 011 ????? 11100 11", csrrc  , CS, csrc(dest, src1, src2));
+
+  INSTPAT("??????? ????? ????? 101 ????? 11100 11", csrrwi , CSI, csrw(dest, imm, src2));
+  INSTPAT("??????? ????? ????? 110 ????? 11100 11", csrrsi , CSI, csrs(dest, imm, src2));
+  INSTPAT("??????? ????? ????? 111 ????? 11100 11", csrrci , CSI, csrc(dest, imm, src2));
+
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(R(17), 1)); //R(17) is $a7 
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));
   INSTPAT_END();
 
