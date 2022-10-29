@@ -247,11 +247,8 @@ static void statistic() {
 	destruct();
   #endif
   #ifdef CONFIG_ETRACE
-	printf("%d\n", id);
-	log_write("\n");
     for(int i = 0; i <= id; ++i){
-		puts("here");
-		log_write("%s", etr_buf[i]);
+		Log("%s", etr_buf[i]);
 	}
   #endif
   IFNDEF(CONFIG_TARGET_AM, setlocale(LC_NUMERIC, ""));
