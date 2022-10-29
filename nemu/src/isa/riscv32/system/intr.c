@@ -20,7 +20,7 @@
   bool etr_en = false;
 #endif
 
-word_t isa_raise_in tr(word_t NO, vaddr_t epc) {
+word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   /* TODO: Trigger a n  interrupt/exception with ``NO''.
    * Then return the address of the interrupt/exception vector.
    */
