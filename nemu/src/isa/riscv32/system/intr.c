@@ -15,7 +15,7 @@
 
 #include <isa.h>
 
-#ifdef CONFIG_ETRACE
+#ifdef CONFIG_TARGET_NATIVE_ELF
   char etr_buf[1024];
   bool etr_en = false;
 #endif
