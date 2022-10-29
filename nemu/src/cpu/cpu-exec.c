@@ -34,8 +34,8 @@ void device_update();
 bool ifchange();
 
 #ifdef CONFIG_ETRACE
- extern char etr_buf[1024];
- extern bool etr_en;
+ extern volatile char etr_buf[1024];
+ extern volatile bool etr_en;
 #endif
 
 #ifdef CONFIG_FTRACE
