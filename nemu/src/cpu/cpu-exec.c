@@ -33,6 +33,11 @@ static bool g_print_step = false;
 void device_update();
 bool ifchange();
 
+#ifdef CONFIG_ETRACE
+ extern char etr_buf[256];
+ extern bool etr_en;
+#endif
+
 #ifdef CONFIG_FTRACE
 
 extern Func_info elf_func[2048];
@@ -173,6 +178,10 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 #ifdef CONFIG_FTRACE
   if (jmp_check) trace_rec(_this->pc, dnpc);
+#endif
+
+#ifdef CONFIG_ETRACE
+ if(etr_en) log_write("%s\n", etr_buf), etr_en = false;
 #endif
 }
 
