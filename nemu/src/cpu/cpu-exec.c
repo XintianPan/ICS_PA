@@ -181,7 +181,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #endif
 
 #ifdef CONFIG_ETRACE  
- if(etr_en) { memcpy(local_buf, etr_buf); printf("%s\n", etr_buf); log_write("%s\n", local_buf); etr_en = false;}
+ if(etr_en) { memcpy(local_buf, etr_buf, 256); printf("%s\n", etr_buf); log_write("%s\n", local_buf); etr_en = false;}
 #endif
 }
 
