@@ -180,8 +180,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #endif
 
 #ifdef CONFIG_ETRACE
- log_write("fuck\n");  
- if(etr_en) {  printf("%s\n", etr_buf); log_write("%s\n", etr_buf); etr_en = false;}
+ if(etr_en) {  printf("%s\n", etr_buf); log_write("exception\n"); etr_en = false;}
 #endif
 }
 
