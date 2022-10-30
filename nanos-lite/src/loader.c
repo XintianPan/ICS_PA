@@ -52,7 +52,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 			for(; j < mem; ++j) *(volatile uint8_t *)(vaddr + j) = 0;	
 		}
 	}
-	return 0x830003fc;
+	return elf_ehdr.e_entry;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
