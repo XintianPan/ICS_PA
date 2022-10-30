@@ -4,6 +4,8 @@
 #include <stdarg.h>
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
+#define NEG_DETER 0x80000000
+
 
 static char _std_num_buf[20];
 static char _std_out_buf[1000000 + 5];
@@ -23,7 +25,7 @@ int printf(const char *fmt, ...) {
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
  	char *s;
-	int d;
+	bool flag = false;
 	uintptr_t p;
 	uint32_t u;
 	char c;
@@ -38,12 +40,18 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 					++fmt;
 					pad = *fmt - '0';
 					++fmt;
-					d = va_arg(ap, int);
+					u = va_arg(ap,unsigned int);
+					flag = false;
+					if(u & NEG_DETER){
+						flag = true;
+						u = (~u) + 1;
+					}
 					j = -1;
 					do{
-						_std_num_buf[++j] = _std_num_lo[ d % 10];
-						d /= 10;
-	 				}while(d);
+						_std_num_buf[++j] = _std_num_lo[ u % 10];
+						u /= 10;
+	 				}while(u);
+					if(flag) _std_num_buf[++j] = '-';
 					for(int k = pad - 1; k > j; --k)
 						out[i++] = '0';
 					for(int k = j; k >= 0; --k)
@@ -54,12 +62,18 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 					out[i++] = c;
 					break;
 				case 'd':
-					d = va_arg(ap, int);
+					u = va_arg(ap, unsigned int);
+					flag = false;
+					if(u & NEG_DETER){
+						flag = true;
+						u = (~u) + 1;
+					}
 					j = -1;
 					do{
-						_std_num_buf[++j] = _std_num_lo[ d % 10];
-						d /= 10;
-	 				}while (d);
+						_std_num_buf[++j] = _std_num_lo[ u % 10];
+						u /= 10;
+	 				}while (u);
+					if(flag) _std_num_buf[++j] = '-';
 					for(register int k = j; k >= 0; --k)
 						out[i++] = _std_num_buf[k];
 					break;
