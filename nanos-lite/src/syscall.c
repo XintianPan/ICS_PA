@@ -8,7 +8,7 @@ void do_syscall(Context *c) {
   a[3] = c->GPR4;
   a[4] = c->GPRx;
   switch (a[0]) {
-	case SYS_yield: yield(); a[4] = 0; break;
+	case SYS_yield: yield(); c->mepc += 4; a[4] = 0; break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 }
