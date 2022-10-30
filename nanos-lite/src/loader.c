@@ -22,6 +22,7 @@
 #endif 
 
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
+void _start();
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
 	Elf_Ehdr elf_ehdr;
@@ -52,7 +53,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 			for(; j < mem; ++j) *(volatile uint8_t *)(vaddr + j) = 0;	
 		}
 	}
-	return 0;
+	return (uintptr_t)(_start);
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
