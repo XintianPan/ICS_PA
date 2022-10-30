@@ -24,6 +24,7 @@ int printf(const char *fmt, ...) {
 int vsprintf(char *out, const char *fmt, va_list ap) {
  	char *s;
 	int d;
+	uintptr_t p;
 	uint32_t u;
 	char c;
 	size_t i = 0;
@@ -79,6 +80,18 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 						_std_num_buf[++j] = _std_num_lo[ u % 16];
 						u /= 16;
 					}while(u);
+					for(register int k = j; k >= 0; --k)
+						out[i++] = _std_num_buf[k];
+					break;
+				case 'p':
+					p = va_arg(ap, uintptr_t);
+					j = -1;
+					do{
+						_std_num_buf[++j] = _std_num_lo[p % 16];
+						p /= 16;
+					}while(p);
+					_std_num_buf[++j] = 'x';
+					_std_num_buf[++j] = '0';
 					for(register int k = j; k >= 0; --k)
 						out[i++] = _std_num_buf[k];
 					break;
