@@ -12,7 +12,7 @@ int main() {
   printf("%s", logo);
   Log("'Hello World!' from Nanos-lite");
   Log("Build time: %s, %s", __TIME__, __DATE__);
-
+  malloc(0);
   init_mm();
 
   init_device();
