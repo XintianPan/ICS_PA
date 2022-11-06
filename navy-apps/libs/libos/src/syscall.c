@@ -70,9 +70,6 @@ int  _write(int fd, void *buf, size_t count) {
 void  *_sbrk(intptr_t increment) {
 	volatile intptr_t temp = cur_addr;
 	int rec = (int)_syscall_(SYS_brk, 0, (intptr_t)(&cur_addr), increment);
-	char out[30];
-	sprintf(out, "%d\n", rec);
-	_write(1, out, 30);
 	if(rec == 0){
 		void *old = (void *)temp;
 		return old;
