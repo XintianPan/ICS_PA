@@ -28,7 +28,7 @@ void do_syscall(Context *c) {
 	   	Log("syscall:%s 1st arg:%d 2nd arg:%p 3rd arg:%d ret val:%d", syscall_name[a[0]], a[1], a[2], a[3], a[3]); 
 		if(a[3] == 1 || a[3] == 2)
 		   	mywrite((char *)a[2], a[1]); 
-	   	a[4] = a[1];
+	   	c->gpr[10] = 0;
 	   	c->mepc += 4;  
 		break;
 	case SYS_brk:
