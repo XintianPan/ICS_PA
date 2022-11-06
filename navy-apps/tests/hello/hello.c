@@ -4,7 +4,7 @@
 int main() {
   write(1, "Hello World!\n", 13);
   int i = 2;
-  int count = 10;
+  int count = 200000;
   volatile int j = 0;
   while (count--) {
     j ++;
