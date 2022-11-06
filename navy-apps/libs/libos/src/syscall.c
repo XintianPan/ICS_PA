@@ -7,7 +7,8 @@
 #include "syscall.h"
 
 extern int end;
-volatile intptr_t _end_addr = (intptr_t)&end;
+volatile intptr_t _end_addr = (intptr_t)(&end);
+volatile intptr_t _old_addr = (intptr_t)(&end);
 // helper macros
 #define _concat(x, y) x ## y
 #define concat(x, y) _concat(x, y)
@@ -67,10 +68,10 @@ int _write(int fd, void *buf, size_t count) {
 }
 
 void *_sbrk(intptr_t increment) {
-	volatile intptr_t old_addr = _end_addr;
-	_syscall_(SYS_brk, increment, (volatile intptr_t)(&_end_addr), old_addr);
-	void *old_buf = (void *)old_addr;
-	return old_buf;
+	_old_addr = _end_addr;
+	_syscall_(SYS_brk, increment, (volatile intptr_t)(&_end_addr), _old_addr);
+	_write(1, "fuck you!\n", 10);
+	return (void *)_old_addr;
 }
 
 int _read(int fd, void *buf, size_t count) {
