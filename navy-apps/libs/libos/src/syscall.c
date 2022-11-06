@@ -72,7 +72,7 @@ void  *_sbrk(intptr_t increment) {
 	volatile intptr_t rec = -1;
 	rec = _syscall_(SYS_brk, increment, (intptr_t)(&cur_addr), 0);
 	if(rec == 0){
-		volatile void *old = (void *)temp;
+		void *old = (void *)temp;
 		return old;
 	}else{
 		return (void *)-1;
