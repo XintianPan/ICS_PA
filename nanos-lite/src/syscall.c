@@ -1,6 +1,12 @@
 #include <common.h>
 #include "syscall.h"
 
+/*
+ * uintptr_t should treated as value, not pointer!
+ * uintptr_t, intptr_t is same length as pointer
+ * it can be casted to a pointer
+ * but if not being casted, it's simply treated as value!!!
+ * */
 
 void mywrite(char *buf, uint32_t count){
 	uint32_t i = 0;
@@ -27,9 +33,9 @@ void do_syscall(Context *c) {
 		c->mepc += 4; c->gpr[10] = 0; break;
 	case SYS_write: 
 	   	Log("syscall:%s 1st arg:%d 2nd arg:%p 3rd arg:%d ret val:%d", syscall_name[a[0]], a[1], a[2], a[3], a[3]); 
-		if(a[3] == 1 || a[3] == 2)
-		   	mywrite((char *)a[2], a[1]); 
-	   	c->gpr[10] = a[1];
+		if(a[1] == 1 || a[1] == 2)
+		   	mywrite((char *)a[2], a[3]); 
+	   	c->gpr[10] = a[3];
 	   	c->mepc += 4;  
 		break;
 	case SYS_brk:
