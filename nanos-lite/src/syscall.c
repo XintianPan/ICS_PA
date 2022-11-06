@@ -36,9 +36,8 @@ void do_syscall(Context *c) {
 		Log("%p", *(volatile int*)a[2]);
 	    *(volatile int *)a[2] = *(volatile int*)a[2] + a[1];
 		Log("%p", *(volatile int*)a[2]);
-		a[4] = 0;
-		Log("%d", a[4]);
 		c->mepc += 4;
+		a[1] = 0;
 		break;
 	default: panic("Unhandled syscall ID = %d", a[0]);
   }
