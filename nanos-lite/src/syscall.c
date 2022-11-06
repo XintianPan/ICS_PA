@@ -1,6 +1,7 @@
 #include <common.h>
 #include "syscall.h"
 
+
 void mywrite(char *buf, uint32_t count){
 	uint32_t i = 0;
 	for(; i < count; ++i){
@@ -15,7 +16,7 @@ void do_syscall(Context *c) {
   a[2] = c->GPR3; //a1 used for argument
   a[3] = c->GPR4; //a2 used for argument
   a[4] = c->GPRx; //a0 used for return
-  switch (a[0]) {
+   switch (a[0]) {
 	case SYS_exit:
 	   	Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d ret val:%d", syscall_name[a[0]], a[1], a[2], a[3], a[1]);
 	   	halt(a[1]);
@@ -23,12 +24,12 @@ void do_syscall(Context *c) {
 	case SYS_yield: 
 		Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d ret val:%d", syscall_name[a[0]], a[1], a[2], a[3], a[1]);
 		yield(); 
-		c->mepc += 4; a[4] = 0; break;
+		c->mepc += 4; c->gpr[10] = 0; break;
 	case SYS_write: 
 	   	Log("syscall:%s 1st arg:%d 2nd arg:%p 3rd arg:%d ret val:%d", syscall_name[a[0]], a[1], a[2], a[3], a[3]); 
 		if(a[3] == 1 || a[3] == 2)
 		   	mywrite((char *)a[2], a[1]); 
-	   	a[4] = 1;
+	   	c->gpr[10] = a[1];
 	   	c->mepc += 4;  
 		break;
 	case SYS_brk:
@@ -37,7 +38,7 @@ void do_syscall(Context *c) {
 	    *(int *)a[2] = *(int*)a[2] + a[3];
 		Log("%x", *(int*)a[2]);
 		c->mepc += 4;
-		c->gpr[10] = 0;
+		c->gpr[10] = 1;
 		break;
 	default: panic("Unhandled syscall ID = %d", a[0]);
   }
