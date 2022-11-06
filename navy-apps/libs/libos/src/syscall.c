@@ -6,9 +6,9 @@
 #include <time.h>
 #include "syscall.h"
 
-extern int end;
-volatile intptr_t _end_addr = (intptr_t)(&end);
-volatile intptr_t _old_addr = (intptr_t)(&end);
+extern _end;
+volatile intptr_t _end_addr = (intptr_t)(&_end);
+volatile intptr_t _old_addr = (intptr_t)(&_end);
 // helper macros
 #define _concat(x, y) x ## y
 #define concat(x, y) _concat(x, y)
