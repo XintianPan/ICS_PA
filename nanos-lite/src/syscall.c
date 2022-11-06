@@ -33,10 +33,11 @@ void do_syscall(Context *c) {
 		break;
 	case SYS_brk:
 		Log("syscall:%s 1st arg:%d 2nd arg:%p 3rd arg:%d ret val:%d", syscall_name[a[0]], a[1], a[2], a[3], 0);
-		a[4] = 0;
 		Log("%p", *(volatile int*)a[2]);
 	    *(volatile int *)a[2] = *(volatile int*)a[2] + a[1];
 		Log("%p", *(volatile int*)a[2]);
+		a[4] = 0;
+		Log("%d", a[4]);
 		c->mepc += 4;
 		break;
 	default: panic("Unhandled syscall ID = %d", a[0]);
