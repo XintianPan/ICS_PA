@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <time.h>
 #include "syscall.h"
-
+#include <stdio.h>
 extern char _end;
 volatile intptr_t cur_addr = (intptr_t)(&_end);
 
@@ -70,6 +70,9 @@ int  _write(int fd, void *buf, size_t count) {
 void  *_sbrk(intptr_t increment) {
 	volatile intptr_t temp = cur_addr;
 	int rec = (int)_syscall_(SYS_brk, increment, (intptr_t)(&cur_addr), 0);
+	char out[30];
+	sprintf(out, "%d\n", rec);
+	_write(1, out, 30);
 	if(rec == 0){
 		void *old = (void *)temp;
 		return old;
