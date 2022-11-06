@@ -75,6 +75,7 @@ void  *_sbrk(intptr_t increment) {
 		void *old = (void *)temp;
 		return old;
 	}else{
+		_write(1, "here\n", 5);
 		return (void *)-1;
 	}
 }
