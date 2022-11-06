@@ -37,7 +37,7 @@ void do_syscall(Context *c) {
 	    *(int *)a[2] = *(int*)a[2] + a[3];
 		Log("%x", *(int*)a[2]);
 		c->mepc += 4;
-		a[4] = 0;
+		a[4] = 114514;
 		break;
 	default: panic("Unhandled syscall ID = %d", a[0]);
   }
