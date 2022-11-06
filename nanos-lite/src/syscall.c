@@ -8,6 +8,10 @@ void mywrite(char *buf, uint32_t count){
 	}
 }
 
+void heap_change(intptr_t increment, intptr_t *_end_addr){
+	*(_end_addr) = *(_end_addr) + increment;
+}
+
 void do_syscall(Context *c) {
   uintptr_t a[5];
   a[0] = c->GPR1; //a7
@@ -32,9 +36,10 @@ void do_syscall(Context *c) {
 	   	c->mepc += 4;  
 		break;
 	case SYS_brk:
-		Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d ret val:%d", syscall_name[a[0]], a[1], a[2], a[3], 0);
+		Log("syscall:%s 1st arg:%d 2nd arg:%p 3rd arg:%d ret val:%d", syscall_name[a[0]], a[1], a[2], a[3], 0);
 		a[4] = 0;
-		c->mepc += 4;	
+		c->mepc += 4;
+	    heap_change(a[1], (intptr_t *)a[2]);	
 		break;
 	default: panic("Unhandled syscall ID = %d", a[0]);
   }
