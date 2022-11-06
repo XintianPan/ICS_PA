@@ -67,9 +67,9 @@ int _write(int fd, void *buf, size_t count) {
 }
 
 void *_sbrk(intptr_t increment) {
+	_write(1, "here\n", 5);
 	intptr_t old = _end_addr;
-	intptr_t ret = _syscall_(SYS_brk, increment, (intptr_t)&_end_addr, 0);
-	if(ret == 0){ 
+	if(_syscall_(SYS_brk, increment, (intptr_t)&_end_addr, 0) == 0){ 
 		return (void *)old;
 	}else{
 		return (void *)-1;
