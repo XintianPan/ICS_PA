@@ -31,6 +31,60 @@ static Finfo file_table[] __attribute__((used)) = {
 #include "files.h"
 };
 
+static size_t open_off[LENGTH(file_table)];
+
+size_t ramdisk_read(void *buf, size_t offset, size_t len);
+
+// size_t ramdisk_write(const void *buf, size_t offset, size_t len); 
+
+int fs_open(const char *pathname, int flags, int mode){
+	int i = 0;
+	for(; i < LENGTH(file_table); ++i){
+		if(strcmp(pathname, file_table[i].name) == 0){
+			Log("Successfully open file: %s", pathname);
+			break;
+		}
+	}
+	assert(i < LENGTH(file_table));
+	return i;
+}
+
+size_t fs_read(int fd, void *buf, size_t len){
+	assert(fd < LENGTH(file_table));
+	if(open_off[fd] >= file_table[fd].size || open_off[fd] + len - 1 >= file_table[fd].size){
+		Log("Cross the boundary of file!");
+		return 0;
+	}else{
+		size_t read_s = ramdisk_read(buf, open_off[fd] + file_table[fd].disk_offset, len);
+		open_off[fd] += len;
+		return read_s;
+	} 
+}
+
+size_t fs_lseek(int fd, size_t offset, int whence){
+	assert(fd < LENGTH(file_table));
+	size_t ret;
+	switch(whence){
+		case SEEK_SET:
+			if(offset < file_table[fd].size)
+				open_off[fd] = offset, ret = offset;
+			else
+				ret = -1;
+			break;
+		default:
+			panic("Should Not reach here");
+	}
+	return ret;
+}
+
+int fs_close(int fd){
+	assert(fd < LENGTH(file_table));
+	open_off[fd] = 0;
+	Log("Successfully close file: %s", file_table[fd].name);
+	return 0;
+}
+
+
 void init_fs() {
   // TODO: initialize the size of /dev/fb
 }
