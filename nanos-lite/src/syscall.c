@@ -101,7 +101,7 @@ void do_syscall(Context *c) {
 		c->gpr[10] = 0;
 		break;
 	case SYS_gettimeofday:
-		Log("syscall:%s 1st arg:%p 2nd arg:%p 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
+//		Log("syscall:%s 1st arg:%p 2nd arg:%p 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
 		c->gpr[10] = sys_gettime(a[1], a[2]);
 		c->mepc += 4;
 		break;
