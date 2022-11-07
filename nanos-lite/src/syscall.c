@@ -92,6 +92,9 @@ void do_syscall(Context *c) {
 		c->mepc += 4;
 		c->gpr[10] = 0;
 		break;
+	case SYS_gettimeofday:
+		Log("syscall:%s 1st arg:%p 2nd arg:%p 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
+		break;
 	default: panic("Unhandled syscall ID = %d", a[0]);
   }
 }
