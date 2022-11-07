@@ -9,9 +9,11 @@ typedef struct {
   size_t disk_offset;
   ReadFn read;
   WriteFn write;
-} Finfo;
+} Finfo; 
 
 enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB};
+
+size_t serial_write(const void *buf, size_t offset, size_t len);
 
 size_t invalid_read(void *buf, size_t offset, size_t len) {
   panic("should not reach here");
@@ -21,13 +23,13 @@ size_t invalid_read(void *buf, size_t offset, size_t len) {
 size_t invalid_write(const void *buf, size_t offset, size_t len) {
   panic("should not reach here");
   return 0;
-}
+} 
 
 /* This is the information about all files in disk. */
-static Finfo file_table[] __attribute__((used)) = {
+ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDIN]  = {"stdin", 0, 0, invalid_read, invalid_write},
-  [FD_STDOUT] = {"stdout", 0, 0, invalid_read, invalid_write},
-  [FD_STDERR] = {"stderr", 0, 0, invalid_read, invalid_write},
+  [FD_STDOUT] = {"stdout", 0, 0, invalid_read, serial_write},
+  [FD_STDERR] = {"stderr", 0, 0, invalid_read, serial_write},
 #include "files.h"
 };
 
@@ -37,9 +39,9 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 
 size_t ramdisk_write(const void *buf, size_t offset, size_t len); 
 
-int fs_open(const char *pathname, int flags, int mode){
+int fs_open(const char *pathname, int flags, int mode ){
 	int i = 0;
-	for(; i < LENGTH(file_table); ++i){
+	for(; i < LENGTH(file_table); ++i){ 
 		if(strcmp(pathname, file_table[i].name) == 0){
 			Log("Successfully open file: %s", pathname);
 			break;
@@ -51,7 +53,7 @@ int fs_open(const char *pathname, int flags, int mode){
 
 size_t fs_read(int fd, void *buf, size_t len){
 	assert(fd < LENGTH(file_table));
-//	printf("%d %d\n", open_off[fd], file_table[fd].size);
+//	printf("%d %d\n", open_off[fd], file_table[fd].size);	
 	if(open_off[fd] >= file_table[fd].size){
 		Log("Cross the boundary of file!");
 		return 0;
@@ -88,14 +90,19 @@ size_t fs_lseek(int fd, size_t offset, int whence){
 	return ret;
 }
 
-size_t fs_write(int fd, const void *buf, size_t len){
-	if(open_off[fd] + len - 1 >= file_table[fd].size){
-		Log("cross the file boundary, reshape len");
-		len = file_table[fd].size + 1 - open_off[fd];
+size_t fs_write(int fd, const void *buf, size_t len){ 
+	assert(fd < LENGTH(file_table));
+	if(file_table[fd].write == NULL){
+		if(open_off[fd] + len - 1 >= file_table[fd].size){
+			Log("cross the file boundary, reshape len");
+			len = file_table[fd].size + 1 - open_off[fd];
+		} 
+		size_t ret = ramdisk_write(buf, open_off[fd] + file_table[fd].disk_offset, len);
+		open_off[fd] += len;
+		return ret;
+	}else{
+		return file_table[fd].write(buf, 0, len);
 	}
-	size_t ret = ramdisk_write(buf, open_off[fd] + file_table[fd].disk_offset, len);
-	open_off[fd] += len;
-	return ret;
 }
 
 int fs_close(int fd){

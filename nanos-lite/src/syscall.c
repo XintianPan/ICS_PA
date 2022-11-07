@@ -41,12 +41,6 @@ size_t fs_write(int fd, const void *buf, size_t len);
 
 size_t fs_lseek(int fd, size_t offset, int whence);
 
-void mywrite(char *buf, uint32_t count){
-	uint32_t i = 0;
-	for(; i < count; ++i){
-		putch(*(buf + i));
-	} 
-}
 
 void do_syscall(Context *c) {
   uintptr_t a[5];
@@ -76,13 +70,8 @@ void do_syscall(Context *c) {
 		break;
 	case SYS_write: 
 	   	Log("syscall:%s 1st arg:%d 2nd arg:%p 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]); 
-		if(a[1] == 1 || a[1] == 2){
-		   	mywrite((char *)a[2], a[3]);
-			c->gpr[10] = a[3];
-		}else{
-			size_t ret = fs_write(a[1], (void *)a[2], a[3]);
-			c->gpr[10] = ret;
-		}
+		size_t ret = fs_write(a[1], (void *)a[2], a[3]);
+		c->gpr[10] = ret;
 	   	c->mepc += 4;  
 		break;
 	case SYS_close:
