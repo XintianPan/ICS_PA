@@ -30,6 +30,8 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 	if(ev.keycode == AM_KEY_NONE)
 		return 0;
 	else{
+		memset(buf, 0, len);
+		memset(events, 0, sizeof(events));
 		if(ev.keydown){
 			sprintf((char *)events, "kd %s\n", keyname[ev.keycode]);
 		}else{
