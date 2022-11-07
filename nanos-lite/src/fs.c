@@ -35,7 +35,7 @@ static size_t open_off[LENGTH(file_table)];
 
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 
-// size_t ramdisk_write(const void *buf, size_t offset, size_t len); 
+size_t ramdisk_write(const void *buf, size_t offset, size_t len); 
 
 int fs_open(const char *pathname, int flags, int mode){
 	int i = 0;
@@ -66,14 +66,28 @@ size_t fs_lseek(int fd, size_t offset, int whence){
 	size_t ret;
 	switch(whence){
 		case SEEK_SET:
-			if(offset < file_table[fd].size)
-				open_off[fd] = offset, ret = offset;
-			else
-				ret = -1;
+			open_off[fd] = offset, ret = offset;
+			break;
+		case SEEK_CUR:
+			open_off[fd] += offset; ret = open_off[fd];
+			break;
+		case SEEK_END:
+			open_off[fd] = file_table[fd].size - 1 + offset;
+			ret = open_off[fd];
 			break;
 		default:
 			panic("Should Not reach here");
 	}
+	return ret;
+}
+
+size_t fs_write(int fd, const void *buf, size_t len){
+	if(open_off[fd] + len - 1 >= file_table[fd].size){
+		Log("cross the file boundary, reshape len");
+		len = file_table[fd].size + 1 - open_off[fd];
+	}
+	size_t ret = ramdisk_write(buf, open_off[fd] + file_table[fd].disk_offset, len);
+	open_off[fd] += len;
 	return ret;
 }
 
