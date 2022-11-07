@@ -17,7 +17,7 @@ uint32_t NDL_GetTicks() {
 }
 
 int NDL_PollEvent(char *buf, int len) {
-  return 0;
+  return read(evtdev, buf, len);
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
@@ -44,7 +44,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {
-}
+} 
 
 void NDL_CloseAudio() {
 }
@@ -58,13 +58,14 @@ int NDL_QueryAudio() {
 }
 
 int NDL_Init(uint32_t flags) {
-	printf("reach\n");
 	if (getenv("NWM_APP")) {
 		evtdev = 3;
-		printf("Init_here\n");
+	}else{
+		evtdev = open("/dev/events", 0, 0);
 	}
 	return 0;
 }
 
 void NDL_Quit() {
+	close(evtdev);
 }
