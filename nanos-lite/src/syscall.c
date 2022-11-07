@@ -8,7 +8,7 @@
  * but if not being casted, it's simply treated as value!!!
  * */
 
-char *syscall_name[] = {
+static char *syscall_name[] = {
   "exit",
   "yield",
   "open",
