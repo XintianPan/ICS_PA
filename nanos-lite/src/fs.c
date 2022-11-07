@@ -51,6 +51,7 @@ int fs_open(const char *pathname, int flags, int mode){
 
 size_t fs_read(int fd, void *buf, size_t len){
 	assert(fd < LENGTH(file_table));
+	printf("%d %d\n", open_off[fd], file_table[fd].size);
 	if(open_off[fd] >= file_table[fd].size || open_off[fd] + len - 1 >= file_table[fd].size){
 		Log("Cross the boundary of file!");
 		return 0;
