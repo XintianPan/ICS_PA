@@ -41,6 +41,14 @@ size_t fs_write(int fd, const void *buf, size_t len);
 
 size_t fs_lseek(int fd, size_t offset, int whence);
 
+int sys_gettime(intptr_t tv, intptr_t tz){
+	int32_t *time_sets = (int32_t *)tv;
+	uint64_t usec = io_read(AM_TIMER_UPTIME).us;
+	uint64_t sec = usec / 1000000;
+	time_sets[0] = (int32_t) sec;
+	time_sets[1] = (int32_t) usec;
+	return 0;	
+}
 
 void do_syscall(Context *c) {
   uintptr_t a[5];
@@ -94,6 +102,8 @@ void do_syscall(Context *c) {
 		break;
 	case SYS_gettimeofday:
 		Log("syscall:%s 1st arg:%p 2nd arg:%p 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
+		c->gpr[10] = sys_gettime(a[1], a[2]);
+		c->mepc += 4;
 		break;
 	default: panic("Unhandled syscall ID = %d", a[0]);
   }
