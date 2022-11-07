@@ -1,21 +1,20 @@
 #include <stdio.h>
-#include <time.h>
-#include <sys/time.h>
+#include <stdint.h>
+#include <NDL.h>
 
 int main(){
-	struct timeval tv;
-	long pus, ous;
-	gettimeofday(&tv, NULL);
+	uint32_t pms, oms;
 	int i = 0;
-	pus = tv.tv_usec;
-	while(1){
-		gettimeofday(&tv, NULL);
-		ous = tv.tv_usec;
-		if((ous - pus) / 1000 >= 500){
+	NDL_Init(0);
+	pms = NDL_GetTicks();
+	while(1){ 
+		oms = NDL_GetTicks();
+	 	if((oms - pms)>= 500){
 			printf("Get here Man: %d!\n", i);
 			++i;
-			pus = ous;
+			pms = oms;
 		}
 	}
+	NDL_Quit();
 	return 0;
 }
