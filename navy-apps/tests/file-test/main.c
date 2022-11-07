@@ -5,7 +5,7 @@
 int main() {
   FILE *fp = fopen("/share/files/num", "r+");
   assert(fp);
-  printf("%ld %ld\n", sizeof(time_t), sizeof(suseconds_t));
+//  printf("%ld %ld\n", sizeof(time_t), sizeof(suseconds_t));
   fseek(fp, 0, SEEK_END);
   long size = ftell(fp);
   assert(size == 5000);
