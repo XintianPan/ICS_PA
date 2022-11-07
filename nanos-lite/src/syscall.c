@@ -42,11 +42,11 @@ size_t fs_write(int fd, const void *buf, size_t len);
 size_t fs_lseek(int fd, size_t offset, int whence);
 
 int sys_gettime(intptr_t tv, intptr_t tz){
-	int32_t *time_sets = (int32_t *)tv;
+	uint32_t *time_sets = (uint32_t *)tv;
 	uint64_t usec = io_read(AM_TIMER_UPTIME).us;
 	uint64_t sec = usec / 1000000;
-	time_sets[0] = (int32_t) sec;
-	time_sets[1] = (int32_t) usec;
+	time_sets[0] = (uint32_t) sec;
+	time_sets[1] = (uint32_t) usec;
 	return 0;	
 }
 
