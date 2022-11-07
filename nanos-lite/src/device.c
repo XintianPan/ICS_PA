@@ -39,7 +39,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 		char *w_buf = (char *)buf; 
 		for(; i < len && events[i]; ++i)
 			w_buf[i] = events[i];
-		return len;
+		return 1;
 	}
 }
 
