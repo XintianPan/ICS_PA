@@ -72,7 +72,7 @@ int NDL_Init(uint32_t flags) {
 		sscanf(wid, "%d", &screen_w);
 		strtok(NULL, ":");
 		char *h = strtok(NULL, "\n");
-		sscanf(wid, "%d", &screen_h);
+		sscanf(h, "%d", &screen_h);
 		printf("%d %d\n", screen_w, screen_h);
 	}
 	return 0;
