@@ -25,7 +25,7 @@ enum {
   reg_init,
   reg_count,
   reg_r, // fifo queue read pointer
-  reg_w, // fifo queue write pointer
+  reg_w, // fifo queue write pointer , should not affect read
   nr_reg
 };
 
