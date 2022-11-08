@@ -13,7 +13,7 @@ static int screen_w = 0, screen_h = 0;
 uint32_t NDL_GetTicks() {
 	struct timeval tv;
 	gettimeofday(&tv, 0);
-	uint32_t msec = (uint32_t)(tv.tv_usec / 1000);
+	uint32_t msec = (uint32_t)((uint32_t)tv.tv_usec / 1000);
 	return msec;
 }
 
@@ -22,7 +22,7 @@ int NDL_PollEvent(char *buf, int len) {
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
-  if (getenv("NWM_ APP")) {
+  if (getenv("NWM_ APP")) { 
     int fbctl = 4;
     fbdev = 5;
     screen_w = *w; screen_h = *h;
@@ -39,10 +39,10 @@ void NDL_OpenCanvas(int *w, int *h) {
     }
     close(fbctl);
   }else{
-    printf("cur size:%d %d\n", *w, *h);
+//    printf("cur size:%d %d\n", *w, *h);
 	if(*w == 0 && *h == 0){
 		*w = screen_w, *h = screen_h;
-		printf("reshpe size:%d %d\n", *w, *h);
+//		printf("reshpe size:%d %d\n", *w, *h);
 	}
   }
 }
