@@ -22,7 +22,7 @@ int NDL_PollEvent(char *buf, int len) {
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
-  if (getenv("NWM_APP")) {
+  if (getenv("NWM_ APP")) {
     int fbctl = 4;
     fbdev = 5;
     screen_w = *w; screen_h = *h;
@@ -30,7 +30,7 @@ void NDL_OpenCanvas(int *w, int *h) {
     int len = sprintf(buf, "%d %d", screen_w, screen_h);
     // let NWM resize the window and create the frame buffer
     write(fbctl, buf, len);
-    while (1) {
+    while (1) { 
       // 3 = evtdev
       int nread = read(3, buf, sizeof(buf) - 1);
       if (nread <= 0) continue;
@@ -38,6 +38,12 @@ void NDL_OpenCanvas(int *w, int *h) {
       if (strcmp(buf, "mmap ok") == 0) break;
     }
     close(fbctl);
+  }else{
+    printf("%d %d\n", *w, *h);
+	if(*w == 0 && *h == 0){
+		*w = screen_w, *h = screen_h;
+		printf("%d %d\n", *w, *h);
+	}
   }
 }
 
@@ -66,14 +72,13 @@ int NDL_Init(uint32_t flags) {
 		char buf[64];
 		int fd = open("/proc/dispinfo", 0, 0);
 		read(fd, buf, sizeof(buf));
-		printf("%s\n", buf);
 		strtok(buf, ":");
 		char *wid = strtok(NULL, "\n");
 		sscanf(wid, "%d", &screen_w);
 		strtok(NULL, ":");
-		char *h = strtok(NULL, "\n");
-		sscanf(h, "%d", &screen_h);
-		printf("%d %d\n", screen_w, screen_h);
+		char *hei = strtok(NULL, "\n");
+		sscanf(hei, "%d", &screen_h);
+		close(fd);
 	}
 	return 0;
 }
