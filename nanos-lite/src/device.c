@@ -17,6 +17,8 @@ static int w = 0;
 
 static int h = 0;
 
+uint32_t fb_buf[400 * 300];
+
 static const char *keyname[256] __attribute__((used)) = {
   [AM_KEY_NONE] = "NONE",
   AM_KEYS(NAME)
@@ -63,12 +65,19 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-    if(len == 0){ // use len = 0 to specify the input of w and h from canvas 
+    if(len == 0){ // use le n = 0 to specify the input of w and h from canvas 
 		int *arr = (int *)buf;
 		w = arr[0];
 		h = arr[1];
+		return 0;
+	}else{
+		offset /= sizeof(uint32_t);
+		int x = offset % 400;
+		int y = offset / 400;
+		memcpy(fb_buf, buf, len);
+		io_write(AM_GPU_FBDRAW, x, y, fb_buf, w, h, true);
+		return len;
 	}
-	return 0;
 }
 
 void init_device() {
