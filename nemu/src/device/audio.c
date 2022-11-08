@@ -27,7 +27,7 @@ enum {
   nr_reg
 };
 
-static uint32_t r_pointer = 0;
+static uint32_t r_ptr = 0;
 static uint8_t *sbuf = NULL;
 static uint32_t *audio_base = NULL;
 
@@ -36,11 +36,11 @@ static void audio_pla(void *userdata, uint8_t *stream, int len){
 	if(audio_base[reg_count] > 0){
 		if(audio_base[reg_count] < len) nread = audio_base[reg_count];
 		int i = 0;
-		for(; i < nread; ++i) stream[i] = sbuf[(i + r_pointer) % CONFIG_SB_SIZE];
+		for(; i < nread; ++i) stream[i] = sbuf[(i + r_ptr) % CONFIG_SB_SIZE];
 		if(nread < len) memset(stream + nread, 0, len - nread);
 		i = 0;
 		audio_base[reg_count] -= nread;
-		r_pointer = (r_pointer + nread) % CONFIG_SB_SIZE;
+		r_ptr = (r_ptr + nread) % CONFIG_SB_SIZE;
 	}else{
 		memset(stream, 0, len);
 	} 
@@ -59,7 +59,7 @@ static void audio_io_handler(uint32_t offset, int len, bool is_write) {
 		audio_base[reg_count] = 0;
 //		audio_base[reg_r] = 0;
 //		audio_base[reg_w] = 0;
-		audio_base[reg_init] = 0;
+		audio_base[reg_init] = 1;
 		SDL_InitSubSystem(SDL_INIT_AUDIO);
 		SDL_OpenAudio(&s, NULL);
 		SDL_PauseAudio(0);
