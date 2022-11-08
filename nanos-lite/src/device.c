@@ -13,6 +13,10 @@ static char events[64];
 
 static char *dispinfo_mes = "WIDTH : 400\n""HEIGHT : 300\n";
 
+static int w = 0;
+
+static int h = 0;
+
 static const char *keyname[256] __attribute__((used)) = {
   [AM_KEY_NONE] = "NONE",
   AM_KEYS(NAME)
@@ -59,7 +63,12 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  return 0;
+    if(len == 0){ // use len = 0 to specify the input of w and h from canvas 
+		int *arr = (int *)buf;
+		w = arr[0];
+		h = arr[1];
+	}
+	return 0;
 }
 
 void init_device() {
