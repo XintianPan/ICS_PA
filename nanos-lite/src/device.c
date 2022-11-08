@@ -69,6 +69,7 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
 		int *arr = (int *)buf;
 		w = arr[0];
 		h = arr[1];
+		printf("%d %d\n", w, h);
 		return 0;
 	}else{
 		offset /= sizeof(uint32_t);

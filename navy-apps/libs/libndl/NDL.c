@@ -9,6 +9,7 @@
 static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
+int wh_mes[2];
 
 uint32_t NDL_GetTicks() {
 	struct timeval tv;
@@ -44,6 +45,9 @@ void NDL_OpenCanvas(int *w, int *h) {
 		*w = screen_w, *h = screen_h;
 //		printf("reshpe size:%d %d\n", *w, *h);
 	}
+	wh_mes[0] = *w;
+	wh_mes[0] = *h;
+	write(fbdev, wh_mes, 0);
   }
 }
 
