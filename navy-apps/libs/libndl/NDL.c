@@ -69,6 +69,7 @@ int NDL_Init(uint32_t flags) {
 		evtdev = 3;
 	}else{
 		evtdev = open("/dev/events", 0, 0);
+		fbdev = open("/dev/fb", 0, 0);
 		char buf[64];
 		int fd = open("/proc/dispinfo", 0, 0);
 		read(fd, buf, sizeof(buf));
@@ -85,4 +86,7 @@ int NDL_Init(uint32_t flags) {
 
 void NDL_Quit() {
 	close(evtdev);
+	evtdev = -1;
+	close(fbdev);
+	fbdev = -1;
 }
