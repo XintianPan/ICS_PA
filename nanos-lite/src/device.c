@@ -11,6 +11,8 @@
 
 static char events[64];
 
+static char *dispinfo_mes = "WIDTH : 400\n""HEIGHT : 300\n";
+
 static const char *keyname[256] __attribute__((used)) = {
   [AM_KEY_NONE] = "NONE",
   AM_KEYS(NAME)
@@ -43,10 +45,17 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 			w_buf[i] = events[i];
 		return 1;
 	}
-}
+} 
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
-  return 0;
+	size_t slen = sizeof(dispinfo_mes);	
+	size_t i = 0;
+	char *wbuf = (char *)buf;
+	for(; i < slen && i < len; ++i)
+		*(wbuf + i) = *(dispinfo_mes + i);
+	for(; i < len; ++i)
+		*(wbuf + i) = '\0';
+	return i;
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
