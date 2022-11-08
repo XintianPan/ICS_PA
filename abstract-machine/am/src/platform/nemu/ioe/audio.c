@@ -11,6 +11,7 @@
 //#define AUDIO_WRITE_ADDR     (AUDIO_ADDR + 0x1c) // this can avoid interfering with read
 
 static uint32_t w_ptr = 0;
+
 static uint32_t sb_size = 0;
 
 void __am_audio_init() {
