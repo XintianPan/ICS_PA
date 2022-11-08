@@ -114,7 +114,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
 		open_off[fd] += len;
 		return ret;
 	}else{
-		return file_table[fd].write(buf, 0, len);
+		return file_table[fd].write(buf, open_off[fd], len);
 	}
 }
 
