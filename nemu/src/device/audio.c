@@ -22,7 +22,7 @@ enum {
   reg_channels,
   reg_samples,
   reg_sbuf_size,
-  reg_init,
+  reg_init, // add register may cause undefined error(free), remove it
   reg_count,
   nr_reg
 };
