@@ -39,6 +39,6 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
 		outb(AUDIO_SBUF_ADDR + (w + i) % sb_size, *s);
 		++s;
 	}
-	outl(AUDIO_WRITE_ADDR, w + len);
+	outl(AUDIO_WRITE_ADDR, (w + len) % sb_size);
 	outl(AUDIO_COUNT_ADDR, inl(AUDIO_COUNT_ADDR) + len);
 }
