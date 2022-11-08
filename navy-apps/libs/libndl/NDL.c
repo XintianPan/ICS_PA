@@ -46,7 +46,7 @@ void NDL_OpenCanvas(int *w, int *h) {
 //		printf("reshpe size:%d %d\n", *w, *h);
 	}
 	wh_mes[0] = *w;
-	wh_mes[0] = *h;
+	wh_mes[1] = *h;
 	write(fbdev, wh_mes, 0);
   }
 }
