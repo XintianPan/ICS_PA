@@ -8,7 +8,7 @@
 #define AUDIO_INIT_ADDR      (AUDIO_ADDR + 0x10)
 #define AUDIO_COUNT_ADDR     (AUDIO_ADDR + 0x14)
 #define AUDIO_READ_ADDR      (AUDIO_ADDR + 0x18)
-#define AUDIO_WRITE_ADDR     (AUDIO_ADDR + 0x1c)
+#define AUDIO_WRITE_ADDR     (AUDIO_ADDR + 0x1c) // this can avoid interfering with read
 
 void __am_audio_init() {
 }
