@@ -48,7 +48,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 } 
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
-	size_t slen = sizeof(dispinfo_mes);	
+	size_t slen = strlen(dispinfo_mes);	
 	size_t i = 0;
 	char *wbuf = (char *)buf;
 	for(; i < slen && i < len; ++i)
