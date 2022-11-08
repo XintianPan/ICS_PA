@@ -66,6 +66,7 @@ int NDL_Init(uint32_t flags) {
 		char buf[64];
 		int fd = open("/proc/dispinfo", 0, 0);
 		read(fd, buf, sizeof(buf));
+		printf("%s\n", buf);
 		strtok(buf, ":");
 		char *wid = strtok(buf, "\n");
 		sscanf(wid, "%d", &screen_w);
