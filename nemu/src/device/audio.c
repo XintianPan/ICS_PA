@@ -24,31 +24,32 @@ enum {
   reg_sbuf_size,
   reg_init,
   reg_count,
-  reg_r, // fifo queue read pointer
-  reg_w, // fifo queue write pointer , should not affect read
+//  reg_r, // fifo queue read pointer
+//  reg_w, // fifo queue write pointer , should not affect read
   nr_reg
 };
 
+static uint32_t r_pointer = 0;
 static uint8_t *sbuf = NULL;
 static uint32_t *audio_base = NULL;
 
 static void audio_pla(void *userdata, uint8_t *stream, int len){
 	int nread = len;
 	if(audio_base[reg_count] > 0){
-		if(audio_base[reg_count] < len) nread = audio_base[reg_r];
+		if(audio_base[reg_count] < len) nread = audio_base[reg_count];
 		int i = 0;
-		for(; i < nread; ++i) stream[i] = sbuf[(i + audio_base[reg_r]) % CONFIG_SB_SIZE];
+		for(; i < nread; ++i) stream[i] = sbuf[(i + r_pointer) % CONFIG_SB_SIZE];
 		if(nread < len) memset(stream + nread, 0, len - nread);
 		i = 0;
 		audio_base[reg_count] -= nread;
-		audio_base[reg_r] = (audio_base[reg_r] + nread) % CONFIG_SB_SIZE;
+		r_pointer = (r_pointer + nread) % CONFIG_SB_SIZE;
 	}else{
 		memset(stream, 0, len);
 	}
 }
 
 static void audio_io_handler(uint32_t offset, int len, bool is_write) {
-	if(is_write && offset == 16){
+	if(is_write && offset == 16 && len == 1){
 		SDL_AudioSpec s = {};
 		s.format = AUDIO_S16SYS;
 		s.userdata = NULL;
@@ -58,8 +59,8 @@ static void audio_io_handler(uint32_t offset, int len, bool is_write) {
 		s.callback = audio_pla;
 		audio_base[reg_sbuf_size] = CONFIG_SB_SIZE;
 		audio_base[reg_count] = 0;
-		audio_base[reg_r] = 0;
-		audio_base[reg_w] = 0;
+//		audio_base[reg_r] = 0;
+//		audio_base[reg_w] = 0;
 		SDL_InitSubSystem(SDL_INIT_AUDIO);
 		SDL_OpenAudio(&s, NULL);
 		SDL_PauseAudio(0);
