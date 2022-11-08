@@ -63,6 +63,16 @@ int NDL_Init(uint32_t flags) {
 		evtdev = 3;
 	}else{
 		evtdev = open("/dev/events", 0, 0);
+		char buf[64];
+		int fd = open("/proc/dispinfo", 0, 0);
+		read(fd, buf, sizeof(buf));
+		strtok(buf, ":");
+		char *wid = strtok(buf, "\n");
+		sscanf(wid, "%d", &screen_w);
+		strtok(buf, ":");
+		char *h = strtok(buf, "\n");
+		sscanf(wid, "%d", &screen_h);
+		printf("%d %d\n", screen_w, screen_h);
 	}
 	return 0;
 }
