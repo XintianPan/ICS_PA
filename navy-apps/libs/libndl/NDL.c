@@ -68,10 +68,10 @@ int NDL_Init(uint32_t flags) {
 		read(fd, buf, sizeof(buf));
 		printf("%s\n", buf);
 		strtok(buf, ":");
-		char *wid = strtok(buf, "\n");
+		char *wid = strtok(NULL, "\n");
 		sscanf(wid, "%d", &screen_w);
-		strtok(buf, ":");
-		char *h = strtok(buf, "\n");
+		strtok(NULL, ":");
+		char *h = strtok(NULL, "\n");
 		sscanf(wid, "%d", &screen_h);
 		printf("%d %d\n", screen_w, screen_h);
 	}
