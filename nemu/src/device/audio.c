@@ -24,8 +24,6 @@ enum {
   reg_sbuf_size,
   reg_init,
   reg_count,
-//  reg_r, // fifo queue read pointer
-//  reg_w, // fifo queue write pointer , should not affect read
   nr_reg
 };
 
@@ -45,7 +43,7 @@ static void audio_pla(void *userdata, uint8_t *stream, int len){
 		r_pointer = (r_pointer + nread) % CONFIG_SB_SIZE;
 	}else{
 		memset(stream, 0, len);
-	}
+	} 
 }
 
 static void audio_io_handler(uint32_t offset, int len, bool is_write) {
@@ -64,7 +62,7 @@ static void audio_io_handler(uint32_t offset, int len, bool is_write) {
 		SDL_InitSubSystem(SDL_INIT_AUDIO);
 		SDL_OpenAudio(&s, NULL);
 		SDL_PauseAudio(0);
-	} 
+	}  
 }
 
 void init_audio() {
