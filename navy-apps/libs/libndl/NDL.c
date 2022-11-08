@@ -39,10 +39,10 @@ void NDL_OpenCanvas(int *w, int *h) {
     }
     close(fbctl);
   }else{
-    printf("%d %d\n", *w, *h);
+    printf("cur size:%d %d\n", *w, *h);
 	if(*w == 0 && *h == 0){
 		*w = screen_w, *h = screen_h;
-		printf("%d %d\n", *w, *h);
+		printf("reshpe size:%d %d\n", *w, *h);
 	}
   }
 }
