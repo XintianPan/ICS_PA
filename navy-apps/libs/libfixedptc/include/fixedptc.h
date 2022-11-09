@@ -157,8 +157,12 @@ static inline fixedpt fixedpt_floor(fixedpt A) {
 
 static inline fixedpt fixedpt_ceil(fixedpt A) {
 	uint32_t frac = A & FIXEDPT_FMASK;
-	int32_t add_frac = FIXEDPT_FMASK - frac;
-	return A + add_frac;
+	if(frac){
+		int32_t add_frac = FIXEDPT_ONE - frac;
+		return A + add_frac;
+	}else{
+		return A;
+	}
 }
 
 /*

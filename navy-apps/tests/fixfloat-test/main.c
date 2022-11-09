@@ -18,5 +18,11 @@ int main(){
 //	assert(fixedpt_ceil(a) == fixedpt_rconst(2));
 //	assert(fixedpt_ceil(b) == fixedpt_rconst(-1));
 	assert(fixedpt_floor(b) == fixedpt_rconst(-2));
+	assert(fixedpt_ceil(a) == fixedpt_rconst(2));
+	assert(fixedpt_ceil(c) == fixedpt_rconst(0));
+	assert(fixedpt_ceil(d) == fixedpt_rconst(1));
+	assert(fixedpt_ceil(e) == fixedpt_rconst(-1));
+	assert(fixedpt_ceil(f) == fixedpt_rconst(101));
+	assert(fixedpt_ceil(g) == fixedpt_rconst(-1001));
 	return 0;
 }
