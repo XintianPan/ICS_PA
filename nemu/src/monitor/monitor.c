@@ -140,7 +140,7 @@ static void fetch_elf() {
 static int parse_args(int argc, char *argv[]) {
    const struct option table[] = {
     {"batch"    , no_argument      , NULL, 'b'},
-	{"catch"    , required_argument, NULL, 'c'},
+	{"elf"		, required_argument, NULL, 'e'},
 	{"log"      , required_argument, NULL, 'l'},
     {"diff"     , required_argument, NULL, 'd'},
     {"port"     , required_argument, NULL, 'p'},
