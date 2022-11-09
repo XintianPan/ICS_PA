@@ -23,6 +23,6 @@ int main(){
 	assert(fixedpt_ceil(d) == fixedpt_rconst(1));
 	assert(fixedpt_ceil(e) == fixedpt_rconst(-1));
 	assert(fixedpt_ceil(f) == fixedpt_rconst(101));
-	assert(fixedpt_ceil(g) == fixedpt_rconst(-1001));
+	assert(fixedpt_ceil(g) == fixedpt_rconst(-1002));
 	return 0;
 }
