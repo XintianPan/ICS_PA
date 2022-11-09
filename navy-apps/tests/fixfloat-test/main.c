@@ -24,7 +24,7 @@ int main(){
 	assert(fixedpt_ceil(e) == fixedpt_rconst(-1));
 	assert(fixedpt_ceil(f) == fixedpt_rconst(101));
 	assert(fixedpt_ceil(g) == fixedpt_rconst(-1002));
-	assert(fixedpt_mul(a, b) == fixedpt_rconst(-2.25));
+	assert(fixedpt_mul(a, fixedpt_abs(b)) == fixedpt_rconst(2.25));
 	assert(fixedpt_div(a, b) == fixedpt_rconst(-1));
 	assert(fixedpt_muli(a, 10) == fixedpt_rconst(15));
 	return 0;
