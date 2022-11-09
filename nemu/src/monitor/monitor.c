@@ -51,7 +51,7 @@ static char *log_file = NULL;
 static char *diff_so_file = NULL;
 static char *img_file = NULL;
 #ifdef CONFIG_FTRACE
-static char elf_file[256];
+static char *elf_file = NULL;
 #endif
 static int difftest_port = 1234;
 
@@ -149,7 +149,6 @@ static int parse_args(int argc, char *argv[]) {
   };
   int o;
   while ( (o = getopt_long(argc, argv, "-bhl:d:p:", table, NULL)) != -1) {
-    printf("%c\n", o);
     switch (o) {
       case 'b': sdb_set_batch_mode(); break;
       case 'p': sscanf(optarg, "%d", &difftest_port); break;
@@ -161,9 +160,6 @@ static int parse_args(int argc, char *argv[]) {
 				break;
       case 'd': diff_so_file = optarg; break;
       case 1: img_file = optarg;
-#ifdef CONFIG_FTRACE
-			  gen_elf();
-#endif 
 			  return 0;
       default:
         printf("Usage: %s [OPTION...] IMAGE [args]\n\n", argv[0]);
