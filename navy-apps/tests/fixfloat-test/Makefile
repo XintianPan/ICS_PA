@@ -1,4 +1,4 @@
 NAME = time-test
 SRCS = main.c
-LIBS += libndl
+LIBS += libndl libfixedptc
 include $(NAVY_HOME)/Makefile
