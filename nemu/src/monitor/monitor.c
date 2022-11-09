@@ -55,15 +55,6 @@ static char elf_file[256];
 #endif
 static int difftest_port = 1234;
 
-#ifdef CONFIG_FTRACE
-static void gen_elf(){
-	strcpy(elf_file, img_file);
-	size_t len = strlen(elf_file);
-	strcpy(elf_file + len - 3, "elf");
-	puts(elf_file);
-}
-#endif
-
 static long load_img() {
   if (img_file == NULL) {
     Log("No image is given. Use the default build-in image.");
@@ -150,7 +141,7 @@ static int parse_args(int argc, char *argv[]) {
    const struct option table[] = {
     {"batch"    , no_argument      , NULL, 'b'},
 	{"catch"    , required_argument, NULL, 'c'},
-    {"log"      , required_argument, NULL, 'l'},
+	{"log"      , required_argument, NULL, 'l'},
     {"diff"     , required_argument, NULL, 'd'},
     {"port"     , required_argument, NULL, 'p'},
     {"help"     , no_argument      , NULL, 'h'},
@@ -163,7 +154,11 @@ static int parse_args(int argc, char *argv[]) {
       case 'b': sdb_set_batch_mode(); break;
       case 'p': sscanf(optarg, "%d", &difftest_port); break;
       case 'l': log_file = optarg; break;
-	  case 'c': printf("got this!\n"); break;
+	  case 'c': 
+#ifdef CONFIG_FTRACE
+				elf_file = optarg;
+#endif				
+				break;
       case 'd': diff_so_file = optarg; break;
       case 1: img_file = optarg;
 #ifdef CONFIG_FTRACE
