@@ -152,12 +152,7 @@ static inline fixedpt fixedpt_abs(fixedpt A) {
 
 static inline fixedpt fixedpt_floor(fixedpt A) {
 	uint32_t frac = A & FIXEDPT_FMASK;
-	if(frac){
-		A = A & FIXEDPT_FMASK;
-		return A - FIXEDPT_ONE; // if the fraction part is not equal to zero, the floor should be A - 1
-	}else{
-		return A; // when the fraction part is zero, just return itself
-	}
+	return A - frac;
 }
 
 static inline fixedpt fixedpt_ceil(fixedpt A) {
