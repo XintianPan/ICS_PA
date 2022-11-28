@@ -44,7 +44,7 @@ static void sh_handle_cmd(const char *cmd) {
 	strcpy(buf, cmd);
 	char *cmd_name = strtok(buf, " ");
 	char *args;
-	args = buf + strlen(cmd_name);
+	args = buf + strlen(cmd_name) + 1;
 	if(args >= buf + 255) args = NULL;
 	for(int i = 0; i < CMD_LEN; ++i){
 		if(strcmp(builtin_cmd[i].name, cmd_name) == 0){ builtin_cmd[i].handler(args); return;}
