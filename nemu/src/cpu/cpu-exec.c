@@ -166,7 +166,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
-  if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
+  if (1) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
 #ifdef CONFIG_WATCHPOINT	
   if (ifchange()) {nemu_state.state = NEMU_STOP; return;}
 #endif
