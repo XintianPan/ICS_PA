@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>
-
+#include <stdio.h>
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
@@ -21,6 +21,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   int dh = dst->h;
   for(int i = 0; i < sh; ++i){
 	for(int j = 0; j < sw; ++j){
+		printf("%p\n", &dstpix[dx + j + dw * (dy + i)]);
 		dstpix[dx + j + dw * (dy + i)] = srcpix[sx + j + sw * (sy + i)];
 	}
   }
