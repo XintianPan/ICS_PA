@@ -21,7 +21,7 @@ static int builtin_echo(char *arg){
 }
 
 static int builtin_help(char *arg){
-	sh_printf("help\necho");
+	sh_printf("help\necho\n");
 	return 0;
 }
 
@@ -49,7 +49,7 @@ static void sh_handle_cmd(const char *cmd) {
 	char *cmd_name = strtok(buf, " ");
 	char *args;
 	args = buf + strlen(cmd_name) + 1;
-	if(args >= buf + 255) args = NULL;
+	if(args >= buf + 255) args = NULL, cmd_name = strtok(cmd_name,"\n");
 	for(int i = 0; i < CMD_LEN; ++i){
 		printf("%s %s\n", cmd_name, builtin_cmd[i].name);
 		if(strcmp(builtin_cmd[i].name, cmd_name) == 0){ builtin_cmd[i].handler(args); return;}
