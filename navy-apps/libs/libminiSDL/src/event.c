@@ -14,7 +14,23 @@ int SDL_PushEvent(SDL_Event *ev) {
 }
 
 int SDL_PollEvent(SDL_Event *ev) {
-  return 0;
+  	char buf[64];
+	int i = 0;
+	if(NDL_PollEvent(buf, 64) == 0) return 0;
+	char *kev;
+	char *key_name;
+	kev = strtok(buf, " ");
+	key_name = strtok(NULL, " ");
+	if(strcmp(kev, "kd") == 0)  ev->key.type = SDL_KEYDOWN;
+    else 	ev->key.type = SDL_KEYUP;
+    int len = sizeof(keyname) / sizeof(keyname[0]);
+//	printf("%s\n", key_name);
+ 	for(; i < len; ++i){
+//		printf("%s\n", keyname[i]);
+		if(strcmp(keyname[i], key_name) == 0) break;
+	} 	
+	ev->key.keysym.sym = i;
+	return 1;
 }
 
 int SDL_WaitEvent(SDL_Event *event) {
