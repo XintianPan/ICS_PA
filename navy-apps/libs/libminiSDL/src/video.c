@@ -3,15 +3,10 @@
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
+
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
-  printf("%d\n", src->format->BitsPerPixel);
-  printf("%d\n", src->format->BytesPerPixel);
-  printf("%d %d %d %d\n", src->format->Rloss, src->format->Gloss, src->format->Bloss, src->format->Aloss);
-  printf("%d %d %d %d\n", src->format->Rshift, src->format->Gshift, src->format->Bshift, src->format->Ashift);
-  printf("%d %d %d %d\n", src->format->Rmask, src->format->Gmask, src->format->Bmask, src->format->Amask);
   uint32_t * srcpix = (uint32_t *)src->pixels;
   uint32_t * dstpix = (uint32_t *)dst->pixels;
   int dx, dy;
