@@ -5,8 +5,6 @@
 
 char handle_key(SDL_Event *ev);
 
-static int builtin_help(char *arg);
-
 static void sh_printf(const char *format, ...) {
   static char buf[256] = {};
   va_list ap;
@@ -18,6 +16,11 @@ static void sh_printf(const char *format, ...) {
 
 static int builtin_echo(char *arg){
 	sh_printf("%s", arg);
+	return 0;
+}
+
+static int builtin_help(char *arg){
+	sh_printf("help\necho");
 	return 0;
 }
 
@@ -50,15 +53,6 @@ static void sh_handle_cmd(const char *cmd) {
 		if(strcmp(builtin_cmd[i].name, cmd_name) == 0){ builtin_cmd[i].handler(args); return;}
 	}
 }
-
-static int builtin_help(char *arg){
-	sh_printf("here");
-	for(int i = 0; i < CMD_LEN; ++i){
-		sh_printf("%s\n", builtin_cmd[i].name);
-	}
-	return 0;
-}
-
 void builtin_sh_run() {
   sh_banner();
   sh_prompt();
