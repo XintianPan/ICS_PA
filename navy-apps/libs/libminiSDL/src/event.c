@@ -29,9 +29,9 @@ int SDL_WaitEvent(SDL_Event *event) {
     else 	event->key.type = SDL_KEYUP;
     int len = sizeof(keyname) / sizeof(keyname[0]);
 	i = 0;
-	printf("%s\n", key_name);
-	for(; i < len; ++i){
-		printf("%s\n", keyname[i]);
+//	printf("%s\n", key_name);
+ 	for(; i < len; ++i){
+//		printf("%s\n", keyname[i]);
 		if(strcmp(keyname[i], key_name) == 0) break;
 	}	
 	event->key.keysym.sym = i;
