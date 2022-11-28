@@ -16,7 +16,8 @@ static void sh_printf(const char *format, ...) {
 }
 
 static int builtin_echo(char *arg){
-	sh_printf("%s", arg);
+	if(arg == NULL) sh_printf("\n");
+	else sh_printf("%s", arg);
 	return 0;
 }
 
