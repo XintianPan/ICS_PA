@@ -71,6 +71,7 @@ void  *_sbrk(intptr_t increment) {
 	int rec = (int)_syscall_(SYS_brk, 0, (intptr_t)(&cur_addr), increment);
 	if(rec == 0){
 		void *old = (void *)temp;
+		printf("%p\n", (void *)temp);
 		return old;
 	}else{
 		return (void *)-1;
