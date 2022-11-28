@@ -17,7 +17,7 @@ static void sh_printf(const char *format, ...) {
 }
 
 static int builtin_echo(char *arg){
-	sh_printf("%s\n", arg);
+	sh_printf("%s", arg);
 	return 0;
 }
 
@@ -52,6 +52,7 @@ static void sh_handle_cmd(const char *cmd) {
 }
 
 static int builtin_help(char *arg){
+	sh_printf("here");
 	for(int i = 0; i < CMD_LEN; ++i){
 		sh_printf("%s\n", builtin_cmd[i].name);
 	}
