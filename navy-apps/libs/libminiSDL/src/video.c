@@ -9,20 +9,31 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
   uint32_t * srcpix = (uint32_t *)src->pixels;
   uint32_t * dstpix = (uint32_t *)dst->pixels;
-  int dx, dy;
-  if(dstrect == NULL) dx = dy = 0;
-  else dx = dstrect->x, dy = dstrect->y;
-  int sx, sy;
-  if(srcrect == NULL) sx = sy = 0;
-  else sx = srcrect->x, sy = srcrect->y;
-  int sw = src->w;
-  int sh = src->h;
-  int dw = dst->w;
-  int dh = dst->h;
-  for(int i = 0; i < sh; ++i){
-	for(int j = 0; j < sw; ++j){
-		printf("%p\n", &dstpix[dx + j + dw * (dy + i)]);
-		dstpix[dx + j + dw * (dy + i)] = srcpix[sx + j + sw * (sy + i)];
+  int sx = (srcrect == NULL ? 0 : srcrect->x);
+  int sy = (srcrect == NULL ? 0 : srcrect->y);
+  int dx = (dstrect == NULL ? 0 : dstrect->x);
+  int dy = (dstrect == NULL ? 0 : dstrect->x);
+  int w = (srcrect == NULL ? src->w : srcrect->w);
+  int h = (srcrect == NULL ? src->h : srcrect->h);
+  if(sx < 0) { w += sx; dx -= sx; sx = 0;}
+  if(sy < 0) { h += sy; dy -= sy; sy = 0;}
+  if(dx < 0) { w += dx; sx -= dx; dx = 0;}
+  if(dy < 0) { h += dy; sy -= dy; dy = 0;}
+  if(sx >= src->w) return;
+  if(sy >= src->h) return;
+  if(dx >= dst->w) return;
+  if(dy >= dst->h) return;
+  if(src->w - sx < w) { w = src->w - sx;}
+  if(src->h - sy < h) { h = src->h - sy;}
+  if(dst->w - dx < w) { w = dst->w - dx;}
+  if(dst->h - dy < h) { h = dst->h - dy;}
+  if(dstrect != NULL){
+	dstrect->w = w;
+	dstrect->h = h;
+  }
+  for(int i = 0; i < h; ++i){
+	for(int j = 0; j < w; ++j){
+		dstpix[dx + j + dst->w * (dy + i)] = srcpix[sx + j + src->w * (sy + i)];
 	}
   }
 }
