@@ -65,7 +65,8 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-    if(len == 0){ // use le n = 0 to specify the input of w and h from canvas 
+    printf("fb address: %p\n", fb_buf);
+	if(len == 0){ // use le n = 0 to specify the input of w and h from canvas 
 		int *arr = (int *)buf;
 		w = arr[0];
 		h = arr[1];
