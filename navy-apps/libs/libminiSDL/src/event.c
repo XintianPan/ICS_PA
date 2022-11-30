@@ -13,7 +13,8 @@ static const char *keyname[] = {
 };
 
 int SDL_PushEvent(SDL_Event *ev) {
-  return 0;
+	assert(0);
+	return 0;
 }
 
 int SDL_PollEvent(SDL_Event *ev) {
