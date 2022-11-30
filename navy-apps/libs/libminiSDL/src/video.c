@@ -110,7 +110,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 		uint32_t * pix = (uint32_t *)malloc(sizeof(uint32_t) * s->pitch);
 		uint8_t * index = (uint8_t *)s->pixels;
 		for(int i = 0; i < s->pitch; ++i)
-			pix[i] = s->format->palette->colors[index[i]].val, printf("0x%08x\n", s->format->palette->colors[index[i]].val);
+			pix[i] = s->format->palette->colors[index[i]].val;
 		NDL_DrawRect(pix, x, y, w, h);
 		free(pix);
 	}
