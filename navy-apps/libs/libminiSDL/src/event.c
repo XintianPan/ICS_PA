@@ -64,7 +64,7 @@ int SDL_PeepEvents(SDL_Event *ev, int numevents, int action, uint32_t mask) {
 }
 
 uint8_t* SDL_GetKeyState(int *numkeys) {
-	size_t size = (*numkeys == 0) ? sizeof(keyname) / sizeof(keyname[0]) : *numkeys;
+	size_t size = (numkeys == NULL) ? sizeof(keyname) / sizeof(keyname[0]) : *numkeys;
 	uint8_t *arr = (uint8_t *)malloc(sizeof(uint8_t) * size);
 	memset(arr, 0, sizeof(uint8_t) * size);
 	char buf[64];
