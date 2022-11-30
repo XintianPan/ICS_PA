@@ -42,22 +42,22 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 	  }
 	}
   }else if(dst->format->BitsPerPixel == 8){
-    uint32_t src_color;
-	uint8_t dst_color;
-	int k;
+//    uint32_t src_color;
+//	uint8_t dst_color;
+//	int k;
 	uint8_t *srcp = (uint8_t *)src->pixels;
 	uint8_t *dstp = (uint8_t *)dst->pixels;
 	for(int i = 0; i < h; ++i){
 	  for(int j = 0; j < w; ++j){
-	    src_color = src->format->palette->colors[srcp[sx + j + src->w * (sy + i)]].val;
+/*	    src_color = src->format->palette->colors[srcp[sx + j + src->w * (sy + i)]].val;
 		k = 0;
 		for(; k < dst->format->palette->ncolors; ++k){ 
 		  if(src_color == dst->format->palette->colors[k].val)
 		    break;	
 		}
 		assert(k < dst->format->palette->ncolors);
-	    dst_color = (uint8_t)k;
-		dstp[dx + j + dst->w * (dy + i)] = dst_color;
+	    dst_color = (uint8_t)k; */
+		dstp[dx + j + dst->w * (dy + i)] = srcp[sx + j + src->w * (sy + i)];
 	  }
 	}
   }
