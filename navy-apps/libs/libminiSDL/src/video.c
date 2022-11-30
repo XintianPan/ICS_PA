@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
+  puts("bilt here");
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
 //  uint32_t * srcpix = (uint32_t *)src->pixels;
@@ -60,9 +61,11 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 	  }
 	}
   }
+  puts("end blit");
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
+	puts("fill here");
 	assert(dst != NULL);
 	int w = (dstrect == NULL ? dst->w : dstrect->w);
 	int h = (dstrect == NULL ? dst->h : dstrect->h);
@@ -95,10 +98,12 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 				dstp[dx + j + dst->w * (dy + i)] = rel;
 		  	}
 		}  
-	}	 
+	}
+	puts("end fill");	
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
+	puts("update here");
 	if(s->format->BitsPerPixel == 32)
 		NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
 	else if(s->format->BitsPerPixel == 8){ 
@@ -109,6 +114,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 		NDL_DrawRect(pixels, x, y, w, h);
 		free(pixels);
 	}
+	puts("end update");
 }
 
 // APIs below are already implemented.
