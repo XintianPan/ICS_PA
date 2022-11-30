@@ -76,6 +76,7 @@ int NDL_QueryAudio() {
 }
 
 int NDL_Init(uint32_t flags) {
+	puts("what");
 	if (getenv("NWM_APP")) {
 		evtdev = 3;
 	}else{
@@ -92,6 +93,7 @@ int NDL_Init(uint32_t flags) {
 		sscanf(hei, "%d", &screen_h);
 		close(fd);
 	}
+	printf("???\n");
 	return 0;
 }
 
