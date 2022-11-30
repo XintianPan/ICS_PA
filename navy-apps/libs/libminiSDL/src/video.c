@@ -106,7 +106,8 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 	puts("update here");
 	if(s->format->BitsPerPixel == 32)
 		NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
-	else if(s->format->BitsPerPixel == 8){ 
+	else if(s->format->BitsPerPixel == 8){
+	    printf("%d %d %d %d\n", s->format->Rshift, s->format->Gshift, s->format->Bshift, s->format->Ashift);	
 		uint32_t * pix = (uint32_t *)malloc(sizeof(uint32_t) * s->pitch);
 		uint8_t * index = (uint8_t *)s->pixels;
 		for(int i = 0; i < s->pitch; ++i)
