@@ -119,6 +119,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 		uint8_t * index = (uint8_t *)s->pixels;
 		uint32_t color = 0;
 		uint32_t temp = 0;
+		printf("para:%d %d %d %d\n", x, y, w, h);
 		for(int i = 0; i < s->pitch; ++i){
 			color = 0;
 			temp = (uint32_t)s->format->palette->colors[index[i]].r;
