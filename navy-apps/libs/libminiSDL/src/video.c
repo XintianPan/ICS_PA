@@ -115,6 +115,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
  	else if(s->format->BitsPerPixel == 8){
 	    printf("%d %d %d %d\n", s->format->Rshift, s->format->Gshift, s->format->Bshift, s->format->Ashift);	
 		uint32_t * pix = (uint32_t *)malloc(sizeof(uint32_t) * s->pitch);
+		memset(pix, 0, sizeof(uint32_t) * s->pitch);
 		uint8_t * index = (uint8_t *)s->pixels;
 		uint32_t color = 0;
 		uint32_t temp = 0;
@@ -130,6 +131,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 			color |= temp;
 			color = 0;
 			pix[i] = color;
+			printf("pix:%d\n", pix[i]);
 		}
 		NDL_DrawRect(pix, x, y, w, h);
 		free(pix);
