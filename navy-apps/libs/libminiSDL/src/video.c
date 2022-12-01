@@ -113,15 +113,16 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 	if(s->format->BitsPerPixel == 32)
 		NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
  	else if(s->format->BitsPerPixel == 8){
-	    printf("%d %d %d %d\n", s->format->Rshift, s->format->Gshift, s->format->Bshift, s->format->Ashift);	
-		uint32_t * pix = (uint32_t *)malloc(sizeof(uint32_t) * s->pitch);
+	    printf("%d %d %d %d\n", s->format->Rshift, s->format->Gshift, s->format->Bshift, s->format->Ashift);
+		if(x == 0 && y == 0 && w == 0 && h == 0) w = 400, h = 300;	
+		uint32_t * pix = (uint32_t *)malloc(sizeof(uint32_t) * (w - x) * (h - y));
 		memset(pix, 0, sizeof(uint32_t) * s->pitch);
 		printf("pitch:%d\n", s->pitch);
 		uint8_t * index = (uint8_t *)s->pixels;
 		uint32_t color = 0;
 		uint32_t temp = 0;
 		printf("para:%d %d %d %d\n", x, y, w, h);
-		for(int i = 0; i < s->pitch; ++i){
+		for(int i = 0; i < (w - x) * (h - y); ++i){
 			color = 0;
 			temp = (uint32_t)s->format->palette->colors[index[i]].r;
 			temp <<= 16;
@@ -131,7 +132,6 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 			color |= temp;
 			temp = (uint32_t)s->format->palette->colors[index[i]].b;
 			color |= temp;
-			color = 0;
 			pix[i] = color;
 			printf("pix:%d\n", pix[i]);
 		}

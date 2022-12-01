@@ -37,19 +37,19 @@ void NDL_OpenCanvas(int *w, int *h) {
       if (nread <= 0) continue;
       buf[nread] = '\0';
       if (strcmp(buf, "mmap ok") == 0) break;
-    }
+     }
     close(fbctl);
   }else{
 //    printf("cur size:%d %d\n", *w, *h);
 	if(*w == 0 && *h == 0){
 		*w = screen_w, *h = screen_h;
 //		printf("reshpe size:%d %d\n", *w, *h);
-	}
+	 }
 	wh_mes[0] = *w;
 	wh_mes[1] = *h;
 	write(fbdev, wh_mes, 0);
-  }
-}
+   }
+} 
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
 	if(x == 0 && y == 0 && w == 0 && h == 0) w = screen_w, h = screen_h;
