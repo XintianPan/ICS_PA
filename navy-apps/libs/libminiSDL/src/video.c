@@ -116,14 +116,14 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 		printf("x:%d y:%d w:%d h:%d\n", x, y, w, h);
 //	    printf("%d %d %d %d\n", s->format->Rshift, s->format->Gshift, s->format->Bshift, s->format->Ashift);
 		if(x == 0 && y == 0 && w == 0 && h == 0) w = 400, h = 300;	
-		uint32_t * pix = (uint32_t *)malloc(sizeof(uint32_t) * (w - x) * (h - y));
+		uint32_t * pix = (uint32_t *)malloc(sizeof(uint32_t) * w * h);
 		memset(pix, 0, sizeof(uint32_t) * s->pitch);
 //		printf("pitch:%d\n", s->pitch);
 		uint8_t * index = (uint8_t *)s->pixels;
 		uint32_t color = 0;
 		uint32_t temp = 0;
 //		printf("para:%d %d %d %d\n", x, y, w, h);
- 		for(int i = 0; i < (w - x) * (h - y); ++i){
+ 		for(int i = 0; i < w * h; ++i){
 			color = 0;
 			temp = (uint32_t)s->format->palette->colors[index[i]].r;
 			temp <<= 16;
