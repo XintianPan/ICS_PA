@@ -106,12 +106,24 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 	puts("update here");
 	if(s->format->BitsPerPixel == 32)
 		NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
-	else if(s->format->BitsPerPixel == 8){
+ 	else if(s->format->BitsPerPixel == 8){
 	    printf("%d %d %d %d\n", s->format->Rshift, s->format->Gshift, s->format->Bshift, s->format->Ashift);	
 		uint32_t * pix = (uint32_t *)malloc(sizeof(uint32_t) * s->pitch);
 		uint8_t * index = (uint8_t *)s->pixels;
-		for(int i = 0; i < s->pitch; ++i)
-			pix[i] = s->format->palette->colors[index[i]].val;
+		uint32_t color = 0;
+		uint32_t temp = 0;
+		for(int i = 0; i < s->pitch; ++i){
+			color = 0;
+			temp = (uint32_t)s->format->palette->colors[index[i]].r;
+			temp <<= 16;
+			color |= temp;
+			temp = (uint32_t)s->format->palette->colors[index[i]].g;
+			temp <<= 8;
+			color |= temp;
+			temp = (uint32_t)s->format->palette->colors[index[i]].b;
+			color |= temp;
+			pix[i] = color;
+		}
 		NDL_DrawRect(pix, x, y, w, h);
 		free(pix);
 	}
@@ -134,7 +146,7 @@ static inline int maskToShift(uint32_t mask) {
 SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int depth,
     uint32_t Rmask, uint32_t Gmask, uint32_t Bmask, uint32_t Amask) {
   assert(depth == 8 || depth == 32);
-  printf("here :%d %d %d %d\n", Rmask, Gmask, Bmask, Amask);
+//  printf("here :%d %d %d %d\n", Rmask, Gmask, Bmask, Amask);
   SDL_Surface *s = malloc(sizeof(SDL_Surface));
   assert(s);
   s->flags = flags;
