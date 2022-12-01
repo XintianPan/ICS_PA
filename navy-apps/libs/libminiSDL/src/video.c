@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
-  puts("bilt here");
+//  puts("bilt here");
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
 //  uint32_t * srcpix = (uint32_t *)src->pixels;
@@ -67,11 +67,11 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 	  }
 	}
   }
-  puts("end blit");
+//  puts("end blit");
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
-	puts("fill here");
+//	puts("fill here");
 	assert(dst != NULL);
 	int w = (dstrect == NULL ? dst->w : dstrect->w);
 	int h = (dstrect == NULL ? dst->h : dstrect->h);
@@ -105,24 +105,24 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 		  	}
 		}  
 	}
-	puts("end fill");	
+//	puts("end fill");	
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
-	puts("update here");
+//	puts("update here");
 	if(s->format->BitsPerPixel == 32)
 		NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
- 	else if(s->format->BitsPerPixel == 8){
-	    printf("%d %d %d %d\n", s->format->Rshift, s->format->Gshift, s->format->Bshift, s->format->Ashift);
+  	else if(s->format->BitsPerPixel == 8){
+//	    printf("%d %d %d %d\n", s->format->Rshift, s->format->Gshift, s->format->Bshift, s->format->Ashift);
 		if(x == 0 && y == 0 && w == 0 && h == 0) w = 400, h = 300;	
 		uint32_t * pix = (uint32_t *)malloc(sizeof(uint32_t) * (w - x) * (h - y));
 		memset(pix, 0, sizeof(uint32_t) * s->pitch);
-		printf("pitch:%d\n", s->pitch);
+//		printf("pitch:%d\n", s->pitch);
 		uint8_t * index = (uint8_t *)s->pixels;
 		uint32_t color = 0;
 		uint32_t temp = 0;
-		printf("para:%d %d %d %d\n", x, y, w, h);
-		for(int i = 0; i < (w - x) * (h - y); ++i){
+//		printf("para:%d %d %d %d\n", x, y, w, h);
+ 		for(int i = 0; i < (w - x) * (h - y); ++i){
 			color = 0;
 			temp = (uint32_t)s->format->palette->colors[index[i]].r;
 			temp <<= 16;
@@ -133,12 +133,12 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 			temp = (uint32_t)s->format->palette->colors[index[i]].b;
 			color |= temp;
 			pix[i] = color;
-			printf("pix:%d\n", pix[i]);
+//			printf("pix:%d\n", pix[i]);
 		}
 		NDL_DrawRect(pix, x, y, w, h);
 		free(pix);
 	}
-	puts("end update");
+//	puts("end update");
 }
 
 // APIs below are already implemented.
