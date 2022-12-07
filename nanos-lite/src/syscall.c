@@ -97,7 +97,7 @@ void do_syscall(Context *c) {
 //		Log("syscall:%s 1st arg:%d 2nd arg:%p 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
 //		Log("%x", *(int*)a[2]);
 	    *(int *)a[2] = *(int*)a[2] + a[3];
-		Log("%x", *(int*)a[2]);
+//		Log("%x", *(int*)a[2]);
 		c->mepc += 4;
 		c->gpr[10] = 0;
 		break;
