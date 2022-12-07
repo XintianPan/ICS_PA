@@ -7,7 +7,7 @@
  * it can be casted to a pointer
  * but if not being casted, it's simply treated as value!!!
  * */
-
+/*
 static char *syscall_name[] = {
   "exit",
   "yield",
@@ -30,6 +30,7 @@ static char *syscall_name[] = {
   "times",
   "gettimeofday"
 };
+*/
 
 int fs_open(const char *pathname, int flags, int mode);
 
@@ -59,15 +60,15 @@ void do_syscall(Context *c) {
   a[4] = c->GPRx; //a0 used for return
    switch (a[0]) {
 	case SYS_exit:
-	   	Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
+//	   	Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
 	   	halt(a[1]);
 	   	break;
 	case SYS_yield: 
-		Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
+//		Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
 		yield(); 
 		c->mepc += 4; c->gpr[10] = 0; break;
 	case SYS_open:
-		Log("syscall:%s 1st arg:%s 2nd arg:%d 3rd arg:%d", syscall_name[a[0]],(char *)a[1], a[2], a[3]);
+//		Log("syscall:%s 1st arg:%s 2nd arg:%d 3rd arg:%d", syscall_name[a[0]],(char *)a[1], a[2], a[3]);
 		c->gpr[10] = fs_open((char *)a[1], (int)a[2], (int)a[3]);
 		c->mepc += 4;
 		break;
@@ -83,18 +84,18 @@ void do_syscall(Context *c) {
 	   	c->mepc += 4;  
 		break;
 	case SYS_close:
-		Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
+//		Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
 		c->gpr[10] = fs_close(a[1]);
 		c->mepc += 4;
 		break;
 	case SYS_lseek:
-		Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
+//		Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
 		c->gpr[10] = fs_lseek(a[1], a[2], a[3]);
 		c->mepc += 4;
 		break;
 	case SYS_brk:
-		Log("syscall:%s 1st arg:%d 2nd arg:%p 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
-		Log("%x", *(int*)a[2]);
+//		Log("syscall:%s 1st arg:%d 2nd arg:%p 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
+//		Log("%x", *(int*)a[2]);
 	    *(int *)a[2] = *(int*)a[2] + a[3];
 		Log("%x", *(int*)a[2]);
 		c->mepc += 4;
