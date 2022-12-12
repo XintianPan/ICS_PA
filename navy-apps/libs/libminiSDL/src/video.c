@@ -120,7 +120,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 		memset(pix, 0, sizeof(uint32_t) * w * h);
 //		printf("pitch:%d\n", s->pitch);
 		uint8_t * index = (uint8_t *)s->pixels;
-		printf("pixels:%p\n", s->pixels);
+//		printf("pixels:%p\n", s->pixels);
 		uint32_t color = 0;
 		uint32_t temp = 0;
 //		printf("para:%d %d %d %d\n", x, y, w, h);
@@ -136,7 +136,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 			color |= temp;
 			pix[i] = color;
 //			printf("pix:%d\n", pix[i]);
-		}
+ 		}
 		NDL_DrawRect(pix, x, y, w, h);
 		free(pix);
 	}
@@ -153,7 +153,7 @@ static inline int maskToShift(uint32_t mask) {
     case 0xff000000: return 24;
     case 0x00000000: return 24; // hack
     default: assert(0);
-  }
+   }
 }
 
 SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int depth,
@@ -178,7 +178,7 @@ SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int dep
     s->format->Gmask = Gmask; s->format->Gshift = maskToShift(Gmask); s->format->Gloss = 0;
     s->format->Bmask = Bmask; s->format->Bshift = maskToShift(Bmask); s->format->Bloss = 0;
     s->format->Amask = Amask; s->format->Ashift = maskToShift(Amask); s->format->Aloss = 0;
-  }
+   }
 
   s->format->BitsPerPixel = depth;
   s->format->BytesPerPixel = depth / 8;
@@ -269,7 +269,7 @@ void SDL_SetPalette(SDL_Surface *s, int flags, SDL_Color *colors, int firstcolor
       uint8_t b = colors[i].b;
     }
     SDL_UpdateRect(s, 0, 0, 0, 0);
-  }
+  } 
 }
 
 static void ConvertPixelsARGB_ABGR(void *dst, void *src, int len) {
