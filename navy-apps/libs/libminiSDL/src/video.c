@@ -54,7 +54,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 	}
 */	
 	printf("dst & src:%d %d\n", dst->w, src->w);
-	printf("%d\n", dst->w * dst->h);
+	printf("%d %d\n", dst->w * dst->h, w * h);
 	printf("dst: %d %d src: %d %d\n", dx, dy, sx, sy);
 	uint8_t *srcp = (uint8_t *)src->pixels;
 	uint8_t *dstp = (uint8_t *)dst->pixels;
