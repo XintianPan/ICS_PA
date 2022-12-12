@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
-puts("bilt here");
+//puts("bilt here");
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
 //  uint32_t * srcpix = (uint32_t *)src->pixels;
@@ -78,7 +78,7 @@ puts("bilt here");
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
-	puts("fill here");
+//	puts("fill here");
 	assert(dst != NULL);
 	int w = (dstrect == NULL ? dst->w : dstrect->w);
 	int h = (dstrect == NULL ? dst->h : dstrect->h);
