@@ -23,6 +23,7 @@ int SDL_PollEvent(SDL_Event *ev) {
 	if(NDL_PollEvent(buf, 64) == 0) return 0;
 	char *kev;
 	char *key_name;
+	printf("%s\n", buf);
 	kev = strtok(buf, " ");
 	key_name = strtok(NULL, " ");
 	if(strcmp(kev, "kd") == 0)  ev->key.type = SDL_KEYDOWN;
