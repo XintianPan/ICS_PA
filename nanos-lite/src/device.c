@@ -41,6 +41,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 	else{
 		memset(events, 0, sizeof(events));
 		if(ev.keydown){
+			Log("ok here");
 			sprintf((char *)events, "kd %s", keyname[ev.keycode]);
 		}else{
 			sprintf((char *)events, "ku %s", keyname[ev.keycode]);
