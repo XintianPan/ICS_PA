@@ -12,6 +12,8 @@ static const char *keyname[] = {
   _KEYS(keyname)
 };
 
+uint8_t key_arr[sizeof(keyname) / sizeof(keyname[0])];
+
 int SDL_PushEvent(SDL_Event *ev) {
 	assert(0);
 	return 0;
@@ -35,6 +37,8 @@ int SDL_PollEvent(SDL_Event *ev) {
 		if(strcmp(keyname[i], key_name) == 0) break;
 	} 	
 	ev->key.keysym.sym = i;
+	if(ev->key.type = SDL_KEYDOWN) key_arr[i] = 1;
+	else key_arr[i] = 0;
 	return 1;
 }
 
@@ -51,7 +55,7 @@ int SDL_WaitEvent(SDL_Event *event) {
     int len = sizeof(keyname) / sizeof(keyname[0]);
 	i = 0;
 //	printf("%s\n", key_name);
- 	for( ; i < len; ++i){
+ 	for( ; i < len; ++i){ 
 //		printf("%s\n", keyname[i]);
 		if(strcmp(keyname[i], key_name) == 0) break;
 	}	
@@ -65,17 +69,18 @@ int SDL_PeepEvents(SDL_Event *ev, int numevents, int action, uint32_t mask) {
 }
 
 uint8_t* SDL_GetKeyState(int *numkeys) {
-	size_t size = (numkeys == NULL) ? sizeof(keyname) / sizeof(keyname[0]) : *numkeys;
-	uint8_t *arr = (uint8_t *)malloc(sizeof(uint8_t) * size);
-	memset(arr, 0, sizeof(uint8_t) * size);
-	SDL_Event ev;
+//	size_t size = (numkeys == NULL) ? sizeof(keyname) / sizeof(keyname[0]) : *numkeys;
+//	uint8_t *arr = (uint8_t *)malloc(sizeof(uint8_t) * size);
+//	memset(arr, 0, sizeof(uint8_t) * size);
+//	SDL_Event ev;
 	puts("use this function");
-	if(SDL_PollEvent(&ev) == 0)
-		return arr;
-	else{ 
-		if(ev.key.type = SDL_KEYDOWN)
-		arr[ev.key.keysym.sym] = 1;
-		printf("SDL_Space:%d\n", arr[SDLK_SPACE]);
-		return arr;
-	}
+	return key_arr;
+//	if(SDL_PollEvent(&ev) == 0)
+//		return arr;
+ //	else{ 
+//		if(ev.key.type = SDL_KEYDOWN)
+//		arr[ev.key.keysym.sym] = 1;
+//		printf("SDL_Space:%d\n", arr[SDLK_SPACE]);
+//		return arr;
+//	}
 }
