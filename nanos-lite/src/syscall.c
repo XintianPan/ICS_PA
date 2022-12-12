@@ -62,7 +62,7 @@ void do_syscall(Context *c) {
    switch (a[0]) {
 	case SYS_exit:
 //	   	Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
-	   	halt(a[1]);
+	   	naive_uload(NULL, "/bin/menu");
 	   	break;
 	case SYS_yield: 
 //		Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
