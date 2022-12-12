@@ -45,12 +45,12 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 //    uint32_t src_color;
 //	uint8_t dst_color;
 //	int k;
-//    for(int i = 0; i < src->format->palette->ncolors; ++i){
-//      printf("src color: %d 0x%02x 0x%02x 0x%02x\n", i, src->format->palette->colors[i].r, src->format->palette->colors[i].g, src->format->palette->colors[i].b);
-//	}
-//	for(int i = 0; i < dst->format->palette->ncolors; ++i){
-  //    printf("dst color: %d 0x%02x 0x%02x 0x%02x\n", i, dst->format->palette->colors[i].r, dst->format->palette->colors[i].g, dst->format->palette->colors[i].b);
-//	}
+    for(int i = 0; i < src->format->palette->ncolors; ++i){
+      printf("src color: %d 0x%02x 0x%02x 0x%02x\n", i, src->format->palette->colors[i].r, src->format->palette->colors[i].g, src->format->palette->colors[i].b);
+	}
+	for(int i = 0; i < dst->format->palette->ncolors; ++i){
+    printf("dst color: %d 0x%02x 0x%02x 0x%02x\n", i, dst->format->palette->colors[i].r, dst->format->palette->colors[i].g, dst->format->palette->colors[i].b);
+	}
 	uint8_t *srcp = (uint8_t *)src->pixels;
 	uint8_t *dstp = (uint8_t *)dst->pixels;
 	for(int i = 0; i < h; ++i){
