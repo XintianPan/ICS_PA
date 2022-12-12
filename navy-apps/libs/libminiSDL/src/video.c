@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
-//  puts("bilt here");
+puts("bilt here");
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
 //  uint32_t * srcpix = (uint32_t *)src->pixels;
@@ -36,6 +36,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   if(dst->format->BitsPerPixel == 32){
     uint32_t * srcpix = (uint32_t *)src->pixels;
     uint32_t * dstpix = (uint32_t *)dst->pixels;
+	puts("come here");
     for(int i = 0; i < h; ++i){ 
 	  for(int j = 0; j < w; ++j) {
 	    dstpix[dx + j + dst->w * (dy + i)] = srcpix[sx + j + src->w * (sy + i)];
@@ -53,9 +54,9 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     printf("dst color: %d 0x%02x 0x%02x 0x%02x\n", i, dst->format->palette->colors[i].r, dst->format->palette->colors[i].g, dst->format->palette->colors[i].b);
 	}
 */	
-	printf("dst & src:%d %d\n", dst->w, src->w);
-	printf("%d %d\n", dst->w * dst->h, w * h);
-	printf("dst: %d %d src: %d %d\n", dx, dy, sx, sy);
+//	printf("dst & src:%d %d\n", dst->w, src->w);
+//	printf("%d %d\n", dst->w * dst->h, w * h);
+//	printf("dst: %d %d src: %d %d\n", dx, dy, sx, sy);
 	uint8_t *srcp = (uint8_t *)src->pixels;
 	uint8_t *dstp = (uint8_t *)dst->pixels;
 	for(int i = 0; i < h; ++i){
