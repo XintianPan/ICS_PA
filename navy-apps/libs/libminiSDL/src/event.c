@@ -68,6 +68,7 @@ uint8_t* SDL_GetKeyState(int *numkeys) {
 	uint8_t *arr = (uint8_t *)malloc(sizeof(uint8_t) * size);
 	memset(arr, 0, sizeof(uint8_t) * size);
 	SDL_Event ev;
+	puts("use this function");
 	if(SDL_PollEvent(&ev) == 0)
 		return arr;
 	else{ 
