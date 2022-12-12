@@ -71,7 +71,9 @@ uint8_t* SDL_GetKeyState(int *numkeys) {
 	if(SDL_PollEvent(&ev) == 0)
 		return arr;
 	else{ 
+		if(ev.key.type = SDL_KEYDOWN)
 		arr[ev.key.keysym.sym] = 1;
+		printf("SDL_Space:%d\n", arr[SDLK_SPACE]);
 		return arr;
 	}
 }
