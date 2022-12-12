@@ -12,7 +12,7 @@ static const char *keyname[] = {
   _KEYS(keyname)
 };
 
-uint8_t key_arr[sizeof(keyname) / sizeof(keyname[0])];
+uint8_t key_arr[256];
 
 int SDL_PushEvent(SDL_Event *ev) {
 	assert(0);
@@ -39,8 +39,9 @@ int SDL_PollEvent(SDL_Event *ev) {
 	} 	
 	ev->key.keysym.sym = i;
 	printf("%d %d\n", i, SDLK_SPACE);
-	if(ev->key.type == SDL_KEYDOWN) key_arr[i] = 1, puts("here");
+	if(strcmp(kev, "kd") == 0) key_arr[i] = 1, puts("here");
 	else key_arr[i] = 0;
+	puts("reach here");
 	return 1;
 }
 
