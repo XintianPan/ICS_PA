@@ -115,7 +115,7 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 			if(color == test)
 				break;
 		} 
-		assert(i < dst->format->palette->ncolors);
+		if(i >= dst->format->palette->ncolors) return;
 		rel = (uint8_t)i;
 		for(i = 0; i < h; ++i){
 			for(int j = 0; j < w; ++j){
