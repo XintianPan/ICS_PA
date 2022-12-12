@@ -36,7 +36,7 @@ puts("bilt here");
   if(dst->format->BitsPerPixel == 32){
     uint32_t * srcpix = (uint32_t *)src->pixels;
     uint32_t * dstpix = (uint32_t *)dst->pixels;
-	puts("come here");
+//	puts("come here");
     for(int i = 0; i < h; ++i){ 
 	  for(int j = 0; j < w; ++j) {
 	    dstpix[dx + j + dst->w * (dy + i)] = srcpix[sx + j + src->w * (sy + i)];
