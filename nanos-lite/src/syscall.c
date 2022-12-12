@@ -1,4 +1,4 @@
-#include <common.h>
+#include <proc.h>
 #include "syscall.h"
 
 /*
@@ -31,6 +31,7 @@ static char *syscall_name[] = {
   "gettimeofday"
 };
 */
+void naive_uload(PCB *pcb, const char *filename); 
 
 int fs_open(const char *pathname, int flags, int mode);
 
@@ -105,6 +106,9 @@ void do_syscall(Context *c) {
 //		Log("syscall:%s 1st arg:%p 2nd arg:%p 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
 		c->gpr[10] = sys_gettime(a[1], a[2]);
 		c->mepc += 4;
+		break;
+	case SYS_execve:
+		naive_uload(NULL, (char *)a[1]);	
 		break;
 	default: panic("Unhandled syscall ID = %d", a[0]);
   }
