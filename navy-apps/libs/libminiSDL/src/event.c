@@ -37,7 +37,8 @@ int SDL_PollEvent(SDL_Event *ev) {
 		if(strcmp(keyname[i], key_name) == 0) break;
 	} 	
 	ev->key.keysym.sym = i;
-	if(ev->key.type = SDL_KEYDOWN) key_arr[i] = 1;
+	printf("%d %d\n", i, SDLK_SPACE);
+	if(ev->key.type = SDL_KEYDOWN) key_arr[i] = 1, puts("here");
 	else key_arr[i] = 0;
 	return 1;
 }
