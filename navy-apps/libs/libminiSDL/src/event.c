@@ -74,6 +74,7 @@ uint8_t* SDL_GetKeyState(int *numkeys) {
 //	memset(arr, 0, sizeof(uint8_t) * size);
 //	SDL_Event ev;
 	puts("use this function");
+	printf("%d\n", key_arr[SDLK_SPACE]);
 	return key_arr;
 //	if(SDL_PollEvent(&ev) == 0)
 //		return arr;
