@@ -99,8 +99,19 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 		int i = 0;
 		uint8_t *dstp = (uint8_t *)dst->pixels;
 		assert(dst->format->palette->ncolors <= 256);
+		uint32_t temp = 0;
+		uint32_t test = 0;
 		for(; i  < dst->format->palette->ncolors; ++i){
-			if(color == dst->format->palette->colors[i].val)
+			test = 0;
+			temp = (uint32_t)dst->format->palette->colors[i].r;
+			temp <<= 16;
+			test |= temp;
+			temp = (uint32_t)dst->format->palette->colors[i].g;
+			temp <<= 8;
+			test |= temp;
+			temp = (uint32_t)dst->format->palette->colors[i].b;
+			test |= temp;
+			if(color == temp)
 				break;
 		} 
 		assert(i < dst->format->palette->ncolors);
