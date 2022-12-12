@@ -27,6 +27,7 @@ int SDL_PollEvent(SDL_Event *ev) {
 	char *key_name;
 	printf("%s\n", buf);
 	kev = strtok(buf, " ");
+	printf("cmp rel:%d\n", strcmp(kev, "kd"));
 	key_name = strtok(NULL, " ");
 	if(strcmp(kev, "kd") == 0)  ev->key.type = SDL_KEYDOWN;
     else 	ev->key.type = SDL_KEYUP;
