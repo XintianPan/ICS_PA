@@ -77,7 +77,7 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
 		offset /= sizeof(uint32_t);
 		int x = offset % 400;
 		int y = offset / 400;
-//		printf("%d %d\n", x, y);
+		Log("%d %d", x, y);
 		memcpy(fb_buf, buf, len);
 		io_write(AM_GPU_FBDRAW, x, y, fb_buf, w, h, true);
 		return len;
