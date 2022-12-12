@@ -29,7 +29,7 @@ int SDL_PollEvent(SDL_Event *ev) {
     else 	ev->key.type = SDL_KEYUP;
     int len = sizeof(keyname) / sizeof(keyname[0]);
 //	printf("%s\n", key_name);
- 	for(; i < len; ++i){
+ 	for(; i < len; ++i){ 
 //		printf("%s\n", keyname[i]);
 		if(strcmp(keyname[i], key_name) == 0) break;
 	} 	
@@ -67,26 +67,11 @@ uint8_t* SDL_GetKeyState(int *numkeys) {
 	size_t size = (numkeys == NULL) ? sizeof(keyname) / sizeof(keyname[0]) : *numkeys;
 	uint8_t *arr = (uint8_t *)malloc(sizeof(uint8_t) * size);
 	memset(arr, 0, sizeof(uint8_t) * size);
-	char buf[64];
-	if(NDL_PollEvent(buf, 64) == 0)
+	SDL_Event ev;
+	if(SDL_PollEvent(&ev) == 0)
 		return arr;
 	else{ 
-		char *kev;
-		char *key_name;
-		kev = strtok(buf, " ");
-		key_name = strtok(NULL, " ");
-		if(strcmp(kev, "ku") == 0) return arr;
-		else{
-			int len = sizeof(keyname) / sizeof(keyname[0]);
-			int i = 0;
-			for(; i < len; ++i){
-				if(strcmp(keyname[i], key_name) == 0) break;
-		 	}
-			if(i >= size) return arr;
-			else{
-				arr[i] = 1;
-				return arr;
-		 	}
-		} 
+		arr[ev.key.keysym.sym] = 1;
+		return arr;
 	}
 }
