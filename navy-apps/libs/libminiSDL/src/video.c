@@ -68,6 +68,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 		assert(k < dst->format->palette->ncolors);
  	    dst_color = (uint8_t)k; */
 		dstp[dx + j + dst->w * (dy + i)] = srcp[sx + j + src->w * (sy + i)];
+		printf("%d %d\n", dx + j + dst->w * (dy + i), sx + j + src->w * (sy + i));
  	  }
  	}
    }
