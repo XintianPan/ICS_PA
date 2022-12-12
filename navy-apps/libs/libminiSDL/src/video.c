@@ -111,6 +111,7 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 			test |= temp;
 			temp = (uint32_t)dst->format->palette->colors[i].b;
 			test |= temp;
+			printf("%d %d\n", color, test);
 			if(color == test)
 				break;
 		} 
