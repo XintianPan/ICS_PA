@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
-  puts("bilt here");
+//  puts("bilt here");
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
 //  uint32_t * srcpix = (uint32_t *)src->pixels;
@@ -45,12 +45,16 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 //    uint32_t src_color;
 //	uint8_t dst_color;
 //	int k;
-    for(int i = 0; i < src->format->palette->ncolors; ++i){
+/*
+  	  for(int i = 0; i < src->format->palette->ncolors; ++i){
       printf("src color: %d 0x%02x 0x%02x 0x%02x\n", i, src->format->palette->colors[i].r, src->format->palette->colors[i].g, src->format->palette->colors[i].b);
-	}
+	} 
 	for(int i = 0; i < dst->format->palette->ncolors; ++i){
     printf("dst color: %d 0x%02x 0x%02x 0x%02x\n", i, dst->format->palette->colors[i].r, dst->format->palette->colors[i].g, dst->format->palette->colors[i].b);
 	}
+*/	
+	printf("dst & src:%d %d\n", dst->w, src->w);
+	printf("dst: %d %d src: %d %d\n", dx, dy, sx, sy);
 	uint8_t *srcp = (uint8_t *)src->pixels;
 	uint8_t *dstp = (uint8_t *)dst->pixels;
 	for(int i = 0; i < h; ++i){
@@ -62,11 +66,11 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 		    break;	
 		}
 		assert(k < dst->format->palette->ncolors);
-	    dst_color = (uint8_t)k; */
+ 	    dst_color = (uint8_t)k; */
 		dstp[dx + j + dst->w * (dy + i)] = srcp[sx + j + src->w * (sy + i)];
-	  }
-	}
-  }
+ 	  }
+ 	}
+   }
 //  puts("end blit");
 }
 
