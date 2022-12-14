@@ -51,6 +51,16 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 
 size_t ramdisk_write(const void *buf, size_t offset, size_t len); 
 
+bool file_check(const char *pathname){
+	for(int i = 0; i < LENGTH(file_table); ++i){
+		if(strcmp(pathname, file_table[i].name) == 0){
+			return true;
+		}
+	}
+	return false;
+}
+
+
 int fs_open(const char *pathname, int flags, int mode ){
 	int i = 0;
 	for(; i < LENGTH(file_table); ++i){ 

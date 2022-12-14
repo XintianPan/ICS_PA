@@ -31,6 +31,9 @@ static char *syscall_name[] = {
   "gettimeofday"
 };
 */
+
+bool file_check(const char *pathname);
+
 void naive_uload(PCB *pcb, const char *filename); 
 
 int fs_open(const char *pathname, int flags, int mode);
@@ -108,7 +111,10 @@ void do_syscall(Context *c) {
 		c->mepc += 4;
 		break;
 	case SYS_execve:
-		naive_uload(NULL, (char *)a[1]);	
+		if(file_check((char *)a[1]))
+			naive_uload(NULL, (char *)a[1]);
+		else
+			c->gpr[10] = -1, c->mepc += 4;	
 		break;
 	default: panic("Unhandled syscall ID = %d", a[0]);
   }

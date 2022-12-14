@@ -55,11 +55,16 @@ static void sh_handle_cmd(const char *cmd) {
 		printf("%s %s\n", cmd_name, builtin_cmd[i].name);
 		if(strcmp(builtin_cmd[i].name, cmd_name) == 0){ builtin_cmd[i].handler(args); return;}
 	}
+	strcpy(buf, cmd);
+	int l = strlen(cmd);
+	buf[l - 1] = '\0';
+	char * file_name = strtok(buf, " ");
+	if(execvp(file_name, NULL) == -1) sh_printf("file %s does not exists!", file_name);
 }
 void builtin_sh_run() {
   sh_banner();
   sh_prompt();
-
+  setenv("PATH","/bin", 1);
   while (1) {
     SDL_Event ev;
     if (SDL_PollEvent(&ev)) {
