@@ -25,7 +25,7 @@ int SDL_PollEvent(SDL_Event *ev) {
 	if(NDL_PollEvent(buf, 64) == 0) return 0;
 	char *kev;
 	char *key_name;
-	printf("%s\n", buf);
+//	printf("%s\n", buf);
 	kev = strtok(buf, " ");
 //	printf("cmp rel:%d\n", strcmp(kev, "kd"));
 	key_name = strtok(NULL, " ");
@@ -38,7 +38,7 @@ int SDL_PollEvent(SDL_Event *ev) {
 		if(strcmp(keyname[i], key_name) == 0) break;
 	} 	
 	ev->key.keysym.sym = i;
-	printf("%d %d\n", i, SDLK_SPACE);
+//	printf("%d %d\n", i, SDLK_SPACE);
 	if(strcmp(kev, "kd") == 0) key_arr[i] = 1;
 	else key_arr[i] = 0;
 //	puts("reach here");
