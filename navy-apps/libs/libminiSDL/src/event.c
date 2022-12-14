@@ -27,7 +27,7 @@ int SDL_PollEvent(SDL_Event *ev) {
 	char *key_name;
 	printf("%s\n", buf);
 	kev = strtok(buf, " ");
-	printf("cmp rel:%d\n", strcmp(kev, "kd"));
+//	printf("cmp rel:%d\n", strcmp(kev, "kd"));
 	key_name = strtok(NULL, " ");
 	if(strcmp(kev, "kd") == 0)  ev->key.type = SDL_KEYDOWN;
     else 	ev->key.type = SDL_KEYUP;
@@ -39,9 +39,9 @@ int SDL_PollEvent(SDL_Event *ev) {
 	} 	
 	ev->key.keysym.sym = i;
 	printf("%d %d\n", i, SDLK_SPACE);
-	if(strcmp(kev, "kd") == 0) key_arr[i] = 1, puts("here");
+	if(strcmp(kev, "kd") == 0) key_arr[i] = 1;
 	else key_arr[i] = 0;
-	puts("reach here");
+//	puts("reach here");
 	return 1;
 }
 
@@ -76,8 +76,8 @@ uint8_t* SDL_GetKeyState(int *numkeys) {
 //	uint8_t *arr = (uint8_t *)malloc(sizeof(uint8_t) * size);
 //	memset(arr, 0, sizeof(uint8_t) * size);
 //	SDL_Event ev;
-	puts("use this function");
-	printf("%d\n", key_arr[SDLK_SPACE]);
+//	puts("use this function");
+//	printf("%d\n", key_arr[SDLK_SPACE]);
 	return key_arr;
 //	if(SDL_PollEvent(&ev) == 0)
 //		return arr;

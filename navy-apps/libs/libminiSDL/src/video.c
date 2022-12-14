@@ -88,7 +88,7 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 	if(dy < 0) { h += dy; dy = 0; }
 	if(dst->w - dx < w) { w = dst->w - dx; }
 	if(dst->h - dy < h) { h = dst->h - dy; }
-	if(dst->format->BitsPerPixel == 32){
+ 	if(dst->format->BitsPerPixel == 32){
 		uint32_t *dstpix = (uint32_t *)dst->pixels;
 		for(int i = 0; i  < h; ++i){
 			for(int j = 0;  j < w; ++j){
@@ -112,10 +112,10 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 			test |= temp;
 			temp = (uint32_t)dst->format->palette->colors[i].b;
 			test |= temp;
-			printf("%d %d\n", color, test);
+//			printf("%d %d\n", color, test);
 			if(color == test)
 				break;
-		} 
+ 		} 
 		if(i >= dst->format->palette->ncolors) return;
 		rel = (uint8_t)i;
 		for(i = 0; i < h; ++i){
@@ -128,10 +128,10 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
-	puts("update here");
+//	puts("update here");
 	if(s->format->BitsPerPixel == 32)
 		NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
-   	else if(s->format->BitsPerPixel == 8){
+    	else if(s->format->BitsPerPixel == 8){
 //		printf("x:%d y:%d w:%d h:%d\n", x, y, w, h);
 //	    printf("%d %d %d %d\n", s->format->Rshift, s->format->Gshift, s->format->Bshift, s->format->Ashift);
 		if(x == 0 && y == 0 && w == 0 && h == 0) w = 400, h = 300;	
@@ -143,7 +143,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 		uint32_t color = 0;
 		uint32_t temp = 0;
 //		printf("para:%d %d %d %d\n", x, y, w, h);
- 		for(int i = 0; i < w * h; ++i){
+  		for(int i = 0; i < w * h; ++i){
 			color = 0;
 			temp = (uint32_t)s->format->palette->colors[index[i]].r;
 			temp <<= 16;

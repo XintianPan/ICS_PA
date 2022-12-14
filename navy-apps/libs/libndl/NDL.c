@@ -62,7 +62,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
 	if(w < wh_mes[0]) flag = 1, temp[0] = w, temp[1] = h;
 	if(h < wh_mes[1]) flag = 1, temp[0] = w, temp[1] = h;
 	if(flag) write(fbdev, temp, 0);
-	printf("info:%d %d %d %d\n", x, y, w, h);
+//	printf("info:%d %d %d %d\n", x, y, w, h);
 	lseek(fbdev, sizeof(uint32_t) * ( x + screen_w * y), SEEK_SET);
 	write(fbdev, pixels, sizeof(uint32_t) * w * h);	
 	if(flag) write(fbdev, wh_mes, 0);
