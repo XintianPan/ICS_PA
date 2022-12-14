@@ -63,9 +63,9 @@ bool file_check(const char *pathname){
 
 int fs_open(const char *pathname, int flags, int mode ){
 	int i = 0;
-	for(; i < LENGTH(file_table); ++i){ 
-		if(strcmp(pathname, file_table[i].name) == 0){
-			Log("Successfully open file: %s", pathname);
+ 	for(; i < LENGTH(file_table); ++i){ 
+ 		if(strcmp(pathname, file_table[i].name) == 0){
+//			Log("Successfully open file: %s", pathname);
 			break;
 		}
 	}
@@ -78,7 +78,7 @@ size_t fs_read(int fd, void *buf, size_t len){
 //	printf("%d %d\n", open_off[fd], file_table[fd].size);	
 	if(file_table[fd].read == NULL){
 		if(open_off[fd] >= file_table[fd].size){
-			Log("Cross the boundary of file!");
+//			Log("Cross the boundary of file!");
 			return 0;
 		}else if(open_off[fd] + len - 1 >= file_table[fd].size){
 			len = file_table[fd].size + 1 - open_off[fd];
@@ -112,7 +112,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
 			break;
 		default:
 			panic("Should Not reach here");
-	}
+ 	}
 	return ret;
 }
 
@@ -120,21 +120,21 @@ size_t fs_write(int fd, const void *buf, size_t len){
 	assert(fd < LENGTH(file_table));
 	if(file_table[fd].write == NULL){
 		if(open_off[fd] + len - 1 >= file_table[fd].size){
-			Log("cross the file boundary, reshape len");
+//			Log("cross the file boundary, reshape len");
 			len = file_table[fd].size + 1 - open_off[fd];
-		} 
+ 		} 
 		size_t ret = ramdisk_write(buf, open_off[fd] + file_table[fd].disk_offset, len);
 		open_off[fd] += len;
 		return ret;
 	}else{
 		return file_table[fd].write(buf, open_off[fd], len);
-	}
+ 	}
 }
 
 int fs_close(int fd){
 	assert(fd < LENGTH(file_table));
 	open_off[fd] = 0;
-	Log("Successfully close file: %s", file_table[fd].name);
+//	Log("Successfully close file: %s", file_table[fd].name);
 	return 0;
 }
 

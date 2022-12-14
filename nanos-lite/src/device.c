@@ -41,7 +41,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 	else{
 		memset(events, 0, sizeof(events));
 		if(ev.keydown){
-			Log("ok here");
+//			Log("ok here");
 			sprintf((char *)events, "kd %s", keyname[ev.keycode]);
 		}else{
 			sprintf((char *)events, "ku %s", keyname[ev.keycode]);
@@ -77,11 +77,11 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
 		offset /= sizeof(uint32_t);
 		int x = offset % 400;
 		int y = offset / 400;
-		Log("%d %d", x, y);
+//		Log("%d %d", x, y);
 		memcpy(fb_buf, buf, len);
 		io_write(AM_GPU_FBDRAW, x, y, fb_buf, w, h, true);
 		return len;
-	}
+ 	}
 }
 
 void init_device() {
