@@ -11,6 +11,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
 //  uint32_t * srcpix = (uint32_t *)src->pixels;
 //  uint32_t * dstpix = (uint32_t *)dst->pixels;
+/*
   int sx = (srcrect == NULL ? 0 : srcrect->x);
   int sy = (srcrect == NULL ? 0 : srcrect->y);
   int dx = (dstrect == NULL ? 0 : dstrect->x);
@@ -46,7 +47,8 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 //    uint32_t src_color;
 //	uint8_t dst_color;
 //	int k;
-/*
+*/
+  /*
   	  for(int i = 0; i < src->format->palette->ncolors; ++i){
       printf("src color: %d 0x%02x 0x%02x 0x%02x\n", i, src->format->palette->colors[i].r, src->format->palette->colors[i].g, src->format->palette->colors[i].b);
 	} 
@@ -57,25 +59,50 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 //	printf("dst & src:%d %d\n", dst->w, src->w);
 //	printf("%d %d\n", dst->w * dst->h, w * h);
 //	printf("dst: %d %d src: %d %d\n", dx, dy, sx, sy);
-	uint8_t *srcp = (uint8_t *)src->pixels;
+/*
+  uint8_t *srcp = (uint8_t *)src->pixels;
 	uint8_t *dstp = (uint8_t *)dst->pixels;
 	for(int i = 0; i < h; ++i){
 	  for(int j = 0; j < w; ++j){
-/*	    src_color = src->format->palette->colors[srcp[sx + j + src->w * (sy + i)]].val;
+*/ 
+  /*	    src_color = src->format->palette->colors[srcp[sx + j + src->w * (sy + i)]].val;
 		k = 0;
 		for(; k < dst->format->palette->ncolors; ++k){ 
 		  if(src_color == dst->format->palette->colors[k].val)
 		    break;	
 		}
 		assert(k < dst->format->palette->ncolors);
- 	    dst_color = (uint8_t)k; */
-		dstp[dx + j + dst->w * (dy + i)] = srcp[sx + j + src->w * (sy + i)];
+ //	    dst_color = (uint8_t)k; */
+//		dstp[dx + j + dst->w * (dy + i)] = srcp[sx + j + src->w * (sy + i)];
 //		printf("%d %d\n", dx + j + dst->w * (dy + i), sx + j + src->w * (sy + i));
- 	  }
- 	}
-   }
-  SDL_UpdateRect(dst, 0, 0, dst->w, dst->h);
+// 	  }
+ //	}
+   //}
+//  SDL_UpdateRect(dst, 0, 0, dst->w, dst->h);
   //  puts("end blit");
+	int sx, sy, sw, sh, dx, dy;
+	if(srcrect == NULL){
+		sx = 0;
+		sy = 0;
+		sw = src->w;
+		sh = src->h;
+	}else{
+		sx = srcrect->x;
+		sy = srcrect->y;
+		sw = srcrect->w;
+		sh = srcrect->h;
+	}
+	if(dstrect == NULL){
+		dx = 0;
+		dy = 0;
+	}else{
+		dx = dstrect->x;
+		dy = dstrect->y;
+	}
+	for(int i = 0; i < sh; ++i){
+		memcpy(dst->pixels + (i + dy) * dst->pitch + dx * dst->format->BytesPerPixel, src->pixels + (i + sx) * src->pitch + sx * src->format->BytesPerPixel, sw * src->format->BytesPerPixel);
+	}
+	SDL_UpdateRect(dst, 0, 0, dst->w, dst->h);
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
