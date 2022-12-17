@@ -163,7 +163,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     	else if(s->format->BitsPerPixel == 8){
 //		printf("x:%d y:%d w:%d h:%d\n", x, y, w, h);
 //	    printf("%d %d %d %d\n", s->format->Rshift, s->format->Gshift, s->format->Bshift, s->format->Ashift);
-		if(x == 0 && y == 0 && w == 0 && h == 0) w = 400, h = 300;	
+		if(x == 0 && y == 0 && w == 0 && h == 0) w = s->w, h = s->h;	
 		uint32_t * pix = (uint32_t *)malloc(sizeof(uint32_t) * w * h);
 		memset(pix, 0, sizeof(uint32_t) * w * h);
 //		printf("pitch:%d\n", s->pitch);
