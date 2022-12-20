@@ -7,7 +7,7 @@
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
 //puts("bilt here");
-/*  assert(dst && src);
+ assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
   uint32_t * srcpix = (uint32_t *)src->pixels;
   uint32_t * dstpix = (uint32_t *)dst->pixels;
@@ -47,7 +47,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 //    uint32_t src_color;
 //	uint8_t dst_color;
 //	int k;
-*/
+ 
 
   /*
   	  for(int i = 0; i < src->format->palette->ncolors; ++i){
@@ -60,12 +60,12 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 //	printf("dst & src:%d %d\n", dst->w, src->w);
 //	printf("%d %d\n", dst->w * dst->h, w * h);
 //	printf("dst: %d %d src: %d %d\n", dx, dy, sx, sy);
-/*
+
     uint8_t *srcp = (uint8_t *)src->pixels;
 	uint8_t *dstp = (uint8_t *)dst->pixels;
 	for(int i = 0; i < h; ++i){
  	  for(int j = 0; j < w; ++j){
-*/
+
   /*	    src_color = src->format->palette->colors[srcp[sx + j + src->w * (sy + i)]].val;
 		k = 0;
 		for(; k < dst->format->palette->ncolors; ++k){ 
@@ -74,14 +74,14 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 		}
 		assert(k < dst->format->palette->ncolors);
  //	    dst_color = (uint8_t)k; */
-//		dstp[dx + j + dst->w * (dy + i)] = srcp[sx + j + src->w * (sy + i)];
+		dstp[dx + j + dst->w * (dy + i)] = srcp[sx + j + src->w * (sy + i)];
 //		printf("%d %d\n", dx + j + dst->w * (dy + i), sx + j + src->w * (sy + i));
-//	  }
-// 	}
-//  }
+	  }
+ 	}
+  }
 //  SDL_UpdateRect(dst, 0, 0, dst->w, dst->h);
   //  puts("end blit");
-	int sx, sy, sw, sh, dx, dy;
+/*	int sx, sy, sw, sh, dx, dy;
 	if(srcrect == NULL){
 		sx = 0;
 		sy = 0;
@@ -103,7 +103,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 	for(int i = 0; i < sh; ++i){
 		memcpy(dst->pixels + (i + dy) * dst->pitch + dx * dst->format->BytesPerPixel, src->pixels + (i + sx) * src->pitch + sx * src->format->BytesPerPixel, sw * src->format->BytesPerPixel);
 	}
-	
+*/	
 //	SDL_UpdateRect(dst, 0, 0, dst->w, dst->h);
 }
 
