@@ -183,7 +183,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 			temp = (uint32_t)s->format->palette->colors[index[i]].b;
 			color += temp;
 			pix[i] = color;
-			printf("%d\n", color);
+//			printf("%d\n", color);
 //			printf("pix:%d\n", pix[i]);
  		}
 		NDL_DrawRect(pix, x, y, w, h);

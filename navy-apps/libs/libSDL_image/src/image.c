@@ -6,6 +6,7 @@
 #include "SDL_stbimage.h"
 
 SDL_Surface* IMG_Load_RW(SDL_RWops *src, int freesrc) {
+  assert(0);
   assert(src->type == RW_TYPE_MEM);
   assert(freesrc == 0);
   return NULL;
