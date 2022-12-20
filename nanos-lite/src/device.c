@@ -79,6 +79,7 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
 		int y = offset / 400;
 //		Log("%d %d", x, y);
 		const uint32_t* draw_buf = (const uint32_t* )buf;
+		Log("%d", draw_buf[0]);
 		for(int i = 0; i < h; ++i){
 			for(int j = 0; j < w; ++j){
 				fb_buf[x + j + 400 * (y + i)] = draw_buf[j + w * i];
