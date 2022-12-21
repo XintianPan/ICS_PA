@@ -12,7 +12,7 @@ static const char *keyname[] = {
   _KEYS(keyname)
 };
 
-uint8_t key_arr[256];
+static uint8_t key_arr[256];
 
 int SDL_PushEvent(SDL_Event *ev) {
 	assert(0);
