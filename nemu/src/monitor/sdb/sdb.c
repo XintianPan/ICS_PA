@@ -28,6 +28,9 @@ void delete_wp(int num);
 void add_wp(char* express);
 word_t vaddr_read(vaddr_t addr, int len);
 word_t expr(char *e, bool *success);
+word_t paddr_read(paddr_t addr, int len);
+void paddr_write(paddr_t addr, int len, word_t data);
+
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -104,6 +107,29 @@ static int cmd_si(char *args){
 	return 0;
 }
 
+static int cmd_save(char *args){
+	FILE* fp = fopen("/home/paxintic/nemu-save.txt", "w+");
+	fprintf(fp, "%u\n", cpu.pc);
+	for(int i = 0; i < CONFIG_MSIZE; ++i){
+		fprintf(fp, "%u\n", paddr_read(CONFIG_MBASE + i, 1));	
+	}
+	return 0;
+}
+
+static int cmd_load(char *args){
+	FILE* fp = fopen("/home/paxintic/nemu-save.txt", "r");
+	word_t val;
+	int r;
+	r = fscanf(fp, "%u", &val);
+	cpu.pc = val;
+	for( int i = 0; i < CONFIG_MSIZE; ++i){
+		r = fscanf(fp, "%u\n", &val);
+		r += 1;
+		paddr_write(CONFIG_MBASE + i, 1, val);
+	}
+	return 0;
+}
+
 static int cmd_info(char *args){
 	if( args == NULL){
 		printf("please pass parameter!\n");
@@ -169,7 +195,8 @@ static struct {
   { "w", "Add watchpoint", cmd_w},
 #endif
   { "d", "Delete a watchpoint", cmd_d},
-
+  { "save", "save state", cmd_save},
+  { "load", "load state", cmd_load},
 };
 
 #define NR_CMD ARRLEN(cmd_table)
