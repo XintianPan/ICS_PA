@@ -151,9 +151,9 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 		for(i = 0; i < h; ++i){
 			for(int j = 0; j < w; ++j){
 				dstp[dx + j + dst->w * (dy + i)] = rel;
-		  	}
-		}  
-	}
+	 	  	}
+	 	}  
+	} 
 //	puts("end fill");	
 }
 
@@ -161,33 +161,29 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 //	puts("update here");
 	if(s->format->BitsPerPixel == 32)
 		NDL_DrawRect((uint32_t *)s->pixels, x, y, w, h);
-    	else if(s->format->BitsPerPixel == 8){
+    else if(s->format->BitsPerPixel == 8){
+		int upw, uph;
+		if(w == 0 || h == 0){
+			upw = s->w;
+			uph = s->h;
+		}else{
+			upw = w;
+			uph = h;
+		}
 //		printf("x:%d y:%d w:%d h:%d\n", x, y, w, h);
-//	    printf("%d %d %d %d\n", s->format->Rshift, s->format->Gshift, s->format->Bshift, s->format->Ashift);
-		if(x == 0 && y == 0 && w == 0 && h == 0) w = s->w, h = s->h;	
-		uint32_t * pix = (uint32_t *)malloc(sizeof(uint32_t) * w * h);
-//		memset(pix, 0, sizeof(uint32_t) * w * h);
-//		printf("pitch:%d\n", s->pitch);
-		uint8_t * index = (uint8_t *)s->pixels;
-//		printf("pixels:%p\n", s->pixels);
-		uint32_t color = 0;
-		uint32_t temp = 0;
-//		printf("para:%d %d %d %d\n", x, y, w, h);
-  		for(int i = 0; i < w * h; ++i){
-			color = 0;
-			temp = (uint32_t)s->format->palette->colors[index[i]].r;
-			temp <<= 16;
-			color += temp;
-			temp = (uint32_t)s->format->palette->colors[index[i]].g;
-			temp <<= 8;
-			color += temp;
-			temp = (uint32_t)s->format->palette->colors[index[i]].b;
-			color += temp;
-			pix[i] = color;
-//			printf("%d\n", color);
-//			printf("pix:%d\n", pix[i]);
- 		}
-		NDL_DrawRect(pix, x, y, w, h);
+//	    printf("%d %d %d %d\n", s->format->Rshift, s->format->Gshift, s->format->Bshift, s->format->Ashift);	
+		uint32_t * pix = (uint32_t *)malloc(sizeof(uint32_t) * 120000);
+		for(int i = 0; i < uph; ++i){
+			for(int j = 0; j < upw; ++j){
+				uint8_t index = *(s->pixels + (i + y)*s->pitch + j + x);
+			    SDL_Color *pix_val = s->format->palette->colors + index;
+				uint32_t r = pix_val->r << 16;
+				uint32_t g = pix_val->g << 8;
+				uint32_t b = pix_val->b << 0;
+				pix[i * upw + j] = r | g | b;	
+			}
+		}
+		NDL_DrawRect(pix, x, y, upw, uph);
 		free(pix);
 	}
 //	puts("end update");
