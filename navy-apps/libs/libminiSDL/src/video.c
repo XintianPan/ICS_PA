@@ -172,7 +172,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 		}
 //		printf("x:%d y:%d w:%d h:%d\n", x, y, w, h);
 //	    printf("%d %d %d %d\n", s->format->Rshift, s->format->Gshift, s->format->Bshift, s->format->Ashift);	
-		uint32_t * pix = (uint32_t *)malloc(sizeof(uint32_t) * 120000);
+		uint32_t * pix = (uint32_t *)malloc(sizeof(uint32_t) * upw * uph);
 		for(int i = 0; i < uph; ++i){
 			for(int j = 0; j < upw; ++j){
 				uint8_t index = *(s->pixels + (i + y)*s->pitch + j + x);
