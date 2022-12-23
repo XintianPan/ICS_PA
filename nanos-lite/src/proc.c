@@ -45,5 +45,6 @@ void init_proc() {
 Context* schedule(Context *prev) {
 //	current->cp = prev;
 	current = &pcb[0];
+	Log("%p", current->cp->mepc);
 	return current->cp;
 }
