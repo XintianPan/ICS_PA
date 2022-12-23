@@ -28,6 +28,7 @@ void context_kload(PCB *pcb, void(*entry)(void *), void *arg){
 	kstack.start =(void *)pcb;
 	kstack.end = (void *)pcb + sizeof(PCB) - 1;
 	pcb->cp = kcontext(kstack, entry, arg);
+	Log("%p", pcb->cp->mepc);
 }
 
 
