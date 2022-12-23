@@ -90,6 +90,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   int *argc_pos = (int *)(pcb->cp->GPRx - sizeof(int));
   uintptr_t *arg_env_pos = (uintptr_t *)((void *)pcb->cp->GPRx - sizeof(int) - 1);
   *argc_pos = argc;
+  Log("val:%d", *argc_pos);
   char *string_area = (char *)((void *)pcb->cp->GPRx - STACK_SIZE + 1);
   *arg_env_pos = (uintptr_t)NULL;
   --arg_env_pos;
