@@ -46,6 +46,6 @@ Context* schedule(Context *prev) {
 	prev->mepc += 4;
 	current->cp = prev;
 	current = &pcb[0];
-	Log("%p", current->cp->mepc);
+//	Log("%p", current->cp->mepc);
 	return current->cp;
 }
