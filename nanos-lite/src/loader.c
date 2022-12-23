@@ -78,7 +78,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   kustack.start = (void *)pcb;
   kustack.end = (void *)pcb + sizeof(PCB) - 1;
   pcb->cp = ucontext(&pcb->as, kustack, (void *)entry);
-  int argc = 0;
+/*  int argc = 0;
   int envpc = 0;
   if(argv != NULL){ 
 	while(*(argv + argc) != (char *)NULL) ++argc, Log("%d", argc);
@@ -112,4 +112,5 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
 	++string_area;	
   }
  *arg_env_pos = (uintptr_t)NULL; 
+*/
 }
