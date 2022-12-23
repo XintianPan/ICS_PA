@@ -108,9 +108,8 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   Log("envpc:%d", *(arg_env_pos + 1));
   *arg_env_pos = (uintptr_t)NULL;
   --arg_env_pos;
-  for(int i = envpc - 1; i >= 0; ++i, --arg_env_pos){
+  for(int i = envpc - 1; i >= 0; --i, --arg_env_pos){
     *arg_env_pos = (uintptr_t)string_area;
-	Log("%p", *arg_env_pos);
 	for(char *c = envp[i]; *c != '\0'; ++c, ++string_area){
 	  *string_area = *c;
 	}
