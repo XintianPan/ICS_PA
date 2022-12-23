@@ -34,6 +34,7 @@ void context_kload(PCB *pcb, void(*entry)(void *), void *arg){
 
 void init_proc() {
   context_kload(&pcb[0], hello_fun, (void *)" Hell this ");
+  context_kload(&pcb[1], hello_fun, (void *)" Heaven this ");
   switch_boot_pcb();
 
   Log("Initializing processes...");
@@ -45,7 +46,7 @@ void init_proc() {
 Context* schedule(Context *prev) {
 	prev->mepc += 4;
 	current->cp = prev;
-	current = &pcb[0];
+	current = (current == &pcb[0]) ? &pcb[1] : &pcb[0];
 //	Log("%p", current->cp->mepc);
 	return current->cp;
 }
