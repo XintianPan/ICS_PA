@@ -78,6 +78,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   kustack.start = (void *)pcb;
   kustack.end = (void *)pcb + sizeof(PCB) - 1;
   pcb->cp = ucontext(&pcb->as, kustack, (void *)entry);
+  Log("%p", pcb->cp->gpr[10]);
 /*  int argc = 0;
   int envpc = 0;
   if(argv != NULL){ 
