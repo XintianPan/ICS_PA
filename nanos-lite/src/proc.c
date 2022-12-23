@@ -33,7 +33,7 @@ void context_kload(PCB *pcb, void(*entry)(void *), void *arg){
 	Log("%p", pcb->cp->mepc);
 }
 
-char *parse_arg[] = {"--skip", (char *)NULL};
+char *parse_arg[] = {"--skip", "hello world" ,(char *)NULL};
 
 void init_proc() {
   context_kload(&pcb[0], hello_fun, (void *)" Hell this ");
