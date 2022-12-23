@@ -33,11 +33,9 @@ void context_kload(PCB *pcb, void(*entry)(void *), void *arg){
 	Log("%p", pcb->cp->mepc);
 }
 
+char *parse_arg[] = {"--skip"};
 
 void init_proc() {
-  char *parse_arg[1];
-  parse_arg[0] = "--skip";
-//  parse_arg[1] = NULL;
   context_kload(&pcb[0], hello_fun, (void *)" Hell this ");
   context_uload(&pcb[1], "/bin/pal", parse_arg, NULL);
   switch_boot_pcb();
