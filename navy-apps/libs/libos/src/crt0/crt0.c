@@ -10,7 +10,7 @@ void call_main(uintptr_t *args) {
   argc = *argc_addr;
   char **argv = (char **)(args - sizeof(int) - 1 - argc);
   uintptr_t *ev = (uintptr_t *)(args - sizeof(int) - 3 - argc);
-  while(ev != NULL) --ev;
+//  while(ev != NULL) --ev;
   char **envp = (char **)(ev - 1);
   environ = envp;
   exit(main(argc, argv, envp));
