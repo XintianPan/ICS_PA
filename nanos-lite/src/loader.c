@@ -95,6 +95,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   char *string_area = (char *)((void *)pcb->cp->GPRx - STACK_SIZE + 1);
   for(int i = 0; i < argc; ++i){
     *arg_env_pos = (uintptr_t)string_area;
+	Log("%s", argv[i]);
 	for(int j = 0; argv[i][j] != '\0'; ++j){
 	  char d = argv[i][j];
 	  *string_area = d;
