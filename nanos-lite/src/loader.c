@@ -118,5 +118,5 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
 	++string_area;	
    }
   *arg_env_pos = (uintptr_t)NULL;
-  Log("%p", (argc_pos  - argc - 3 - envpc)); 
+  Log("%p", (argc_pos  - argc - 2 - envpc)); 
 }
