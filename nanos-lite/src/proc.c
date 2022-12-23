@@ -33,11 +33,13 @@ void context_kload(PCB *pcb, void(*entry)(void *), void *arg){
 	Log("%p", pcb->cp->mepc);
 }
 
-char *parse_arg[] = {"--skip", (char *)NULL};
+static char *parse_arg[] = {"--skip", "hello world", NULL};
+
+static char *parse_envp[] = {"fuck=shit", NULL};
 
 void init_proc() {
   context_kload(&pcb[0], hello_fun, (void *)" Hell this ");
-  context_uload(&pcb[1], "/bin/pal", parse_arg, NULL);
+  context_uload(&pcb[1], "/bin/pal", parse_arg, parse_envp);
   switch_boot_pcb();
 
   Log("Initializing processes...");
