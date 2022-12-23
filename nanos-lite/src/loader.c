@@ -99,8 +99,8 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
 	for(int j = 0; argv[i][j] != '\0'; ++j){
 //	  char d = argv[i][j];
 	  *string_area = argv[i][j];
-	  string_area++;
 	  Log("%c", *string_area);
+	  ++string_area;
 	}
 	*string_area = '\0';
 	Log("%c", *((char *)(arg_env_pos)));
