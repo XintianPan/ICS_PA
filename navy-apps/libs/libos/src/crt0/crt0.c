@@ -13,7 +13,7 @@ void call_main(uintptr_t *args) {
 //  argc = *argc_addr;
   argv = (char **)(args - 1 - argc);
   envpc = *(int *)((int *)args - 2 - argc);
-  **envp = (char **)((int *)args - 3 - argc - envpc);
+  envp = (char **)((int *)args - 3 - argc - envpc);
   environ = envp;
   exit(main(argc, argv, envp));
   assert(0);
