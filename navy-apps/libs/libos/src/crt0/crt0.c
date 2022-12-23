@@ -8,9 +8,8 @@ void call_main(uintptr_t *args) {
   int argc = *(int *)(args);
 //  argc = *argc_addr;
   char **argv = (char **)(args - 1 - argc);
-  uintptr_t *ev = args - 3 - argc;
-  while(ev != NULL) --ev;
-  char **envp = (char **)(ev + 1);
+  int enpvc = *(int *)(args - 2 - argc);
+  char **envp = (char **)(args - 3 - argc - enpvc);
   environ = envp;
   exit(main(argc, argv, envp));
   assert(0);
