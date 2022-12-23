@@ -72,3 +72,10 @@ void naive_uload(PCB *pcb, const char *filename) {
   ((void(*)())entry) ();
 }
 
+void context_uload(PCB *pcb, const char *filename){
+  uintptr_t entry = loader(pcb, filename);
+  Area kustack;
+  kustack.start = (void *)pcb;
+  kustack.end = (void *)pcb + sizeof(PCB) - 1;
+  pcb->cp = ucontext(&pcb->as, kustack,(void *)entry);
+}
