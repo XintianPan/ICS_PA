@@ -111,5 +111,6 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
 	*string_area = '\0';
 	++string_area;	
    }
-  *arg_env_pos = (uintptr_t)NULL; 
+  *arg_env_pos = (uintptr_t)NULL;
+  Log("%d", argc_pos); 
 }
