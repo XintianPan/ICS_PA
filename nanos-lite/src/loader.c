@@ -81,19 +81,13 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   int argc = 0;
   int envpc = 0;
   if(argv != NULL){ 
-	Log("%p", argv);
-	Log("%p", (char *)NULL);
-	Log("%p", *(argv + 1));
-	Log("%p", *(argv));
-	Log("%p", argv[1]);
 	while(*(argv + argc) != (char *)NULL) ++argc, Log("%d", argc);
   }
   if(envp != NULL){
-	Log("here");
 	while(envp[envpc] != NULL) ++envpc;
   }
-  Log("ok");
   int *argc_pos = (int *)pcb->cp->GPRx;
+  Log("%p", pcb->cp->GPRx);
   uintptr_t *arg_env_pos = (uintptr_t *)((void *)pcb->cp->GPRx + sizeof(int));
   Log("%p", argc_pos);
   *argc_pos = argc;
