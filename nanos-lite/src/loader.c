@@ -88,25 +88,23 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
 	while(envp[envpc] != NULL) ++envpc;
   }
   int *argc_pos = (int *)(pcb->cp->GPRx - sizeof(int));
-  Log("%p", pcb->cp->GPRx);
+//  Log("%p", pcb->cp->GPRx);
   uintptr_t *arg_env_pos = (uintptr_t *)((void *)pcb->cp->GPRx - sizeof(int) - 1);
-  Log("%p", argc_pos);
+//  Log("%p", argc_pos);
   *argc_pos = argc;
   char *string_area = (char *)((void *)pcb->cp->GPRx - STACK_SIZE + 1);
-  for(int i = 0; i < argc; ++i){
+   for(int i = 0; i < argc; ++i, --string_area){
     *arg_env_pos = (uintptr_t)string_area;
-	Log("%p", *arg_env_pos);
-	for(int j = 0; argv[i][j] != '\0'; ++j){
+//	Log("%p", *arg_env_pos);
+ 	for(char *c = argv[i]; *c != '\0'; ++c, ++string_area){
 //	  char d = argv[i][j];
-	Log("%p", string_area);
-	  *string_area = argv[i][j];
-	  Log("%c", *string_area);
-	  ++string_area;
+//	Log("%p", string_area);
+	  *string_area = *c;
+//	  Log("%c", *string_area);
 	}
 	*string_area = '\0';
 	Log("%s", ((char *)(*arg_env_pos)));
-	string_area += 1;
-	arg_env_pos -= 1;	
+	++string_area;	
   }
   *arg_env_pos = (uintptr_t)NULL;
   --arg_env_pos;
