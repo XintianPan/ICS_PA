@@ -89,6 +89,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
 	while(*(argv + argc) != (char *)NULL) ++argc, Log("%d", argc);
   }
   if(envp != NULL){
+	Log("here");
 	while(envp[envpc] != NULL) ++envpc;
   }
   int *argc_pos = (int *)pcb->cp->GPRx;
