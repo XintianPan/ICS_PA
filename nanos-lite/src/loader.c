@@ -93,10 +93,10 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   int *argc_pos = (int *)(pcb->cp->GPRx - sizeof(int));
   uintptr_t *arg_env_pos = (uintptr_t *)((void *)pcb->cp->GPRx - sizeof(int) - sizeof(uintptr_t));
   *argc_pos = argc;
-  char *string_area = (char *)((void *)pcb->cp->GPRx - STACK_SIZE / 2);
+  char *string_area = (char *)((void *)pcb->cp->GPRx - PGSIZE);
   *arg_env_pos = (uintptr_t)NULL;
   --arg_env_pos;
-  for(int i = argc - 1; i >= 0; --i, --arg_env_pos){
+  for(int i = argc - 1; i >= 0; --i, --arg_env_pos){ 
     *arg_env_pos = (uintptr_t)string_area;
  	for(char *c = argv[i ]; *c != '\0'; ++c, ++string_area){
 	  *string_area = *c;
@@ -104,6 +104,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
 	*string_area = '\0';
 	++string_area;	
   }
+  Log("%s", *(char **)(arg_env_pos + 1));
   *arg_env_pos = (uintptr_t)envpc;
   --arg_env_pos;
   *arg_env_pos = (uintptr_t)NULL;
