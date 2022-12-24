@@ -125,7 +125,6 @@ void do_syscall(Context *c) {
 //		Log("%s", (char *)a[1]);
 		if(file_check((char *)a[1])){
 //			Log("%s", (char *)a[1]);
-			Log("%p %p", a[2], a[3]);
 			int i = 0;
 			char ** r= (char **)a[3];
 			while(*(r + i) != NULL) new_envp[i] = *(r + i), ++i;
