@@ -119,6 +119,7 @@ void do_syscall(Context *c) {
 //			Log("%s", (char *)a[1]);
 //			Log("%p %p", a[2], a[3]);
 			context_uload(current, (char *)a[1], (char **)a[2], (char **)a[3]);
+			c->mepc = current->cp->mepc;
 		}
 		else
 			c->gpr[10] = -1, c->mepc += 4;	
