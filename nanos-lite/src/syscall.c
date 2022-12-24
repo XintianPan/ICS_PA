@@ -114,6 +114,7 @@ void do_syscall(Context *c) {
 		c->mepc += 4;
 		break;
 	case SYS_execve:
+		Log("%s", (char *)a[1]);
 		if(file_check((char *)a[1])){
 			Log("%s", (char *)a[1]);
 			Log("%p %p", a[2], a[3]);
