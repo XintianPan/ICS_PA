@@ -106,6 +106,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   }
   Log("%s", *(char **)(arg_env_pos + 1));
   *arg_env_pos = (uintptr_t)envpc;
+  Log("%s", *(char **)(arg_env_pos + 1));
   --arg_env_pos;
   *arg_env_pos = (uintptr_t)NULL;
   --arg_env_pos;
