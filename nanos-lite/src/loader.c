@@ -85,6 +85,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   Log("%p", pcb->cp->gpr[10]);
   int argc = 0;
   int envpc = 0;
+  Log("addr:%p %p", argv, envp);
   if(argv != NULL){ 
 	while(*(argv + argc) != (char *)NULL) ++argc;
   }
