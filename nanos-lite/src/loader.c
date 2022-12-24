@@ -82,7 +82,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   int argc = 0;
   int envpc = 0;
   if(argv != NULL){ 
-	while(*(argv + argc) != (char *)NULL) ++argc, Log("%d", argc);
+	while(*(argv + argc) != (char *)NULL) ++argc;
   }
   if(envp != NULL){
 	while(envp[envpc] != NULL) ++envpc;
