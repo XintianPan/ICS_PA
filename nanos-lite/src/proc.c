@@ -33,7 +33,7 @@ void context_kload(PCB *pcb, void(*entry)(void *), void *arg){
 //	Log("%p", pcb->cp->mepc);
 }
 
-static char *parse_arg[] = {NULL };
+static char *parse_arg[] = {"hill", "213231", "sdfsdfsfsd", NULL };
 
 static char *parse_envp[] = {NULL };
 
