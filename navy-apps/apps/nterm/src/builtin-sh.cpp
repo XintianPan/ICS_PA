@@ -64,7 +64,7 @@ static void sh_handle_cmd(const char *cmd) {
 	argv[0] = arg;
 	argv[1] = NULL;
 	char *empty[] = {NULL };
-	if(execvpe(file_name, argv, empty) == -1) sh_printf("file %s does not exists!\n", file_name);
+	if(execvp(file_name, argv) == -1) sh_printf("file %s does not exists!\n", file_name);
 }
 void builtin_sh_run() {
   sh_banner();
