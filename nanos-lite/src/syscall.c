@@ -31,10 +31,13 @@ static char *syscall_name[] = {
   "gettimeofday"
 };
 */
+extern PCB *current;
 
 bool file_check(const char *pathname);
 
 void naive_uload(PCB *pcb, const char *filename); 
+
+void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]);
 
 int fs_open(const char *pathname, int flags, int mode);
 
@@ -65,7 +68,7 @@ void do_syscall(Context *c) {
    switch (a[0]) {
 	case SYS_exit:
 //	   	Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
-	   	naive_uload(NULL, "/bin/nterm");
+	   	context_uload(current, "/bin/nterm", NULL, NULL);
 	   	break;
 	case SYS_yield: 
 //		Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
@@ -112,10 +115,10 @@ void do_syscall(Context *c) {
 		break;
 	case SYS_execve:
 		if(file_check((char *)a[1]))
-			naive_uload(NULL, (char *)a[1]);
+			context_uload(current, (char *)a[1], (char **)a[2], (char **)a[3]);
 		else
 			c->gpr[10] = -1, c->mepc += 4;	
 		break;
 	default: panic("Unhandled syscall ID = %d", a[0]);
-  }
+  } 
 }
