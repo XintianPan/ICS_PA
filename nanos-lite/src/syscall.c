@@ -33,8 +33,6 @@ static char *syscall_name[] = {
 */
 extern PCB *current;
 
-static char * new_envp[256];
-
 bool file_check(const char *pathname);
 
 void naive_uload(PCB *pcb, const char *filename); 
@@ -125,11 +123,7 @@ void do_syscall(Context *c) {
 //		Log("%s", (char *)a[1]);
 		if(file_check((char *)a[1])){
 //			Log("%s", (char *)a[1]);
-			int i = 0;
-			char ** r= (char **)a[3];
-			while(*(r + i) != NULL) new_envp[i] = *(r + i), ++i;
-			new_envp[i] = NULL;
-			context_uload(current, (char *)a[1], (char *const *)a[2], new_envp);
+			context_uload(current, (char *)a[1], (char *const *)a[2], NULL);
 			for(int i = 0; i < 32; ++i){
 				c->gpr[i] = current->cp->gpr[i];
 			}
