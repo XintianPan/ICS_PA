@@ -22,6 +22,8 @@
 # error Unsupported ISA
 #endif 
 
+void *new_page(size_t nr_page);
+
 int fs_open(const char *pathname, int flags, int mode);
 
 int fs_close(int fd);
@@ -78,6 +80,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   kustack.start = (void *)pcb;
   kustack.end = (void *)pcb + sizeof(PCB) - 1;
   pcb->cp = ucontext(&pcb->as, kustack, (void *)entry);
+  pcb->cp->gpr[10] = (uintptr_t)(new_page(8) + STACK_SIZE - 1);
   Log("%p", pcb->cp->gpr[10]);
   int argc = 0;
   int envpc = 0;

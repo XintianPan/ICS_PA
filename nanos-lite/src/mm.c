@@ -3,7 +3,9 @@
 static void *pf = NULL;
 
 void* new_page(size_t nr_page) {
-  return NULL;
+  void* fir_addr = pf;
+  pf += PGSIZE * nr_page;
+  return fir_addr;
 }
 
 #ifdef HAS_VME
