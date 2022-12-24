@@ -114,8 +114,11 @@ void do_syscall(Context *c) {
 		c->mepc += 4;
 		break;
 	case SYS_execve:
-		if(file_check((char *)a[1]))
+		if(file_check((char *)a[1])){
+			Log("%s", (char *)a[1]);
+			Log("%p %p", a[2], a[3]);
 			context_uload(current, (char *)a[1], (char **)a[2], (char **)a[3]);
+		}
 		else
 			c->gpr[10] = -1, c->mepc += 4;	
 		break;
