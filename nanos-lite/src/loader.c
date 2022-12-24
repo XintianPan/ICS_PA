@@ -75,6 +75,7 @@ void naive_uload(PCB *pcb, const char *filename) {
 }
 
 void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]){
+  Log("%p", pcb);
   uintptr_t entry = loader(pcb, filename);
   Area kustack;
   kustack.start = (void *)pcb;
