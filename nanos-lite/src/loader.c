@@ -82,6 +82,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   assert(bytes == sizeof(Elf_Ehdr));
   assert(*(uint32_t *)elf_ehdr.e_ident = 0x7f454c46);
   assert(elf_ehdr.e_machine == EXPECT_TYPE);
+  fs_lseek(fd, 0, SEEK_SET);
   uintptr_t entry = elf_ehdr.e_entry;
   Area kustack;
   kustack.start = (void *)pcb;
