@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <stdio.h>
 
 int main(int argc, char *argv[], char *envp[]);
 extern char **environ;
@@ -15,6 +16,7 @@ void call_main(uintptr_t *args) {
   envpc = *(int *)((int *)args - 2 - argc);
   envp = (char **)((int *)args - 3 - argc - envpc);
   environ = envp;
+  printf("main addr:%p\n", (void *)main);
   exit(main(argc, argv, envp));
   assert(0);
 }
