@@ -10,6 +10,7 @@ static char **argv;
 static char **envp;
 static int envpc;
 void call_main(uintptr_t *args) {
+  printf("%p\n", args);
   argc = *(int *)(args);
 //  argc = *argc_addr;
   argv = (char **)(args - 1 - argc);
