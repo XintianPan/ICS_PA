@@ -17,7 +17,7 @@ void call_main(uintptr_t *args) {
   envpc = *(int *)((int *)args - 2 - argc);
   envp = (char **)((int *)args - 3 - argc - envpc);
   environ = envp;
-  printf("main addr:%p\n", (void *)main);
+//  printf("main addr:%p\n", (void *)main);
   exit(main(argc, argv, envp));
   assert(0);
 }
