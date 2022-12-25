@@ -132,7 +132,7 @@ void do_syscall(Context *c) {
 			c->mepc = current->cp->mepc;
 		}
 		else
-			c->gpr[10] = -1, c->mepc += 4;	
+			c->gpr[10] = -2, c->mepc += 4;	
 		break;
 	default: panic("Unhandled syscall ID = %d", a[0]);
   } 

@@ -76,7 +76,13 @@ void naive_uload(PCB *pcb, const char *filename) {
 
 void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]){
   Log("%p", pcb);
-  uintptr_t entry = loader(pcb, filename);
+  Elf_Ehdr elf_ehdr;
+  int fd = fs_open(filename, 1, 1);
+  size_t bytes = fs_read(fd, &elf_ehdr, sizeof(Elf_Ehdr));
+  assert(bytes == sizeof(Elf_Ehdr));
+  assert(*(uint32_t *)elf_ehdr.e_ident = 0x7f454c46);
+  assert(elf_ehdr.e_machine == EXPECT_TYPE);
+  uintptr_t entry = elf_ehdr.e_entry;
   Area kustack;
   kustack.start = (void *)pcb;
   kustack.end = (void *)pcb + sizeof(PCB) - 1;
@@ -125,4 +131,5 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   } 
  }
   *arg_env_pos = (uintptr_t)NULL;
+  entry = loader(pcb, filename);
 }
