@@ -123,7 +123,7 @@ void do_syscall(Context *c) {
 //		Log("%s", (char *)a[1]);
 		if(file_check((char *)a[1])){
 //			Log("%s", (char *)a[1]);
-			context_uload(current, (char *)a[1], (char *const *)a[2], NULL);
+			context_uload(current, (char *)a[1], (char *const *)a[2], (char *const *)a[3]);
 			for(int i = 0; i < 32; ++i){
 				c->gpr[i] = current->cp->gpr[i];
 			}
