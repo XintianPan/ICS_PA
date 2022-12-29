@@ -84,8 +84,8 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 	*fir_dir = (ppn_fir << 10) | PTE_V;
     PTE *sec_dir = (uintptr_t *)new_pg + vpn0;
 //	printf("sec_pos:%p\n", sec_dir);
-	if((*sec_dir & 1) == 1)
-		return ;
+//	if((*sec_dir & 1) == 1)
+//		return ;
 	uintptr_t final_ppn = pa_addr >> 12;
 	*sec_dir = (final_ppn << 10) | PTE_R | PTE_W | PTE_X | PTE_V;	
 }
