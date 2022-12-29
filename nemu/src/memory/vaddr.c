@@ -18,9 +18,12 @@
 
 word_t vaddr_ifetch(vaddr_t addr, int len) {
 	if(isa_mmu_check(addr, len, MEM_TYPE_IFETCH) == MMU_TRANSLATE){
+		puts("YES");
 		paddr_t actual_addr = isa_mmu_translate(addr, len, MEM_TYPE_IFETCH);
 		assert(actual_addr == addr);
 		addr = actual_addr;
+	}else{
+		puts("NO");
 	}	
 	return paddr_read(addr, len);
 }
