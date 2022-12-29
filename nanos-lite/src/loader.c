@@ -51,8 +51,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 	uint32_t vaddr;
 	uint32_t off = elf_ehdr.e_phoff;
 	uint32_t remain_num = 0;
-	size_t flen = 0;
-	size_t mlen = 0;
 	void *pa = NULL;
  	for(; i < elf_ehdr.e_phnum; ++i){
 		fs_lseek(fd, off + i * (sizeof(Elf_Phdr)), SEEK_SET);
@@ -64,33 +62,11 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 			mem = elf_phdr.p_memsz;
 			Log("start addr:0x%x memsize: 0x%x filesize: 0x%x", vaddr, mem, file);
 			j = 1;
-			flen = 0;
-			mlen = 0;
 			fs_lseek(fd, elf_phdr.p_offset, SEEK_SET);
-			if(remain_num > 0){
-				if(file < PGSIZE - remain_num){
-					flen = file;
-				}else{
-					flen = PGSIZE - remain_num;
-				}
-				fs_read(fd, page_cache + remain_num, flen);
-				if(mem < PGSIZE - remain_num){
-					mlen = mem;
-				}else{
-					mlen = PGSIZE - remain_num;
-				}				
-				if(flen + remain_num < PGSIZE && file < mem){
-					for(size_t k = flen + remain_num; k < PGSIZE; ++k){
-						page_cache[k] = 0;	
-					}
-				}
-				memcpy(pa, page_cache, PGSIZE);	
-				vaddr += (PGSIZE - remain_num);
-			}
-			remain_num = (mem - mlen) % PGSIZE;
-			size_t pg_count = (mem - mlen) / PGSIZE;
-			size_t fpg_count = (file - flen) / PGSIZE;
-			size_t fremain = (file - flen) % PGSIZE;
+			remain_num = mem  % PGSIZE;
+			size_t pg_count = mem / PGSIZE;
+			size_t fpg_count = file / PGSIZE;
+			size_t fremain = file % PGSIZE;
 			for(; j <= pg_count ; ++j){
 				pa = new_page(1);
 				map(&pcb->as, (void *)vaddr, pa, 0);
@@ -119,20 +95,17 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 						page_cache[u] = 0;
 					}
 				}else{
-					size_t u = 0;
-					if(pg_count == fpg_count + 1){
+					size_t u = fremain;
+					if(fremain > 0){
 						fs_read(fd, page_cache, fremain);
-						u = fremain;
 					}
 					for(; u < remain_num; ++u){
 						page_cache[u] = 0;
 					}
 				}
+				memcpy(pa, page_cache, PGSIZE);
 			}
 		}
-	}
-	if(remain_num > 0){
-		memcpy(pa, page_cache, PGSIZE);
 	}
 	fs_close(fd);
 	return elf_ehdr.e_entry;
