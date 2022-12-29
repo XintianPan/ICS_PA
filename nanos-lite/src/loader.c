@@ -55,6 +55,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 			vaddr = elf_phdr.p_vaddr;
 		    file = elf_phdr.p_filesz;
 			mem = elf_phdr.p_memsz;
+			Log("memsize:0x%x", mem);
 			j = 0;
 			fs_lseek(fd, elf_phdr.p_offset, SEEK_SET);
 			for(; j < file; ++j){
