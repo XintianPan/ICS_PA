@@ -33,7 +33,8 @@ static inline void csrw(vaddr_t rd, word_t rs_imm, vaddr_t csr){
 		case 0x305: id = 1; break; //mtvec
 		case 0x341: id = 2; break; //mepc
 		case 0x342: id = 3; break; //mcause
-	}
+		case 0x180: id = 4; break; //satp
+	} 
 	if(rd != 0) R(rd) = S(id);
 	S(id) = rs_imm;
 }
@@ -44,6 +45,7 @@ static inline void csrs(vaddr_t rd, word_t rs_imm, vaddr_t csr){
 		case 0x305: id = 1; break; //mtvec
 		case 0x341: id = 2; break; //mepc
 		case 0x342: id = 3; break; //mcause
+        case 0x180: id = 4; break; //satp
 	}
 	if(rd != 0) R(rd) = S(id);
 	uint32_t t;
@@ -59,7 +61,8 @@ static inline void csrc(vaddr_t rd, word_t rs_imm, vaddr_t csr){
 		case 0x305: id = 1; break; //mtvec
 		case 0x341: id = 2; break; //mepc
 		case 0x342: id = 3; break; //mcause
-	}
+	    case 0x180: id = 4; break; //satp
+	} 
 	if(rd != 0) R(rd) = S(id);
 	uint32_t t;
 	for(int i = 0; i < 32; ++i){
@@ -67,9 +70,9 @@ static inline void csrc(vaddr_t rd, word_t rs_imm, vaddr_t csr){
 		if((t & rs_imm)){
 			if((t & S(id))){
 				S(id) ^= t;
-			}
-		}
-	}
+	 		}
+	 	}
+	} 
 }
 
 enum {

@@ -18,5 +18,24 @@
 #include <memory/vaddr.h>
 
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
-  return MEM_RET_FAIL;
+	paddr_t pg_off = BITS(vaddr, 11, 0);
+	vaddr_t vpn1 = BITS(vaddr, 31, 22);
+	vaddr_t vpn0 = BITS(vaddr, 21, 12);
+	paddr_t dir = BITS(cpu.sys[4], 19, 0);
+	dir <<= 12;
+	paddr_t pte = paddr_read(dir + vpn1 * 4, 4);
+	assert((pte & 1) == 1);
+	paddr_t ppn = pte >> 10;
+	ppn <<= 12;
+	paddr_t pte0 = paddr_read(ppn + vpn0 * 4, 4);
+	paddr_t pg = pte0 >> 10;
+	paddr_t paddr = (pg << 12) | pg_off;
+	return paddr;
+}
+
+int isa_mmu_check(vaddr_t vaddr, int len, int type){
+	if(BITS(cpu.sys[4], 31, 31))
+	   return MMU_TRANSLATE;
+	else
+	   return MMU_DIRECT;	
 }
