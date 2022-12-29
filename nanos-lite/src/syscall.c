@@ -68,7 +68,8 @@ void do_syscall(Context *c) {
    switch (a[0]) {
 	case SYS_exit:
 //	   	Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
-	   	context_uload(current, "/bin/nterm", NULL, NULL);
+	   	halt(a[1]);
+		context_uload(current, "/bin/nterm", NULL, NULL);
 		for(int i = 0; i < 32; ++i){
 			c->gpr[i] = current->cp->gpr[i];
 		}
