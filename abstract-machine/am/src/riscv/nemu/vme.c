@@ -76,14 +76,16 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 	uintptr_t vpn0 = VPN(va_addr, 21, 12);
 	PTE *fir_dir = dir_addr + vpn1;
 	printf("addr:%p 0x%x\n", fir_dir, vpn1);
-	if((*fir_dir & 1) == 1)
-		return ;
+//    if((*fir_dir & 1) == 1)
+//		return ;
 	void* new_pg = pgalloc_usr(PGSIZE);
 	uintptr_t ppn_fir = (uintptr_t)new_pg >> 12;
 	printf("ppn_sec: 0x%x\n", ppn_fir);
 	*fir_dir = (ppn_fir << 10) | PTE_V;
     PTE *sec_dir = (uintptr_t *)new_pg + vpn0;
 	printf("sec_pos:%p\n", sec_dir);
+	if((*sec_dir & 1) == 1)
+		return ;
 	uintptr_t final_ppn = pa_addr >> 12;
 	*sec_dir = (final_ppn << 10) | PTE_R | PTE_W | PTE_X | PTE_V;	
 }
