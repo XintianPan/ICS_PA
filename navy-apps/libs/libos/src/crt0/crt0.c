@@ -9,6 +9,7 @@ void call_main(uintptr_t *args) {
 //  printf("%p\n", args);
   int argc = *(int *)(args);
 //  argc = *argc_addr;
+  assert((uintptr_t)args == 0x7ffffffc);
   char ** argv = (char **)(args - 1 - argc);
   char *empty[] = {NULL };
   environ = empty;
