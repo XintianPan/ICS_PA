@@ -38,8 +38,8 @@ static char *parse_arg[] = {"--skip", NULL };
 static char *parse_envp[] = {NULL };
 
 void init_proc() {
-  context_kload(&pcb[0], hello_fun, (void *)" Hell this ");
-  context_uload(&pcb[1], "/bin/pal", parse_arg, parse_envp);
+  context_kload(&pcb[1], hello_fun, (void *)" Hell this ");
+  context_uload(&pcb[0], "/bin/pal", parse_arg, parse_envp);
   switch_boot_pcb();
 
   Log("Initializing processes...");
@@ -50,9 +50,9 @@ void init_proc() {
 
 Context* schedule(Context *prev) {
 	prev->mepc += 4;
-	pcb[0].cp->pdir = NULL;
+//	pcb[0].cp->pdir = NULL;
 	current->cp = prev;
 	current = (current == &pcb[0]) ? &pcb[1] : &pcb[0];
-//	Log("%p", pcb[0].cp->pdir);
+	Log("%p", pcb[1].cp->pdir);
 	return current->cp;
 }
