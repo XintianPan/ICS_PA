@@ -7,8 +7,13 @@ static Context* do_event(Event e, Context* c) {
    switch (e.event) {
 	case EVENT_YIELD: 
 //		printf("catch this!\n");
+		c->mepc += 4;
 	   	return schedule(c);
 	   	break;
+	case EVENT_IRQ_TIMER:
+		Log("timer");
+		return schedule(c);
+		break;
 	case EVENT_SYSCALL: 
 //		printf("got this!\n");
 	   	do_syscall(c);

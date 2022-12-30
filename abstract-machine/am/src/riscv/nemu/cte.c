@@ -61,6 +61,7 @@ Context* __am_irq_handle(Context *c) {
 	  case   SYS_wait:
       case  SYS_times:
       case  SYS_gettimeofday: ev.event = EVENT_SYSCALL; break;
+	  case 0x80000007: ev.event = EVENT_IRQ_TIMER; break;
 	  case 0xffffffff: ev.event = EVENT_YIELD; break;
       default: ev.event = EVENT_ERROR; break;
     }
@@ -93,6 +94,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 	c->GPRx = (uintptr_t)(arg);
 	c->mepc = (uintptr_t)(entry);
 	c->mstatus = 0x1800;
+	c->mstatus |= (1 << 3);
 	c->mcause = 0;
 	c->pdir = NULL;	
 	return c;

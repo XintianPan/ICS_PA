@@ -113,6 +113,15 @@ static void decode_operand(Decode *s, int *dest, word_t *src1, word_t *src2, wor
 //	if(data == 0x83076874) printf("0x%08x\n", pc);
 //}
 
+#define MPIE_REC 0x00000080
+
+void mstatus_r(){
+	word_t mpie = BITS(S(0), 7, 7);
+	S(0) |= (mpie << 3);
+	S(0) |= MPIE_REC;
+}
+
+
 static int decode_exec(Decode *s, bool *jmp) {  
   int dest = 0;
   uint64_t rel = 0;
@@ -189,7 +198,7 @@ static int decode_exec(Decode *s, bool *jmp) {
 
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
   INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(R(17), 1)); //R(17) is $a7 
-  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , N, s->dnpc = cpu.sys[2]);
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , N, s->dnpc = cpu.sys[2], mstatus_r());
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));
   INSTPAT_END();
 

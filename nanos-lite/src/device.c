@@ -25,7 +25,7 @@ static const char *keyname[256] __attribute__((used)) = {
 }; 
 
 size_t serial_write(const void *buf, size_t offset, size_t len) {
-	yield();
+//	yield();
 	size_t i = 0;
 	const char *serial_wbuf = (const char *)buf;
 	for(; i < len; ++i){
@@ -35,7 +35,7 @@ size_t serial_write(const void *buf, size_t offset, size_t len) {
 }
 
 size_t events_read(void *buf, size_t offset, size_t len) {
-	yield();
+//	yield();
 	AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);	
 	memset(buf, 0, len);
 	if(ev.keycode == AM_KEY_NONE)
@@ -68,7 +68,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-	yield();
+//	yield();
 	//    printf("fb address: %p\n", fb_buf);
 	if(len == 0){ // use len = 0 to specify the input of w and h from canvas 
 		int *arr = (int *)buf;
