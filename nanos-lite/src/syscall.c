@@ -115,7 +115,7 @@ void do_syscall(Context *c) {
 		Log("%x", *(int*)a[2]);
 		if(current->max_brk == 0) current->max_brk = *(uintptr_t *)a[2];
 	    *(uintptr_t *)a[2] = *(uintptr_t *)a[2] + a[3];
-//		Log("%x", *(int*)a[2]);
+		Log("%x", *(int*)a[2]);
 		c->mepc += 4;
 		c->gpr[10] = mm_brk(current, *(uintptr_t *)a[2]);
 		break;
