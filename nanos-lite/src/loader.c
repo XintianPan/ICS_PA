@@ -64,6 +64,26 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 			Log("start addr:0x%x memsize: 0x%x filesize: 0x%x", vaddr, mem, file);
 			j = 1;
 			fs_lseek(fd, elf_phdr.p_offset, SEEK_SET);
+			size_t pre_page = vaddr % PGSIZE;
+			if(pre_page > 0){
+				size_t start_addr = PGSIZE - pre_page;
+				size_t fillpre = PGSIZE - pre_page;
+				vaddr = ROUNDUP(vaddr, PGSIZE);
+				size_t freadpre, memreadpre;
+				freadpre = memreadpre = 0;
+				if(file < fillpre) freadpre = file, file = 0;
+				else freadpre = fillpre, file -= freadpre;
+				mem -= freadpre;
+				if(freadpre < fillpre && mem > 0){
+					fillpre -= freadpre;
+					if(mem < fillpre) memreadpre = mem, mem = 0;
+					else memreadpre = fillpre, mem -= memreadpre;
+				}
+				size_t loads = freadpre;
+				fs_read(fd, page_cache + start_addr, freadpre);
+				for(; loads < memreadpre + freadpre; ++loads) page_cache[loads + start_addr] = 0;
+				memcpy(pa, page_cache, PGSIZE);
+			}
 			remain_num = mem  % PGSIZE;
 			size_t pg_count = mem / PGSIZE;
 			size_t fpg_count = file / PGSIZE;
