@@ -7,6 +7,8 @@ static void* (*pgalloc_usr)(int) = NULL;
 static void (*pgfree_usr)(void*) = NULL;
 static int vme_enable = 0;
 
+extern uintptr_t kernel_thread;
+
 static Area segments[] = {      // Kernel memory mappings
   NEMU_PADDR_SPACE
 };
@@ -59,7 +61,8 @@ void unprotect(AddrSpace *as) {
 }
 
 void __am_get_cur_as(Context *c) {
-  c->pdir = (vme_enable ? (void *)get_satp() : NULL);
+  if((uintptr_t)c != kernel_thread)
+	c->pdir = (vme_enable ? (void *)get_satp() : NULL);
  // printf("get addr:%p\n", c->pdir);
 }
 
