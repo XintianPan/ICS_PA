@@ -49,7 +49,7 @@ void init_proc() {
 }
 
 Context* schedule(Context *prev) {
-//	prev->mepc;
+	prev->mepc += 4;
 	current->cp = prev;
 	current = &pcb[1];
 //	Log("%p", current->cp->mepc);
