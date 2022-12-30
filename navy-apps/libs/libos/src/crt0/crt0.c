@@ -11,9 +11,10 @@ void call_main(uintptr_t *args) {
 //  argc = *argc_addr;
   assert((uintptr_t)args == 0x7ffffffc);
   char ** argv = (char **)(args - 1 - argc);
-  char *empty[] = {NULL };
-  environ = empty;
+  int envpc = *(int *)(args - 2 - argc);
+  char ** envp = (char **)(args - 3 - argc - envpc);
+  environ = envp;
 //  printf("main addr:%p\n", (void *)main);
-  exit(main(argc, argv, empty));
+  exit(main(argc, argv, envp));
   assert(0);
 }

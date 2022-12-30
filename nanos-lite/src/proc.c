@@ -35,7 +35,7 @@ void context_kload(PCB *pcb, void(*entry)(void *), void *arg){
 
 static char *parse_arg[] = {"--skip", NULL };
 
-static char *parse_envp[] = {NULL };
+static char *parse_envp[] = {"fuck=shit", NULL };
 
 void init_proc() {
   context_kload(&pcb[0], hello_fun, (void *)" Hell this ");
