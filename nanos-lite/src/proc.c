@@ -6,6 +6,8 @@ static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
 static PCB pcb_boot = {};
 PCB *current = NULL;
 
+static int time_seg = 0;
+
 PCB *kpcb = NULL;
 void context_kload(PCB *pcb, void(*entry)(void *), void *arg);
 
@@ -55,7 +57,13 @@ Context* schedule(Context *prev) {
 //	pcb[0].cp->pdir = NULL;
 	current->cp = prev;
 	if(current == kpcb) current->cp->pdir = NULL;
-	current = (current == &pcb[0]) ? &pcb[1] : &pcb[0];
-//	Log("%p", pcb[0].cp->pdir);
+	if(time_seg < 9){
+		current = &pcb[1];
+		++time_seg;
+	}else{
+		current = &pcb[0];
+		time_seg = 0;
+	}
+	//	Log("%p", pcb[0].cp->pdir);
 	return current->cp;
 }
