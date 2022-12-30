@@ -52,6 +52,6 @@ Context* schedule(Context *prev) {
 	prev->mepc += 4;
 	current->cp = prev;
 	current = (current == &pcb[0]) ? &pcb[1] : &pcb[0];
-//	Log("%p", current->cp->mepc);
+	Log("%p", pcb[0].cp->pdir);
 	return current->cp;
 }
