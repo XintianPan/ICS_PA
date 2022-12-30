@@ -61,8 +61,7 @@ void unprotect(AddrSpace *as) {
 }
 
 void __am_get_cur_as(Context *c) {
-  if((uintptr_t)c != kernel_thread)
-	c->pdir = (vme_enable ? (void *)get_satp() : NULL);
+  c->pdir = (vme_enable ? (void *)get_satp() : NULL);
  // printf("get addr:%p\n", c->pdir);
 }
 

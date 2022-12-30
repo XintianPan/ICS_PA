@@ -30,8 +30,6 @@ void __am_get_cur_as(Context *c);
 
 void __am_switch(Context *c);
 
-uintptr_t kernel_thread;
-
 Context* __am_irq_handle(Context *c) {
 //  for(int i = 1; i < 32; ++i){
 //	printf("%x\n", c->gpr[i]);
@@ -88,7 +86,6 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 	Context* c = (Context *)(kstack.end + 1 - sizeof(Context));
-	kernel_thread = (uintptr_t)c;
 	for(int i = 0; i < 32; ++i){
 		c->gpr[i] = 0;
  	}
