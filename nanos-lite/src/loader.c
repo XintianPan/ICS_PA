@@ -170,8 +170,8 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   if(envp != NULL){
 	while(envp[envpc] != NULL) ++envpc;
   }
-  int *argc_pos = (int *)(actuall_addr - sizeof(int));
-  uintptr_t *arg_env_pos = (uintptr_t *)((void *)actuall_addr - sizeof(int) - sizeof(uintptr_t));
+  int *argc_pos = (int *)(actuall_addr);
+  uintptr_t *arg_env_pos = (uintptr_t *)((void *)actuall_addr - sizeof(uintptr_t));
   *argc_pos = argc;
   char *string_area = (char *)((void *)actuall_addr - STACK_SIZE + 1);
   *arg_env_pos = (uintptr_t)NULL;
