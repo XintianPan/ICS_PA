@@ -57,6 +57,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 		bytes = fs_read(fd, &elf_phdr, sizeof(Elf_Phdr));
 	    assert(bytes == sizeof(Elf_Phdr));
  	    if(elf_phdr.p_type == PT_LOAD){
+			Log("0x%x", elf_phdr.p_align);
 			vaddr = elf_phdr.p_vaddr;
 		    file = elf_phdr.p_filesz;
 			mem = elf_phdr.p_memsz;
