@@ -44,6 +44,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 }
 
 word_t isa_query_intr() {
+	if(BITS(cpu.sys[0], 3, 3) == 0) puts("closed");
 	if(cpu.INTR && (BITS(cpu.sys[0], 3, 3))){
 		cpu.INTR = false;
 		return IRQ_TIMER;
