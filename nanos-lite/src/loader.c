@@ -205,5 +205,6 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   *arg_env_pos = (uintptr_t)NULL;
   pcb->cp->gpr[10] -= (sizeof(int) + (argc + envpc + 4) * sizeof(uintptr_t));
   pcb->cp->gpr[11] = (uintptr_t)pcb->as.area.end - sizeof(int);
+  Log("%p", pcb->cp->gpr[11]);
   entry = loader(pcb, filename);
 }
