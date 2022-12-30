@@ -32,6 +32,7 @@ int mm_brk(PCB *pcb, uintptr_t brk) {
 			void* pa;
 			for(size_t i = 0; i < page_num; ++i){
 				pa = new_page(1);
+				Log("here");
 				map(&pcb->as, (void *)v_new_start, pa, 0);
 				v_new_start += PGSIZE;
 			}
