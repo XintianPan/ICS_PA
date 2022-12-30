@@ -31,7 +31,7 @@ int mm_brk(PCB *pcb, uintptr_t brk) {
 			uintptr_t v_new_start = ROUNDDOWN(pcb->max_brk, PGSIZE) + PGSIZE;
 			void* pa;
 			for(size_t i = 0; i < page_num; ++i){
-				Log("addr: %p %p", brk, v_new_start);
+//				Log("addr: %p %p", brk, v_new_start);
 				pa = new_page(1);
 				map(&pcb->as, (void *)v_new_start, pa, 0);
 				v_new_start += PGSIZE;
