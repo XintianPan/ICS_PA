@@ -28,7 +28,7 @@ int mm_brk(PCB *pcb, uintptr_t brk) {
 		uintptr_t v_page_cur = brk / PGSIZE;
 		if(v_page_cur != v_page_pre){ //this indicates that we need alloc new pages
 			size_t page_num = v_page_cur - v_page_pre;
-			uintptr_t v_new_start = ROUNDUP(pcb->max_brk, PGSIZE) + PGSIZE;
+			uintptr_t v_new_start = ROUNDDOWN(pcb->max_brk, PGSIZE) + PGSIZE;
 			void* pa;
 			for(size_t i = 0; i < page_num; ++i){
 				Log("addr: %p %p", brk, v_new_start);
