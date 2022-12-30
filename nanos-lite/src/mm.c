@@ -1,4 +1,4 @@
-#include <memory.h>
+#include <proc.h>
 
 static void *pf = NULL;
 
@@ -22,8 +22,23 @@ void free_page(void *p) {
 }
 
 /* The brk() system call handler. */
-int mm_brk(uintptr_t brk) {
-  return 0;
+int mm_brk(PCB *pcb, uintptr_t brk) {
+	if(pcb->max_brk < brk){
+		uintptr_t v_page_pre = pcb->max_brk / PGSIZE;
+		uintptr_t v_page_cur = brk / PGSIZE;
+		if(v_page_cur != v_page_pre){ //this indicates that we need alloc new pages
+			size_t page_num = v_page_cur - v_page_pre;
+			uintptr_t v_new_start = ROUNDDOWN(brk, PGSIZE);
+			void* pa;
+			for(size_t i = 0; i < page_num; ++i){
+				pa = new_page(1);
+				map(&pcb->as, (void *)v_new_start, pa, 0);
+				v_new_start += PGSIZE;
+			}
+		}
+		pcb->max_brk = brk;
+	}
+	return 0;
 }
 
 void init_mm() {

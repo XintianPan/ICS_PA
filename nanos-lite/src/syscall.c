@@ -58,6 +58,8 @@ int sys_gettime(intptr_t tv, intptr_t tz){
 	return 0;	
 }
 
+int mm_brk(PCB *pcb, uintptr_t brk);
+
 void do_syscall(Context *c) {
   uintptr_t a[5];
   a[0] = c->GPR1; //a7
@@ -111,10 +113,11 @@ void do_syscall(Context *c) {
 	case SYS_brk:
 //		Log("syscall:%s 1st arg:%d 2nd arg:%p 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
 //		Log("%x", *(int*)a[2]);
-	    *(int *)a[2] = *(int*)a[2] + a[3];
+		if(current->max_brk == 0) current->max_brk = *(uintptr_t *)a[2];
+	    *(uintptr_t *)a[2] = *(uintptr_t *)a[2] + a[3];
 //		Log("%x", *(int*)a[2]);
 		c->mepc += 4;
-		c->gpr[10] = 0;
+		c->gpr[10] = mm_brk(current, *(uintptr_t *)a[2]);
 		break;
 	case SYS_gettimeofday:
 //		Log("syscall:%s 1st arg:%p 2nd arg:%p 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
