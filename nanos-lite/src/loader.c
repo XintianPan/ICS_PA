@@ -57,11 +57,11 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 		bytes = fs_read(fd, &elf_phdr, sizeof(Elf_Phdr));
 	    assert(bytes == sizeof(Elf_Phdr));
  	    if(elf_phdr.p_type == PT_LOAD){
-			Log("0x%x", elf_phdr.p_align);
+	//		Log("0x%x", elf_phdr.p_align);
 			vaddr = elf_phdr.p_vaddr;
 		    file = elf_phdr.p_filesz;
 			mem = elf_phdr.p_memsz;
-			Log("start addr:0x%x memsize: 0x%x filesize: 0x%x", vaddr, mem, file);
+	//		Log("start addr:0x%x memsize: 0x%x filesize: 0x%x", vaddr, mem, file);
 			j = 1;
 			fs_lseek(fd, elf_phdr.p_offset, SEEK_SET);
 			size_t pre_page = vaddr % PGSIZE;
@@ -140,7 +140,7 @@ void naive_uload(PCB *pcb, const char *filename) {
 }
 
 void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]){
-  Log("%p", pcb);
+ // Log("%p", pcb);
   Elf_Ehdr elf_ehdr;
   int fd = fs_open(filename, 1, 1);
   size_t bytes = fs_read(fd, &elf_ehdr, sizeof(Elf_Ehdr));
@@ -159,14 +159,14 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
 	map(&pcb->as, curpos + i * PGSIZE, ustack + i * PGSIZE, 0);
   }
   pcb->cp->gpr[10] = (uintptr_t)pcb->as.area.end;
-  Log("%p", pcb->cp->gpr[10]);
+//  Log("%p", pcb->cp->gpr[10]);
   uintptr_t actuall_addr = (uintptr_t)ustack + STACK_SIZE - 4; 
   int argc = 0;
   int envpc = 0;
   if(argv != NULL){ 
 	while(*(argv + argc) != (char *)NULL) ++argc;
   }
-  Log("argc:%d", argc);
+//  Log("argc:%d", argc);
   if(envp != NULL){
 	while(envp[envpc] != NULL) ++envpc;
   }
@@ -199,13 +199,13 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
 	  *string_area = *c;
 	 }
 	*string_area = '\0';
-	Log("%s", *(char **)arg_env_pos);
+//	Log("%s", *(char **)arg_env_pos);
 	++string_area;	
   } 
  }
   *arg_env_pos = (uintptr_t)NULL;
   pcb->cp->gpr[10] -= (sizeof(int) + (argc + envpc + 4) * sizeof(uintptr_t));
   pcb->cp->gpr[11] = (uintptr_t)pcb->as.area.end - sizeof(int);
-  Log("%p", pcb->cp->gpr[11]);
+ // Log("%p", pcb->cp->gpr[11]);
   entry = loader(pcb, filename);
 }
