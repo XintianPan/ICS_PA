@@ -107,10 +107,11 @@ Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
 		c->gpr[i] = 0;
 	}
 	c->pdir = as->ptr;
+	c->gpr[0] = 1;
 //	c->gpr[10] = (uintptr_t)heap.end;
 	c->mepc = (uintptr_t)(entry);
 	c->mstatus = 0x1800;
-	c->mstatus |= (1 << 3);
+//	c->mstatus |= (1 << 3);
 	c->mcause = 0;	
     return c;
 }
