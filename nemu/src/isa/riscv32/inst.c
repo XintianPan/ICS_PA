@@ -118,7 +118,7 @@ static void decode_operand(Decode *s, int *dest, word_t *src1, word_t *src2, wor
 void mstatus_r(){
 	word_t mpie = BITS(S(0), 7, 7);
 	S(0) |= (mpie << 3);
-	S(0) |= MPIE_EPC;
+	S(0) &= MPIE_EPC;
 }
 
 
