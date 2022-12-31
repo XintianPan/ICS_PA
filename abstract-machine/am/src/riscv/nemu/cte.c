@@ -36,6 +36,16 @@ enum {
 
 static Context* (*user_handler)(Event, Context*) = NULL;
 
+static inline uintptr_t get_ms(){
+	uintptr_t ms;
+	asm volatile("csrr %0, mscratch" : "=r"(ms));
+	return ms;
+}
+
+static inline void set_ms(uintptr_t val){
+	asm volatile("csrr %0, mscratch" : :"r"(val));
+}
+
 void __am_get_cur_as(Context *c);
 
 void __am_switch(Context *c);
@@ -46,7 +56,14 @@ Context* __am_irq_handle(Context *c) {
 //  }  
 //  printf("%x\n", c->mstatus);
 //  printf("%x\n", c->mepc);
-//  printf("%x\n", c->mcause);
+  printf("%x\n", c->gpr[2]);
+  uintptr_t pre_sp = get_ms();
+  if(pre_sp - sizeof(Context) != c->gpr[2]){
+	c->gpr[0] = 1;
+  }else{
+	c->gpr[0] = 0;
+  }
+   
   __am_get_cur_as(c);	
   if (user_handler) {
     Event ev = {0};

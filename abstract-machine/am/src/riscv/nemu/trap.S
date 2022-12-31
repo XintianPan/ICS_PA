@@ -30,11 +30,11 @@ f(30) f(31)
 .align 3
 .globl __am_asm_trap
 __am_asm_trap:
-#  csrrw sp, mscratch, sp
-#  bnez sp, save_context
-#  csrr sp, mscratch
+  csrrw sp, mscratch, sp
+  bnez sp, save_context
+  csrr sp, mscratch
 
-#save_context:
+save_context:
   addi sp, sp, -CONTEXT_SIZE
 
   MAP(REGS, PUSH)
@@ -46,7 +46,7 @@ __am_asm_trap:
   STORE t0, OFFSET_CAUSE(sp)
   STORE t1, OFFSET_STATUS(sp)
   STORE t2, OFFSET_EPC(sp)
-
+  STORE sp, OFFSET_SP(sp)
 #  csrr t0, mscratch
   # save pre sp, next to save np 
 #  STORE t0, OFFSET_SP(sp) # mscratch saves the value of sp before using the kernel stack
@@ -56,11 +56,6 @@ __am_asm_trap:
 #  sub t0, t0, sp # sub
 #  bnez t0, save_np # not equal to 0 means it's user, otherwise it's user
 #  addi t2, t2, -1 # kernel stack before entering
-
-save_np:  
-  STORE t2, 0(sp)     # we use c->gpr[0] to store np (x0 doesn't need to save in context)
-  csrw mscratch, zero # support re-entry of cte
-
   # set mstatus.MPRV to pass difftest
   li a0, (1 << 17)
   or t1, t1, a0
