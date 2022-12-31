@@ -15,10 +15,10 @@ int main() {
 
   init_mm();
 
-  Log("here!");
+//  Log("here!");
   init_device();
 
-  Log("this!");
+//  Log("this!");
   init_ramdisk();
 
 #ifdef HAS_CTE
