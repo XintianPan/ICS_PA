@@ -104,7 +104,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 	c->GPRx = (uintptr_t)(arg);
 	c->mepc = (uintptr_t)(entry);
 	c->mstatus = 0x1800;
-	c->mstatus |= (1 << 3);
+//	c->mstatus |= (1 << 3);
 	c->mcause = 0;
 	c->pdir = NULL;	
 	return c;

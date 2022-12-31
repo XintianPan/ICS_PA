@@ -30,11 +30,11 @@ f(30) f(31)
 .align 3
 .globl __am_asm_trap
 __am_asm_trap:
-  csrrw sp, mscratch, sp
-  bnez sp, save_context
-  csrr sp, mscratch
+#  csrrw sp, mscratch, sp
+#  bnez sp, save_context
+#  csrr sp, mscratch
 
-save_context:
+#save_context:
   addi sp, sp, -CONTEXT_SIZE
 
   MAP(REGS, PUSH)
@@ -47,15 +47,15 @@ save_context:
   STORE t1, OFFSET_STATUS(sp)
   STORE t2, OFFSET_EPC(sp)
 
-  csrr t0, mscratch
+#  csrr t0, mscratch
   # save pre sp, next to save np 
-  STORE t0, OFFSET_SP(sp) # mscratch saves the value of sp before using the kernel stack
-  mv t1, sp # now t1 has the value of sp
-  addi t2, zero, 1 # user stack before entering
-  addi t0, t0, -CONTEXT_SIZE # mscratch value minus context_size if it is equal to sp, then it's kernel, otherwise it's user
-  sub t0, t0, sp # sub
-  bnez t0, save_np # not equal to 0 means it's user, otherwise it's user
-  addi t2, t2, -1 # kernel stack before entering
+#  STORE t0, OFFSET_SP(sp) # mscratch saves the value of sp before using the kernel stack
+#  mv t1, sp # now t1 has the value of sp
+#  addi t2, zero, 1 # user stack before entering
+#  addi t0, t0, -CONTEXT_SIZE # mscratch value minus context_size if it is equal to sp, then it's kernel, otherwise it's user
+#  sub t0, t0, sp # sub
+#  bnez t0, save_np # not equal to 0 means it's user, otherwise it's user
+#  addi t2, t2, -1 # kernel stack before entering
 
 save_np:  
   STORE t2, 0(sp)     # we use c->gpr[0] to store np (x0 doesn't need to save in context)
@@ -77,14 +77,14 @@ save_np:
   MAP(REGS, POP)
 
   addi sp, sp, CONTEXT_SIZE
-  STORE t0, 0(sp)
-  LOAD t0, -CONTEXT_SIZE(sp)
-  addi t0, t0, -1
-  bnez t0, restore_sp
-  csrw mscratch, sp	
+#  STORE t0, 0(sp)
+#  LOAD t0, -CONTEXT_SIZE(sp)
+#  addi t0, t0, -1
+#  bnez t0, restore_sp
+#  csrw mscratch, sp	
  
-restore_sp:
-  LOAD t0, 0(sp)
-  LOAD sp, (-CONTEXT_SIZE + OFFSET_SP)(sp)
+#restore_sp:
+#  LOAD t0, 0(sp)
+#  LOAD sp, (-CONTEXT_SIZE + OFFSET_SP)(sp)
 
   mret
