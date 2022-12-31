@@ -34,7 +34,7 @@ void context_kload(PCB *pcb, void(*entry)(void *), void *arg){
 	kstack.end = (void *)pcb + sizeof(PCB) - 1;
 	kpcb = pcb;
 	pcb->cp = kcontext(kstack, entry, arg);
-	Log("%p", pcb);
+//	Log("%p", pcb);
 }
 
 static char *parse_arg[] = {"--skip", NULL };
