@@ -35,8 +35,8 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 			                 break;
 		}
 #endif
-  word_t mie = BITS(cpu.sys[0], 3, 3);
-  cpu.sys[0] &= MIE_CLEAR;
+  word_t mie = 0;
+  cpu.sys[0] = cpu.sys[0] & MIE_CLEAR;
   cpu.sys[0] |= (mie << 7);
   cpu.sys[3] = NO;
   cpu.sys[2] = cpu.pc;
