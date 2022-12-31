@@ -1,6 +1,16 @@
 #include <am.h>
 #include <riscv/riscv.h>
 #include <klib.h>
+
+#define HARD_ZERO 0
+
+/*
+ * zero register is implemented as hard-wire zero,
+ * so gpr[0] in context struct is of no use
+ * thus we use c->gpr[0] to store np
+ * and restore it to zero when we restore context*/
+
+
 enum {
   SYS_exit,
   SYS_yield,

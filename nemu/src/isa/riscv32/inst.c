@@ -34,6 +34,7 @@ static inline void csrw(vaddr_t rd, word_t rs_imm, vaddr_t csr){
 		case 0x341: id = 2; break; //mepc
 		case 0x342: id = 3; break; //mcause
 		case 0x180: id = 4; break; //satp
+		case 0x340: id = 5; break; //mscratch
 	} 
 	if(rd != 0) R(rd) = S(id);
 	S(id) = rs_imm;
@@ -46,6 +47,7 @@ static inline void csrs(vaddr_t rd, word_t rs_imm, vaddr_t csr){
 		case 0x341: id = 2; break; //mepc
 		case 0x342: id = 3; break; //mcause
         case 0x180: id = 4; break; //satp
+		case 0x340: id = 5; break; //mscratch
 	}
 	if(rd != 0) R(rd) = S(id);
 	uint32_t t;
@@ -62,6 +64,7 @@ static inline void csrc(vaddr_t rd, word_t rs_imm, vaddr_t csr){
 		case 0x341: id = 2; break; //mepc
 		case 0x342: id = 3; break; //mcause
 	    case 0x180: id = 4; break; //satp
+		case 0x304: id = 5; break; //mscratch
 	} 
 	if(rd != 0) R(rd) = S(id);
 	uint32_t t;
