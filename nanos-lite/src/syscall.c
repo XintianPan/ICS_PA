@@ -86,11 +86,13 @@ void do_syscall(Context *c) {
 		c->mepc += 4; c->gpr[10] = 0; break;
 	case SYS_open:
 //		Log("syscall:%s 1st arg:%s 2nd arg:%d 3rd arg:%d", syscall_name[a[0]],(char *)a[1], a[2], a[3]);
+		Log("open");
 		c->gpr[10] = fs_open((char *)a[1], (int)a[2], (int)a[3]);
 		c->mepc += 4;
 		break;
 	case SYS_read:
 //		Log("syscall:%s 1st arg:%d 2nd arg:%p 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
+		Log("read");
 		c->gpr[10] = fs_read((int)a[1], (void *)a[2], a[3]);
 		c->mepc += 4;
 		break;
