@@ -43,7 +43,7 @@ static inline uintptr_t get_ms(){
 }
 
 static inline void set_ms(uintptr_t val){
-	asm volatile("csrr %0, mscratch" : :"r"(val));
+	asm volatile("csrw mscratch, %0" : :"r"(val));
 }
 
 void __am_get_cur_as(Context *c);
