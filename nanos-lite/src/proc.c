@@ -42,7 +42,7 @@ static char *parse_arg[] = {"--skip", NULL };
 static char *parse_envp[] = {NULL };
 
 void init_proc() {
-  context_uload(&pcb[0], "/bin/hello", NULL, NULL);
+  context_kload(&pcb[0], hello_fun, "NO");
   context_uload(&pcb[1], "/bin/nterm", parse_arg, parse_envp);
   switch_boot_pcb();
 
@@ -58,6 +58,6 @@ Context* schedule(Context *prev) {
 	current->cp = prev;
 	if(current == kpcb) current->cp->pdir = NULL;
 	current = (current == &pcb[0]) ? &pcb[1] : &pcb[0]; 
-//	Log("%p %p", pcb[0].cp, pcb[1].cp);
+	Log("%p %p", pcb[0].cp, pcb[1].cp);
 	return current->cp;
 }
