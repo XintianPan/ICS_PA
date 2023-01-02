@@ -64,6 +64,12 @@ save_context:
   mv a0, sp
   jal __am_irq_handle
   mv sp, a0
+  LOAD t1, 0(sp)
+  addi t2, sp, CONTEXT_SIZE
+  beqz t1, skip
+  csrw mscratch, t2
+ 
+skip:
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)
   csrw mstatus, t1
@@ -71,7 +77,7 @@ save_context:
 
   MAP(REGS, POP)
 
-  addi sp, sp, CONTEXT_SIZE
+  LOAD sp, OFFSET_SP(sp)
 #  STORE t0, 0(sp)
 #  LOAD t0, -CONTEXT_SIZE(sp)
 #  addi t0, t0, -1
