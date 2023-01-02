@@ -42,7 +42,7 @@ static char *parse_arg[] = {"--skip", NULL };
 static char *parse_envp[] = {NULL };
 
 void init_proc() {
-  context_uload(&pcb[0], "/bin/hello", parse_arg, parse_envp);
+  context_kload(&pcb[0], hello_fun, "NO");
   context_uload(&pcb[1], "/bin/nterm", parse_arg, parse_envp);
   switch_boot_pcb();
 
