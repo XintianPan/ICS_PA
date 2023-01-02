@@ -116,6 +116,7 @@ void do_syscall(Context *c) {
 	case SYS_brk:
 //		Log("syscall:%s 1st arg:%d 2nd arg:%p 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
 //		Log("%x", *(int*)a[2]);
+		Log("brk");
 		if(current->max_brk == 0) current->max_brk = *(uintptr_t *)a[2];
 	    *(uintptr_t *)a[2] = *(uintptr_t *)a[2] + a[3];
 //		Log("%x", *(int*)a[2]);
