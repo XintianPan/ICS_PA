@@ -56,19 +56,19 @@ Context* __am_irq_handle(Context *c) {
 //  }  
 //  printf("%x\n", c->mstatus);
 //  printf("%x\n", c->mepc);
-  printf("here %x\n", c->gpr[2]);
+//  printf("here %x\n", c->gpr[2]);
   uintptr_t pre_sp = get_ms();
-  printf("os %x %x\n", pre_sp, sizeof(Context));
+//  printf("os %x %x\n", pre_sp, sizeof(Context));
   if(pre_sp - sizeof(Context) != c->gpr[2]){
-	printf("user\n");
+//	printf("user\n");
 	c->gpr[0] = 1;
   }else{
-	printf("kernel\n");
+//	printf("kernel\n");
 	c->gpr[0] = 0;
   }
   c->gpr[2] = pre_sp;
   set_ms(0); 
-  printf("ksp:%x \n", get_ms()); 
+//  printf("ksp:%x \n", get_ms()); 
   __am_get_cur_as(c);	
   if (user_handler) {
     Event ev = {0};
@@ -101,7 +101,7 @@ Context* __am_irq_handle(Context *c) {
     c = user_handler(ev, c);
     assert(c != NULL);
   }
-  printf("new addr:%p\n", c);
+//  printf("new addr:%p\n", c);
   __am_switch(c);
   return c;
 }

@@ -70,7 +70,7 @@ void do_syscall(Context *c) {
    switch (a[0]) {
 	case SYS_exit:
 //	   	Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
-	   	Log("let's end this staff!");
+//	   	Log("let's end this staff!");
 		halt(a[1]);
 		context_uload(current, "/bin/nterm", NULL, NULL);
 		for(int i = 0; i < 32; ++i){
@@ -86,13 +86,13 @@ void do_syscall(Context *c) {
 		c->mepc += 4; c->gpr[10] = 0; break;
 	case SYS_open:
 //		Log("syscall:%s 1st arg:%s 2nd arg:%d 3rd arg:%d", syscall_name[a[0]],(char *)a[1], a[2], a[3]);
-		Log("open");
+//		Log("open");
 		c->gpr[10] = fs_open((char *)a[1], (int)a[2], (int)a[3]);
 		c->mepc += 4;
 		break;
 	case SYS_read:
 //		Log("syscall:%s 1st arg:%d 2nd arg:%p 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
-		Log("read");
+//		Log("read");
 		c->gpr[10] = fs_read((int)a[1], (void *)a[2], a[3]);
 		c->mepc += 4;
 		break;
@@ -104,7 +104,7 @@ void do_syscall(Context *c) {
 		break;
 	case SYS_close:
 //		Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
-		Log("close");
+//		Log("close");
 		c->gpr[10] = fs_close(a[1]);
 		c->mepc += 4;
 		break;
@@ -116,7 +116,7 @@ void do_syscall(Context *c) {
 	case SYS_brk:
 //		Log("syscall:%s 1st arg:%d 2nd arg:%p 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
 //		Log("%x", *(int*)a[2]);
-		Log("brk");
+//		Log("brk");
 		if(current->max_brk == 0) current->max_brk = *(uintptr_t *)a[2];
 	    *(uintptr_t *)a[2] = *(uintptr_t *)a[2] + a[3];
 //		Log("%x", *(int*)a[2]);
@@ -139,7 +139,7 @@ void do_syscall(Context *c) {
 			c->mstatus = current->cp->mstatus;
 			c->mcause = current->cp->mcause;
 			c->mepc = current->cp->mepc;
-			Log("here %x %x", c->gpr[2], c->mepc);
+//	Log("here %x %x", c->gpr[2], c->mepc);
 		}
 		else
 			c->gpr[10] = -2, c->mepc += 4;	
