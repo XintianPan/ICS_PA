@@ -67,7 +67,8 @@ Context* __am_irq_handle(Context *c) {
 	c->gpr[0] = 0;
   }
   c->gpr[2] = pre_sp;
-  set_ms(0);  
+  set_ms(0); 
+  printf("ksp:%x \n", get_ms()); 
   __am_get_cur_as(c);	
   if (user_handler) {
     Event ev = {0};
