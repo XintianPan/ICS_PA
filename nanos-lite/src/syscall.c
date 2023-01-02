@@ -135,6 +135,7 @@ void do_syscall(Context *c) {
 			c->mstatus = current->cp->mstatus;
 			c->mcause = current->cp->mcause;
 			c->mepc = current->cp->mepc;
+			Log("here");
 		}
 		else
 			c->gpr[10] = -2, c->mepc += 4;	
