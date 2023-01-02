@@ -101,6 +101,7 @@ Context* __am_irq_handle(Context *c) {
     c = user_handler(ev, c);
     assert(c != NULL);
   }
+  printf("new addr:%p\n", c);
   __am_switch(c);
   return c;
 }
