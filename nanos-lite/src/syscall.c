@@ -39,6 +39,8 @@ void naive_uload(PCB *pcb, const char *filename);
 
 void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]);
 
+void switch_boot_pcb();
+
 int fs_open(const char *pathname, int flags, int mode);
 
 int fs_close(int fd);
@@ -133,13 +135,9 @@ void do_syscall(Context *c) {
 		if(file_check((char *)a[1])){
 //			Log("%s", (char *)a[1]);
 			context_uload(current, (char *)a[1], (char *const *)a[2], (char *const *)a[3]);
-			for(int i = 0; i < 32; ++i){
-				c->gpr[i] = current->cp->gpr[i];
-			}
-			c->mstatus = current->cp->mstatus;
-			c->mcause = current->cp->mcause;
-			c->mepc = current->cp->mepc;
-//	Log("here %x %x", c->gpr[2], c->mepc);
+			switch_boot_pcb();
+			yield();
+			//	Log("here %x %x", c->gpr[2], c->mepc);
 		}
 		else
 			c->gpr[10] = -2, c->mepc += 4;	

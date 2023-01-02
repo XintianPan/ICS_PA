@@ -128,7 +128,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 	c->mepc = (uintptr_t)(entry);
 	c->mstatus = 0x1800;
 	c->gpr[2] = (uintptr_t)(kstack.end - sizeof(Context));
-//	c->mstatus |= (1 << 3);
+	c->mstatus |= (1 << 3);
 	c->mcause = 0;
 	c->pdir = NULL;	
 	return c;
