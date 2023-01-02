@@ -43,7 +43,7 @@ static char *parse_envp[] = {NULL };
 
 void init_proc() {
   context_uload(&pcb[0], "/bin/hello", parse_arg, parse_envp);
-  context_uload(&pcb[1], "/bin/exec-test", parse_arg, parse_envp);
+  context_uload(&pcb[1], "/bin/nterm", parse_arg, parse_envp);
   switch_boot_pcb();
 
   Log("Initializing processes...");
@@ -58,6 +58,6 @@ Context* schedule(Context *prev) {
 	current->cp = prev;
 	if(current == kpcb) current->cp->pdir = NULL;
 	current = (current == &pcb[0]) ? &pcb[1] : &pcb[0]; 
-//	Log("%p %p", pcb[0].cp, pcb[1].cp);
+	Log("%p %p", pcb[0].cp, pcb[1].cp);
 	return current->cp;
 }
