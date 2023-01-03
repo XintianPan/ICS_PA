@@ -7,6 +7,8 @@ int main(int argc, char *argv[], char *envp[]);
 extern char **environ;
 void call_main(uintptr_t *args) {
 //  printf("%p\n", args);
+  assert(args != NULL);
+  assert(main != NULL);
   int argc = *(int *)(args);
  // assert(0);
   //  argc = *argc_addr;
