@@ -32,7 +32,7 @@ size_t fs_read(int fd, void *buf, size_t len);
 
 size_t fs_lseek(int fd, size_t offset, int whence);
 
-uint8_t page_cache[PGSIZE];
+//uint8_t page_cache[PGSIZE];
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
 	Elf_Ehdr elf_ehdr;
@@ -43,7 +43,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 	assert(bytes == sizeof(Elf_Ehdr));
 	assert(*(uint32_t *)elf_ehdr.e_ident = 0x7f454c46);
 	assert(elf_ehdr.e_machine == EXPECT_TYPE);
-    size_t i = 0;
+    uint8_t page_cache[PGSIZE];
+	size_t i = 0;
 	size_t j = 0;
 //	size_t off = 0;
 	size_t file, mem;
