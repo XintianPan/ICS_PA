@@ -8,7 +8,7 @@ extern char **environ;
 void call_main(uintptr_t *args) {
 //  printf("%p\n", args);
   int argc = *(int *)(args);
-  assert(0);
+ // assert(0);
   //  argc = *argc_addr;
 //  assert((uintptr_t)args == 0x7ffffffc);
   char ** argv = (char **)(args + 1);
