@@ -128,7 +128,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 						page_cache[u] = 0;
 					}
 				}
-				Log("%p", pa);
+//				Log("%p", pa);
 				memcpy(pa, page_cache, PGSIZE);
 			}
 		}
