@@ -53,6 +53,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 	uint32_t off = elf_ehdr.e_phoff;
 	uint32_t remain_num = 0;
 	void *pa = NULL;
+	uint32_t pre_va = 0;
  	//Log("THIS CACHE cause pro:%p %p", page_cache, page_cache + PGSIZE);
 	for(; i < elf_ehdr.e_phnum; ++i){
 		fs_lseek(fd, off + i * (sizeof(Elf_Phdr)), SEEK_SET);
@@ -71,6 +72,10 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 				size_t start_addr = pre_page;
 				size_t fillpre = PGSIZE - pre_page;
 				Log("0x%x", vaddr);
+				if(pre_va / PGSIZE != vaddr / PGSIZE){
+					pa = new_page(1);
+					map(&pcb->as, (void *)(ROUNDDOWN(vaddr, PGSIZE)), pa, 0);
+				}
 				vaddr = ROUNDUP(vaddr, PGSIZE);
 				Log("%p", vaddr);
 				size_t freadpre, memreadpre;
@@ -139,10 +144,11 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 					for(; u < remain_num; ++u){
 						page_cache[u] = 0;
 					}
-				}
+			 	}
 //				Log("%p", pa);
+				pre_va = vaddr;
 				memcpy(pa, page_cache, PGSIZE);
-			}
+			} 
 		}
 	}
 	fs_close(fd);
