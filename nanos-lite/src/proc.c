@@ -55,6 +55,7 @@ void init_proc() {
 Context* schedule(Context *prev) {
 //	prev->mepc += 4;
 //	pcb[0].cp->pdir = NULL;
+	Log("%p", prev);
 	current->cp = prev;
 	if(current == kpcb) current->cp->pdir = NULL;
 //	if(time_seg < 9)
