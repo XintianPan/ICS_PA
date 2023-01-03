@@ -83,6 +83,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 				}
 				size_t loads = freadpre;
 				Log("this cause pro");
+				Log("%d", freadpre);
 				fs_read(fd, page_cache + start_addr, freadpre);
 				Log("yeah here");
 				for(; loads < memreadpre + freadpre; ++loads) page_cache[loads + start_addr] = 0;
