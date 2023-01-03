@@ -175,6 +175,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   pcb->cp->gpr[10] -= (sizeof(int) + (argc + envpc + 2) * sizeof(uintptr_t) + str_len);
   uintptr_t* arg_env_pos = (uintptr_t *)(actuall_addr  - (sizeof(int) + (argc + envpc + 2) * sizeof(uintptr_t) + str_len));
   char* string_area = (char *)(actuall_addr - str_len);
+  Log("%p", arg_env_pos);
   *(int *)arg_env_pos = argc;
   Log("%p", arg_env_pos);
   Log("argc:%d", *arg_env_pos);
