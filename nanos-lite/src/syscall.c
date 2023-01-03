@@ -97,7 +97,7 @@ void do_syscall(Context *c) {
 		break;
 	case SYS_write: 
 //	   	Log("syscall:%s 1st arg:%d 2nd arg:%p 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]); 
-	    Log("write");
+	    Log("write %p", c->mepc);
 		size_t ret = fs_write(a[1], (void *)a[2], a[3]);
 		c->gpr[10] = ret;
 	   	c->mepc += 4;  
