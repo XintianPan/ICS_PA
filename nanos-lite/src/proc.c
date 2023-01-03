@@ -37,13 +37,13 @@ void context_kload(PCB *pcb, void(*entry)(void *), void *arg){
 //	Log("%p", pcb);
 }
 
-//static char *parse_arg[] = {"/bin/exec-test", "233", "hello", "damn",NULL };
+static char *parse_arg[] = {"/bin/exec-test", "233", "hello", "damn",NULL };
 
-//static char *parse_envp[] = {NULL };
+static char *parse_envp[] = {NULL };
 
 void init_proc() {
   context_kload(&pcb[0], hello_fun, "YES");
-  context_kload(&pcb[1], hello_fun, "NO");
+  context_uload(&pcb[1], "/bin/nterm", parse_arg, parse_envp);
   switch_boot_pcb();
 
   Log("Initializing processes...");
