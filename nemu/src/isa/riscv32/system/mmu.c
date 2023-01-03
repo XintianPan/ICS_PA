@@ -29,6 +29,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 		printf("0x%08x\n", cpu.sys[5]);
 		printf("0x%08x\n", vaddr);
 		printf("0x%08x\n", cpu.pc);
+		printf("%d\n", type);
 		assert(0);
 	}
 	paddr_t ppn = pte >> 10;
