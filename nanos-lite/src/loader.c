@@ -68,7 +68,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 			fs_lseek(fd, elf_phdr.p_offset, SEEK_SET);
 			size_t pre_page = vaddr % PGSIZE;
 			if(pre_page > 0){
-				size_t start_addr = PGSIZE - pre_page;
+				size_t start_addr = pre_page;
 				size_t fillpre = PGSIZE - pre_page;
 				vaddr = ROUNDUP(vaddr, PGSIZE);
 				size_t freadpre, memreadpre;
