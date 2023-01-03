@@ -73,7 +73,7 @@ void do_syscall(Context *c) {
 	case SYS_exit:
 //	   	Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
 //	   	Log("let's end this staff!");
-//		if(a[1] != 0) assert(0);
+		if(a[1] != 0) assert(0);
 //		halt(a[1]);
 		context_uload(current, "/bin/nterm", NULL, NULL);
 	   	switch_boot_pcb();
