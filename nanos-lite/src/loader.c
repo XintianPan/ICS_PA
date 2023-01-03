@@ -140,7 +140,7 @@ void naive_uload(PCB *pcb, const char *filename) {
 }
 
 void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]){
-//Log("%p", pcb);
+  Log("%p", pcb);
   pcb->max_brk = 0;
   Elf_Ehdr elf_ehdr;
   int fd = fs_open(filename, 1, 1);
