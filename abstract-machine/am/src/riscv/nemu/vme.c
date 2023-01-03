@@ -111,7 +111,7 @@ Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
 //	c->gpr[10] = (uintptr_t)heap.end;
 	c->mepc = (uintptr_t)(entry);
 	c->mstatus = 0x1800;
-	c->mstatus |= (1 << 3);
+	c->mstatus |= (1 << 7);
 	c->mcause = 0;	
     return c;
 }
