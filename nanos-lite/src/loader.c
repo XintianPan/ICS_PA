@@ -82,7 +82,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 					else memreadpre = fillpre, mem -= memreadpre;
 				}
 				size_t loads = freadpre;
+				Log("this cause pro");
 				fs_read(fd, page_cache + start_addr, freadpre);
+				Log("yeah here");
 				for(; loads < memreadpre + freadpre; ++loads) page_cache[loads + start_addr] = 0;
 				memcpy(pa, page_cache, PGSIZE);
 			}
