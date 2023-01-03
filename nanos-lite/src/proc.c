@@ -43,7 +43,7 @@ static char *parse_envp[] = {NULL };
 
 void init_proc() {
   context_uload(&pcb[0], "/bin/hello", parse_arg, parse_envp);
-  context_uload(&pcb[1], "/bin/pal", parse_arg, parse_envp);
+  context_uload(&pcb[1], "/bin/menu", parse_arg, parse_envp);
   switch_boot_pcb();
 
   Log("Initializing processes...");
