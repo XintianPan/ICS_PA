@@ -187,7 +187,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
 	}
 	*string_area = '\0';
 	++string_area;
-	Log("argv[%d]:%s", i, *(char **)arg_env_pos);
+//	Log("argv[%d]:%s", i, *(char **)arg_env_pos);
   }
   *arg_env_pos = (uintptr_t)NULL;
   ++arg_env_pos;
@@ -198,7 +198,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
 	}
 	*string_area = '\0';
 	++string_area;
-	Log("envp[%d]:%s", i, *(char **)arg_env_pos);
+//	Log("envp[%d]:%s", i, *(char **)arg_env_pos);
   }
   *arg_env_pos = (uintptr_t)NULL;
   // Log("%p", pcb->cp->gpr[11]);
