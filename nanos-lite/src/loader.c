@@ -52,7 +52,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 	uint32_t off = elf_ehdr.e_phoff;
 	uint32_t remain_num = 0;
 	void *pa = NULL;
- 	for(; i < elf_ehdr.e_phnum; ++i){
+ 	Log("%p", page_cache);
+	for(; i < elf_ehdr.e_phnum; ++i){
 		fs_lseek(fd, off + i * (sizeof(Elf_Phdr)), SEEK_SET);
 		bytes = fs_read(fd, &elf_phdr, sizeof(Elf_Phdr));
 	    assert(bytes == sizeof(Elf_Phdr));
