@@ -110,6 +110,7 @@ void do_syscall(Context *c) {
 		break;
 	case SYS_lseek:
 //		Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
+		Log("lseek");
 		c->gpr[10] = fs_lseek(a[1], a[2], a[3]);
 		c->mepc += 4;
 		break;
