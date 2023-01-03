@@ -161,53 +161,44 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   }
   pcb->cp->gpr[10] = (uintptr_t)pcb->as.area.end;
 //  Log("%p", pcb->cp->gpr[10]);
-  uintptr_t actuall_addr = (uintptr_t)ustack + STACK_SIZE - 4; 
+  uintptr_t actuall_addr = (uintptr_t)ustack + STACK_SIZE; 
   int argc = 0;
   int envpc = 0;
+  uintptr_t str_len = 0;
   if(argv != NULL){ 
-	while(*(argv + argc) != (char *)NULL) ++argc;
+	while(*(argv + argc) != (char *)NULL) ++argc, str_len += (strlen(argv[argc]) + 1);
   }
-//  Log("argc:%d", argc);
   if(envp != NULL){
-	while(envp[envpc] != NULL) ++envpc;
+	while(envp[envpc] != NULL) ++envpc, str_len += (strlen(envp[envpc]) + 1);
   }
-  int *argc_pos = (int *)(actuall_addr);
-  uintptr_t *arg_env_pos = (uintptr_t *)((void *)actuall_addr - sizeof(uintptr_t));
-  *argc_pos = argc;
-  char *string_area = (char *)((void *)actuall_addr - STACK_SIZE + 1);
-  *arg_env_pos = (uintptr_t)NULL;
-  --arg_env_pos;
-  if(argv != NULL){
-   for(int i = argc - 1; i >= 0; --i, --arg_env_pos){ 
-    *arg_env_pos = (uintptr_t)string_area;
- 	for(char *c = argv[i ]; *c != '\0'; ++c, ++string_area){
+  str_len = ROUNDUP(str_len, 4); // align the address of int and pointer
+  pcb->cp->gpr[10] -= (sizeof(int) + (argc + envpc + 2) * sizeof(uintptr_t) + str_len);
+  uintptr_t* arg_env_pos = (uintptr_t *)(actuall_addr  - (sizeof(int) + (argc + envpc + 2) * sizeof(uintptr_t) + str_len));
+  char* string_area = (char *)(actuall_addr - str_len);
+  *(int *)arg_env_pos = argc;
+  Log("argc:%d", *arg_env_pos);
+  ++arg_env_pos;
+  for(int i = 0; i < argc; ++i, ++arg_env_pos){
+	*arg_env_pos = (uintptr_t)string_area;  
+	for(char* c = argv[i]; *c != '\0'; ++c, ++string_area){
 	  *string_area = *c;
 	}
 	*string_area = '\0';
-	++string_area;	
+	++string_area;
+	Log("argv[%d]:%s", i, *(char **)arg_env_pos);
   }
- }
-//  Log("%s", *(char **)(arg_env_pos + 1));
-  *arg_env_pos = (uintptr_t)envpc;
-//  Log("%s", *(char **)(arg_env_pos + 1));
-  --arg_env_pos;
   *arg_env_pos = (uintptr_t)NULL;
-  --arg_env_pos;
- if(envp != NULL){
-  for(int i = envpc - 1; i >= 0; --i, --arg_env_pos){
+  ++arg_env_pos;
+  for(int i = 0; i < envpc; ++i, ++arg_env_pos){
     *arg_env_pos = (uintptr_t)string_area;
-	for(char *c = envp[i]; *c != '\0'; ++c, ++string_area){
+	for(char* c = envp[i]; *c != '\0'; ++c, ++string_area){
 	  *string_area = *c;
-	 }
+	}
 	*string_area = '\0';
-//	Log("%s", *(char **)arg_env_pos);
-	++string_area;	
-  } 
- }
+	++string_area;
+	Log("envp[%d]:%s", i, *(char **)arg_env_pos);
+  }
   *arg_env_pos = (uintptr_t)NULL;
-  pcb->cp->gpr[10] -= (sizeof(int) + (argc + envpc + 4) * sizeof(uintptr_t));
-  pcb->cp->gpr[11] = (uintptr_t)pcb->as.area.end - sizeof(int);
-  pcb->cp->gpr[2] = (uintptr_t)pcb->as.area.end;
- // Log("%p", pcb->cp->gpr[11]);
+  // Log("%p", pcb->cp->gpr[11]);
   entry = loader(pcb, filename);
 }
