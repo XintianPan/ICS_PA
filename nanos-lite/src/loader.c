@@ -92,6 +92,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 			size_t fremain = file % PGSIZE;
 			for(; j <= pg_count ; ++j){
 				pa = new_page(1);
+				Log("%p", pa);
 //				Log("run this");
 				map(&pcb->as, (void *)vaddr, pa, 0);
 				if(j <= fpg_count){
