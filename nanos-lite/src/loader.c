@@ -166,10 +166,10 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   int envpc = 0;
   uintptr_t str_len = 0;
   if(argv != NULL){ 
-	while(*(argv + argc) != (char *)NULL) ++argc, str_len += (strlen(argv[argc]) + 1);
+	while(*(argv + argc) != (char *)NULL) ++argc, str_len += (strlen(argv[argc - 1]) + 1);
   }
   if(envp != NULL){
-	while(envp[envpc] != NULL) ++envpc, str_len += (strlen(envp[envpc]) + 1);
+	while(envp[envpc] != NULL) ++envpc, str_len += (strlen(envp[envpc - 1]) + 1);
   }
   str_len = ROUNDUP(str_len, 4); // align the address of int and pointer
   pcb->cp->gpr[10] -= (sizeof(int) + (argc + envpc + 2) * sizeof(uintptr_t) + str_len);
