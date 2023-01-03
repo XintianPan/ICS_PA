@@ -94,7 +94,7 @@ void do_syscall(Context *c) {
 		break;
 	case SYS_read:
 //		Log("syscall:%s 1st arg:%d 2nd arg:%p 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
-		Log("read");
+//		Log("read");
 		c->gpr[10] = fs_read((int)a[1], (void *)a[2], a[3]);
 		c->mepc += 4;
 		break;
