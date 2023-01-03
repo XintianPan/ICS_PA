@@ -53,7 +53,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 	uint32_t off = elf_ehdr.e_phoff;
 	uint32_t remain_num = 0;
 	void *pa = NULL;
- 	Log("THIS CACHE cause pro:%p %p", page_cache, page_cache + PGSIZE);
+ 	//Log("THIS CACHE cause pro:%p %p", page_cache, page_cache + PGSIZE);
 	for(; i < elf_ehdr.e_phnum; ++i){
 		fs_lseek(fd, off + i * (sizeof(Elf_Phdr)), SEEK_SET);
 		bytes = fs_read(fd, &elf_phdr, sizeof(Elf_Phdr));
@@ -63,14 +63,16 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 			vaddr = elf_phdr.p_vaddr;
 		    file = elf_phdr.p_filesz;
 			mem = elf_phdr.p_memsz;
-	//		Log("start addr:0x%x memsize: 0x%x filesize: 0x%x", vaddr, mem, file);
+			Log("start addr:0x%x memsize: 0x%x filesize: 0x%x", vaddr, mem, file);
 			j = 1;
 			fs_lseek(fd, elf_phdr.p_offset, SEEK_SET);
 			size_t pre_page = vaddr % PGSIZE;
 			if(pre_page > 0){
 				size_t start_addr = pre_page;
 				size_t fillpre = PGSIZE - pre_page;
+				Log("0x%x", vaddr);
 				vaddr = ROUNDUP(vaddr, PGSIZE);
+				Log("%p", vaddr);
 				size_t freadpre, memreadpre;
 				freadpre = memreadpre = 0;
 				if(file < fillpre) freadpre = file, file = 0;
@@ -82,11 +84,11 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 					else memreadpre = fillpre, mem -= memreadpre;
 				}
 				size_t loads = freadpre;
-				Log("this cause pro");
-				Log("%x", freadpre);
-				Log("%p", page_cache + start_addr);
+//				Log("this cause pro");
+//				Log("%x", freadpre);
+//				Log("%p", page_cache + start_addr);
 				fs_read(fd, page_cache + start_addr, freadpre);
-				Log("yeah here");
+//				Log("yeah here");
 				for(; loads < memreadpre + freadpre; ++loads) page_cache[loads + start_addr] = 0;
 				memcpy(pa, page_cache, PGSIZE);
 			}
@@ -96,20 +98,20 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 			size_t fremain = file % PGSIZE;
 			for(; j <= pg_count ; ++j){
 				pa = new_page(1);
-				Log("%p", pa);
+				Log("%p %p", pa, vaddr);
 //				Log("run this");
 				map(&pcb->as, (void *)vaddr, pa, 0);
 				if(j <= fpg_count){
-					Log("heref");
+//					Log("heref");
 					fs_read(fd, page_cache, PGSIZE);
-					Log("endf");
+//					Log("endf");
 					memcpy(pa, page_cache, PGSIZE);
 				}else{
 					size_t l = 0;
 					if(j == fpg_count + 1 && fremain > 0){
-						Log("herefre");
+//						Log("herefre");
 						fs_read(fd, page_cache, fremain);
-						Log("endfre");
+//						Log("endfre");
 						l = fremain;
 					}
 					for(; l < PGSIZE; ++l){
@@ -122,6 +124,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 			}
 			if(remain_num > 0){
 				pa = new_page(1);
+				Log("re%p %p",pa, vaddr);
 				map(&pcb->as, (void *)vaddr, pa, 0);
 				if(fpg_count < pg_count){
 					size_t u = 0;
@@ -137,7 +140,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 						page_cache[u] = 0;
 					}
 				}
-				Log("%p", pa);
+//				Log("%p", pa);
 				memcpy(pa, page_cache, PGSIZE);
 			}
 		}
