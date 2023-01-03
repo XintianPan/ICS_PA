@@ -74,15 +74,11 @@ void do_syscall(Context *c) {
 //	   	Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
 //	   	Log("let's end this staff!");
 //		if(a[1] != 0) assert(0);
-		halt(a[1]);
+//		halt(a[1]);
 		context_uload(current, "/bin/nterm", NULL, NULL);
-		for(int i = 0; i < 32; ++i){
-			c->gpr[i] = current->cp->gpr[i];
-		}
-		c->mstatus = current->cp->mstatus;
-		c->mcause = current->cp->mcause;
-		c->mepc = current->cp->mepc;
-	   	break;
+	   	switch_boot_pcb();
+		yield();
+		break;
 	case SYS_yield: 
 //		Log("syscall:%s 1st arg:%d 2nd arg:%d 3rd arg:%d", syscall_name[a[0]], a[1], a[2], a[3]);
 		yield(); 
