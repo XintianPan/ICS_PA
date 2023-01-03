@@ -37,7 +37,7 @@ void context_kload(PCB *pcb, void(*entry)(void *), void *arg){
 //	Log("%p", pcb);
 }
 
-static char *parse_arg[] = {"no", "damn", "shit", NULL };
+static char *parse_arg[] = {NULL };
 
 static char *parse_envp[] = {NULL };
 
