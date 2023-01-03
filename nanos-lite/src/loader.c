@@ -64,20 +64,20 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 			vaddr = elf_phdr.p_vaddr;
 		    file = elf_phdr.p_filesz;
 			mem = elf_phdr.p_memsz;
-			Log("start addr:0x%x memsize: 0x%x filesize: 0x%x", vaddr, mem, file);
+	//		Log("start addr:0x%x memsize: 0x%x filesize: 0x%x", vaddr, mem, file);
 			j = 1;
 			fs_lseek(fd, elf_phdr.p_offset, SEEK_SET);
 			size_t pre_page = vaddr % PGSIZE;
 			if(pre_page > 0){
 				size_t start_addr = pre_page;
 				size_t fillpre = PGSIZE - pre_page;
-				Log("0x%x", vaddr);
+	//			Log("0x%x", vaddr);
 				if(pre_va / PGSIZE != vaddr / PGSIZE){
 					pa = new_page(1);
 					map(&pcb->as, (void *)(ROUNDDOWN(vaddr, PGSIZE)), pa, 0);
 				}
 				vaddr = ROUNDUP(vaddr, PGSIZE);
-				Log("%p", vaddr);
+	//			Log("%p", vaddr);
 				size_t freadpre, memreadpre;
 				freadpre = memreadpre = 0;
 				if(file < fillpre) freadpre = file, file = 0;
@@ -103,7 +103,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 			size_t fremain = file % PGSIZE;
 			for(; j <= pg_count ; ++j){
 				pa = new_page(1);
-				Log("%p %p", pa, vaddr);
+			//	Log("%p %p", pa, vaddr);
 //				Log("run this");
 				map(&pcb->as, (void *)vaddr, pa, 0);
 				if(j <= fpg_count){
@@ -129,7 +129,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 			}
 			if(remain_num > 0){
 				pa = new_page(1);
-				Log("re%p %p",pa, vaddr);
+//				Log("re%p %p",pa, vaddr);
 				map(&pcb->as, (void *)vaddr, pa, 0);
 				if(fpg_count < pg_count){
 					size_t u = 0;
@@ -162,7 +162,7 @@ void naive_uload(PCB *pcb, const char *filename) {
 }
 
 void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]){
-  Log("%p", pcb);
+//  Log("%p", pcb);
   pcb->max_brk = 0;
   Elf_Ehdr elf_ehdr;
   int fd = fs_open(filename, 1, 1);
@@ -175,7 +175,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   Area kustack;
   kustack.start = (void *)pcb;
   kustack.end = (void *)pcb + sizeof(PCB) - 1;
-  Log("%p %p", kustack.start, kustack.end);
+//  Log("%p %p", kustack.start, kustack.end);
   pcb->cp = ucontext(&pcb->as, kustack, (void *)entry);
   void *ustack = new_page(8);
   void *curpos = pcb->as.area.end - STACK_SIZE;

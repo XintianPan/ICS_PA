@@ -43,12 +43,12 @@ static char *parse_envp[] = {NULL };
 
 void init_proc() {
   context_uload(&pcb[0], "/bin/hello", parse_arg, parse_envp);
-  Log("%p", &pcb[0].cp);
-  Log("%p", pcb[0].cp);
+//  Log("%p", &pcb[0].cp);
+//  Log("%p", pcb[0].cp);
   context_uload(&pcb[1], "/bin/nterm", parse_arg, parse_envp);
-  Log("%p", pcb[0].cp);
+//  Log("%p", pcb[0].cp);
   switch_boot_pcb();
-  Log("%p %p", pcb[0].cp, pcb[1].cp->mepc);
+//  Log("%p %p", pcb[0].cp, pcb[1].cp->mepc);
   Log("Initializing processes...");
 
   // load program here
@@ -58,15 +58,15 @@ void init_proc() {
 Context* schedule(Context *prev) {
 //	prev->mepc += 4;
 //	pcb[0].cp->pdir = NULL;
-	Log("%p", prev);
+//	Log("%p", prev);
 	current->cp = prev;
 	if(current == kpcb) current->cp->pdir = NULL;
 //	if(time_seg < 9)
 //	current =  &pcb[1], ++time_seg;
 //	else
 //	current = &pcb[0], time_seg = 0;	
-    Log("%p %p", pcb[0].cp, pcb[1].cp);
-	Log("%p %p %p %p %p %p", pcb[0].cp, pcb[1].cp, pcb[0].cp->gpr[10], pcb[1].cp->gpr[10], pcb[0].cp->mepc, pcb[1].cp->mepc);
+ //   Log("%p %p", pcb[0].cp, pcb[1].cp);
+//	Log("%p %p %p %p %p %p", pcb[0].cp, pcb[1].cp, pcb[0].cp->gpr[10], pcb[1].cp->gpr[10], pcb[0].cp->mepc, pcb[1].cp->mepc);
     current = (current == &pcb[0]) ? &pcb[1] : &pcb[0];
 	return current->cp;
 }
