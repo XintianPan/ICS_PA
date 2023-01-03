@@ -96,12 +96,16 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 //				Log("run this");
 				map(&pcb->as, (void *)vaddr, pa, 0);
 				if(j <= fpg_count){
+					Log("heref");
 					fs_read(fd, page_cache, PGSIZE);
+					Log("endf");
 					memcpy(pa, page_cache, PGSIZE);
 				}else{
 					size_t l = 0;
 					if(j == fpg_count + 1 && fremain > 0){
+						Log("herefre");
 						fs_read(fd, page_cache, fremain);
+						Log("endfre");
 						l = fremain;
 					}
 					for(; l < PGSIZE; ++l){
