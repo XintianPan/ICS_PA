@@ -37,7 +37,7 @@ void context_kload(PCB *pcb, void(*entry)(void *), void *arg){
 //	Log("%p", pcb);
 }
 
-static char *parse_arg[] = {NULL };
+static char *parse_arg[] = {"--skip",NULL };
 
 static char *parse_envp[] = {NULL };
 
@@ -45,7 +45,7 @@ void init_proc() {
   context_uload(&pcb[0], "/bin/hello", parse_arg, parse_envp);
   Log("%p", &pcb[0].cp);
   Log("%p", pcb[0].cp);
-  context_uload(&pcb[1], "/bin/hello", parse_arg, parse_envp);
+  context_uload(&pcb[1], "/bin/pal", parse_arg, parse_envp);
   Log("%p", pcb[0].cp);
   switch_boot_pcb();
   Log("%p %p", pcb[0].cp, pcb[1].cp->mepc);
