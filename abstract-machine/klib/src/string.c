@@ -84,6 +84,7 @@ void *memcpy(void *out, const void *in, size_t n) {
 	char *dst = (char *)out;
 	const char *src = (const char *)in;
     size_t i;
+	printf("what\n");
 	printf("%p %p\n", out, in);
 	for(i = 0; i < n; ++i)
 		dst[i] = src[i];
