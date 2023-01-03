@@ -25,24 +25,18 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 	dir <<= 12;
 //	printf("dir: 0x%x\n", dir);
 	paddr_t pte = paddr_read(dir + vpn1 * 4, 4);
-	if((pte & 1) != 1){
-		printf("0x%08x\n", cpu.sys[4]);
-		printf("0x%08x\n", vaddr);
-		printf("0x%08x\n", cpu.pc);
-		printf("%d\n", type);
-		assert(0);
-	}
+	assert(pte & 1);
 	paddr_t ppn = pte >> 10;
 	ppn <<= 12;
 //	printf("ppn: 0x%x\n", ppn);
 	paddr_t pte0 = paddr_read(ppn + vpn0 * 4, 4);
 	paddr_t pg = pte0 >> 10;
-	assert((pte0 &1));
+	assert((pte0 & 1));
 //	printf("final page: 0x%x\n", (pg << 12));
 	paddr_t paddr = (pg << 12) | pg_off;
-	if(paddr == 0x00000c70){
-      Log("0x%08x %d", vaddr, type);
-	}
+//	if(paddr == 0x00000c70){
+//      Log("0x%08x %d", vaddr, type);
+//	}
 	return paddr;
 }
 

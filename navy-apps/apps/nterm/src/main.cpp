@@ -12,7 +12,7 @@ void builtin_sh_run();
 void extern_app_run(const char *app_path);
 
 int main(int argc, char *argv[]) {
-  write(1, "here", 4);
+ // write(1, "here", 4);
   SDL_Init(0);
  // puts("here");
   font = new BDF_Font(font_fname);
