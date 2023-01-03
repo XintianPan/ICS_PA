@@ -61,6 +61,7 @@ static void sh_handle_cmd(const char *cmd) {
 	char *cmd_name = strtok(buf, " ");
 	if(strcmp(cmd_name, "echo") == 0){
 	  char *args = strtok(buf, "");
+	  puts(args);
 	  argv_rec[0] = cmd_name;
 	  argv_rec[1] = args;
 	  argv_rec[2] = NULL;
