@@ -140,7 +140,7 @@ void naive_uload(PCB *pcb, const char *filename) {
 }
 
 void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]){
- Log("%p", pcb);
+//Log("%p", pcb);
   pcb->max_brk = 0;
   Elf_Ehdr elf_ehdr;
   int fd = fs_open(filename, 1, 1);
@@ -160,7 +160,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
 	map(&pcb->as, curpos + i * PGSIZE, ustack + i * PGSIZE, 0);
   }
   pcb->cp->gpr[10] = (uintptr_t)pcb->as.area.end;
-  Log("%p", pcb->cp->gpr[10]);
+//  Log("%p", pcb->cp->gpr[10]);
   uintptr_t actuall_addr = (uintptr_t)ustack + STACK_SIZE; 
   int argc = 0;
   int envpc = 0;
@@ -175,10 +175,10 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   pcb->cp->gpr[10] -= (sizeof(int) + (argc + envpc + 2) * sizeof(uintptr_t) + str_len);
   uintptr_t* arg_env_pos = (uintptr_t *)(actuall_addr  - (sizeof(int) + (argc + envpc + 2) * sizeof(uintptr_t) + str_len));
   char* string_area = (char *)(actuall_addr - str_len);
-  Log("%p", arg_env_pos);
+//  Log("%p", arg_env_pos);
   *(int *)arg_env_pos = argc;
-  Log("%p", arg_env_pos);
-  Log("argc:%d", *arg_env_pos);
+//  Log("%p", arg_env_pos);
+//  Log("argc:%d", *arg_env_pos);
   ++arg_env_pos;
   for(int i = 0; i < argc; ++i, ++arg_env_pos){
 	*arg_env_pos = (uintptr_t)string_area;  
