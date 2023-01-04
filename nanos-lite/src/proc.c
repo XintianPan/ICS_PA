@@ -8,7 +8,10 @@ PCB *current = NULL;
 
 static int time_seg = 0;
 
-PCB *kpcb = NULL;
+static PCB *kpcb[4] = {NULL};
+
+static int id = 0;
+
 void context_kload(PCB *pcb, void(*entry)(void *), void *arg);
 
 void naive_uload(PCB *pcb, const char *filename); 
@@ -32,7 +35,7 @@ void context_kload(PCB *pcb, void(*entry)(void *), void *arg){
 	Area kstack;
 	kstack.start =(void *)pcb;
 	kstack.end = (void *)pcb + sizeof(PCB) - 1;
-	kpcb = pcb;
+	kpcb[id++] = pcb;
 	pcb->cp = kcontext(kstack, entry, arg);
 //	Log("%p", pcb);
 }
@@ -60,7 +63,12 @@ Context* schedule(Context *prev) {
 //	pcb[0].cp->pdir = NULL;
 //	Log("%p", prev);
 	current->cp = prev;
-	if(current == kpcb) current->cp->pdir = NULL;
+	for(int i = 0; i < 4; ++i){
+		if(current == kpcb[i]){
+			current->cp->pdir = NULL;
+			break;
+		}
+	}
 	if(time_seg < 9)
 	current =  &pcb[1], ++time_seg;
 	else
