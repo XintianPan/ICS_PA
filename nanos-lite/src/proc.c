@@ -6,7 +6,7 @@ static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
 static PCB pcb_boot = {};
 PCB *current = NULL;
 
-static int time_seg = 0;
+//static int time_seg = 0;
 
 static PCB *kpcb[4] = {NULL};
 
@@ -69,12 +69,12 @@ Context* schedule(Context *prev) {
 //			break;
 //		}
 //	}
-	if(time_seg < 9)
-	current =  &pcb[1], ++time_seg;
-	else
-	current = &pcb[0], time_seg = 0;	
+//	if(time_seg < 9)
+//	current =  &pcb[1], ++time_seg;
+//	else
+//	current = &pcb[0], time_seg = 0;	
  //   Log("%p %p", pcb[0].cp, pcb[1].cp);
 //	Log("%p %p %p %p %p %p", pcb[0].cp, pcb[1].cp, pcb[0].cp->gpr[10], pcb[1].cp->gpr[10], pcb[0].cp->mepc, pcb[1].cp->mepc);
-//    current = (current == &pcb[0]) ? &pcb[1] : &pcb[0];
+    current = (current == &pcb[0]) ? &pcb[1] : &pcb[0];
 	return current->cp;
 }
