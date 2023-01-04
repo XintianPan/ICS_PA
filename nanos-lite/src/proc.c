@@ -53,7 +53,7 @@ void init_proc() {
   	context_uload(&pcb[0], "/bin/hello", NULL, NULL);
 //  Log("%p", &pcb[0].cp);
 //  Log("%p", pcb[0].cp);
-    context_uload(&pcb[1], "/bin/hello", NULL, NULL);
+    context_uload(&pcb[1], "/bin/nterm", NULL, NULL);
 //  Log("%p", pcb[0].cp);
   switch_boot_pcb();
 //  Log("%p %p", pcb[0].cp, pcb[1].cp->mepc);
