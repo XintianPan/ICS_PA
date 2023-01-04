@@ -8,7 +8,7 @@
 
 
 static char _std_num_buf[20];
-static char _std_out_buf[1000000 + 5];
+static char _std_out_buf[100000 + 5];
 static char *_std_num_lo = "0123456789abcdef";
 //static char *_std_num_up = "0123456789ABCDEF";
 
