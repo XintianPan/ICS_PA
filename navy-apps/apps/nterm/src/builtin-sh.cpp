@@ -49,7 +49,7 @@ static struct{
 
 //#define CMD_LEN sizeof(builtin_cmd)/sizeof(builtin_cmd[0])
 
-static const char *busyboxname[] = {"base64", "cat", "echo", "ed", "false", "printenv", "sleep", "true"};
+//static const char *busyboxname[] = {"base64", "cat", "echo", "ed", "false", "printenv", "sleep", "true"};
 
 static char *argv_rec[64];
 
@@ -59,13 +59,17 @@ static void sh_handle_cmd(const char *cmd) {
     int l = strlen(buf);
 	buf[l - 1] = '\0';
 	char *cmd_name = strtok(buf, " ");
-	if(strcmp(cmd_name, "echo") == 0){
-	  char *args = strtok(NULL, "");
+//	if(strcmp(cmd_name, "echo") == 0){
+//	  char *args = strtok(NULL, "");
 //	  puts(args);
-	  argv_rec[0] = cmd_name;
-	  argv_rec[1] = args;
-	  argv_rec[2] = NULL;
-	}else{
+//	  argv_rec[0] = cmd_name;
+//	  int i = 1;
+//	  if(args != NULL){
+//	    while(args != NULL && args
+//	  }
+//	  argv_rec[i] = args;
+//	  argv_rec[i + 1] = NULL;
+//	}else{
 		char *new_arg = strtok(NULL, " ");
 		int i = 1;
 		argv_rec[0] = cmd_name;
@@ -75,7 +79,7 @@ static void sh_handle_cmd(const char *cmd) {
 			new_arg = strtok(NULL, " ");
 		}
 		argv_rec[i] = NULL;
-	}
+//	}
 //	char *cmd_name = strtok(buf, " ");
 //	char *args;
 //	args = buf + strlen(cmd_name) + 1;
