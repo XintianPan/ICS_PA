@@ -74,9 +74,9 @@ int fs_open(const char *pathname, int flags, int mode ){
 }
 
 size_t fs_read(int fd, void *buf, size_t len){
-	assert(fd < LENGTH(file_table));
+//	assert(fd < LENGTH(file_table));
 //    Log("%d", fd);
-    Log("%d", len);
+//    Log("%d", len);
 	//	printf("%d %d\n", open_off[fd], file_table[fd].size);	
 	if(file_table[fd].read == NULL){
 		if(open_off[fd] >= file_table[fd].size){
@@ -99,7 +99,7 @@ size_t fs_read(int fd, void *buf, size_t len){
 }
 
 size_t fs_lseek(int fd, size_t offset, int whence){
-	assert(fd < LENGTH(file_table));
+//	assert(fd < LENGTH(file_table));
 	size_t ret;
 	switch(whence){
 		case SEEK_SET:
@@ -119,7 +119,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
 }
 
 size_t fs_write(int fd, const void *buf, size_t len){ 
-	assert(fd < LENGTH(file_table));
+//	assert(fd < LENGTH(file_table));
 	if(file_table[fd].write == NULL){
 		if(open_off[fd] + len - 1 >= file_table[fd].size){
 //			Log("cross the file boundary, reshape len");

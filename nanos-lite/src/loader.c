@@ -185,7 +185,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   pcb->cp->gpr[10] = (uintptr_t)pcb->as.area.end;
 //  Log("%p", pcb->cp->gpr[10]);
   uintptr_t actuall_addr = (uintptr_t)ustack + STACK_SIZE; 
-  Log("%p", ustack);
+ // Log("%p", ustack);
   int argc = 0;
   int envpc = 0;
   uintptr_t str_len = 0;
