@@ -37,16 +37,16 @@ void context_kload(PCB *pcb, void(*entry)(void *), void *arg){
 //	Log("%p", pcb);
 }
 
-static char *parse_arg[] = {NULL };
+//static char *parse_arg[] = {NULL };
 
-static char *parse_envp[] = {NULL };
+//static char *parse_envp[] = {NULL };
 
 void init_proc() {
     Log("Initializing processes...");
   	context_kload(&pcb[0], hello_fun, "NO");
 //  Log("%p", &pcb[0].cp);
 //  Log("%p", pcb[0].cp);
-    context_uload(&pcb[1], "/bin/nterm", parse_arg, parse_envp);
+    context_kload(&pcb[1], hello_fun, "YES");
 //  Log("%p", pcb[0].cp);
   switch_boot_pcb();
 //  Log("%p %p", pcb[0].cp, pcb[1].cp->mepc);
