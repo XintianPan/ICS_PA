@@ -8,6 +8,8 @@ PCB *current = NULL;
 
 //static int time_seg = 0;
 
+extern char _std_out_buf[10000 + 5];
+
 static PCB *kpcb[4] = {NULL};
 
 static int id = 0;
@@ -72,7 +74,8 @@ Context* schedule(Context *prev) {
 //	if(time_seg < 9)
 //	current =  &pcb[1], ++time_seg;
 //	else
-//	current = &pcb[0], time_seg = 0;	
+//	current = &pcb[0], time_seg = 0;
+  Log("%p", _std_out_buf);	
   Log("%p %p", pcb[0].cp->pdir, pcb[1].cp->pdir);
 //	Log("%p %p %p %p %p %p", pcb[0].cp, pcb[1].cp, pcb[0].cp->gpr[10], pcb[1].cp->gpr[10], pcb[0].cp->mepc, pcb[1].cp->mepc);
     current = (current == &pcb[0]) ? &pcb[1] : &pcb[0];
