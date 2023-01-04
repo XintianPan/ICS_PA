@@ -34,9 +34,9 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 	assert((pte0 & 1));
 //	printf("final page: 0x%x\n", (pg << 12));
 	paddr_t paddr = (pg << 12) | pg_off;
-//	if(paddr == 0x823bef0){
- //     Log("0x%08x", cpu.pc);
-//	}
+	if(paddr == 0x823b6f4b && type == 2){
+      Log("0x%08x", cpu.pc);
+	}
 	return paddr;
 }
 
