@@ -42,7 +42,7 @@ void vaddr_write(vaddr_t addr, int len, word_t data) {
 		word_t pre = addr;
 		addr = actual_addr;
 		if(addr == 0x823b6f4b){
-			Log("0x%08x %d 0x%08x",pre , len , data);
+			Log("0x%08x %d 0x%08x 0x%08x",pre , len , data, cpu.gpr[2]);
 		}
 	}
 	paddr_write(addr, len, data);
