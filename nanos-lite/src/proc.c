@@ -39,7 +39,7 @@ void context_kload(PCB *pcb, void(*entry)(void *), void *arg){
 
 static char *parse_arg[] = {"--skip",NULL };
 
-static char *parse_envp[] = {NULL };
+static char *parse_envp[] = {"damn=nope", NULL };
 
 void init_proc() {
   context_uload(&pcb[0], "/bin/hello", parse_arg, parse_envp);
