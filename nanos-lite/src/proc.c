@@ -49,7 +49,7 @@ void init_proc() {
   	context_kload(&pcb[0], hello_fun, "NO");
 //  Log("%p", &pcb[0].cp);
 //  Log("%p", pcb[0].cp);
-    context_kload(&pcb[1], hello_fun, "YES");
+    context_uload(&pcb[1], "/bin/hello", NULL, NULL);
 //  Log("%p", pcb[0].cp);
   switch_boot_pcb();
 //  Log("%p %p", pcb[0].cp, pcb[1].cp->mepc);
@@ -63,12 +63,12 @@ Context* schedule(Context *prev) {
 //	pcb[0].cp->pdir = NULL;
 //	Log("%p", prev);
 	current->cp = prev;
-	for(int i = 0; i < 4; ++i){
-		if(current == kpcb[i]){
-			current->cp->pdir = NULL;
-			break;
-		}
-	}
+//	for(int i = 0; i < 4; ++i){
+//		if(current == kpcb[i]){
+//			current->cp->pdir = NULL;
+//			break;
+//		}
+//	}
 	if(time_seg < 9)
 	current =  &pcb[1], ++time_seg;
 	else
