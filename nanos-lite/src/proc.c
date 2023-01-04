@@ -53,7 +53,7 @@ void init_proc() {
   	context_kload(&pcb[0], hello_fun, "NO");
 //  Log("%p", &pcb[0].cp);
 //  Log("%p", pcb[0].cp);
-    context_uload(&pcb[1], "/bin/hello", NULL, NULL);
+    context_kload(&pcb[1], hello_fun, "YES");
 //  Log("%p", pcb[0].cp);
   switch_boot_pcb();
 //  Log("%p %p", pcb[0].cp, pcb[1].cp->mepc);
