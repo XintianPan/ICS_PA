@@ -43,7 +43,7 @@ static char *parse_envp[] = {NULL };
 
 void init_proc() {
     Log("Initializing processes...");
-  	context_uload(&pcb[0], "/bin/hello", parse_arg, parse_envp);
+  	context_kload(&pcb[0], hello_fun, "NO");
 //  Log("%p", &pcb[0].cp);
 //  Log("%p", pcb[0].cp);
     context_uload(&pcb[1], "/bin/nterm", parse_arg, parse_envp);
