@@ -39,9 +39,10 @@ void vaddr_write(vaddr_t addr, int len, word_t data) {
 	if(isa_mmu_check(addr, len, MEM_TYPE_WRITE) == MMU_TRANSLATE){
 		paddr_t actual_addr = isa_mmu_translate(addr, len, MEM_TYPE_WRITE);
 //		assert(actual_addr == addr);
+		word_t pre = addr;
 		addr = actual_addr;
 		if(addr == 0x823b6f4b){
-			Log("%d 0x%08x", len , data);
+			Log("0x%08x %d 0x%08x",pre , len , data);
 		}
 	}
 	paddr_write(addr, len, data);
