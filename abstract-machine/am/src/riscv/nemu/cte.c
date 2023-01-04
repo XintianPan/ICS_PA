@@ -56,7 +56,7 @@ Context* __am_irq_handle(Context *c) {
 //  }  
 //  printf("%x\n", c->mstatus);
 //  printf("%x\n", c->mepc);
-  printf("context size: %x", sizeof(Context));
+  printf("context size: %x\n", sizeof(Context));
   printf("here %x\n", c->gpr[2]);
   uintptr_t pre_sp = get_ms();
 //  printf("os %x %x\n", pre_sp, sizeof(Context));
