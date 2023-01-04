@@ -7,6 +7,7 @@ static Context* do_event(Event e, Context* c) {
    switch (e.event) {
 	case EVENT_YIELD: 
 //		printf("catch this!\n");
+		Log("yield");
 		c->mepc += 4;
 	   	return schedule(c);
 	   	break;
