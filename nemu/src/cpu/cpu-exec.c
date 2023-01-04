@@ -178,6 +178,8 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 }
 
 static void exec_once(Decode *s, vaddr_t pc) {
+  if(pc == 0x800027b4) Log("enter printf");
+  else if(pc == 0x80002830) Log("leave printf");
   s->pc = pc;
   s->snpc = pc;
   jmp_check = false;
