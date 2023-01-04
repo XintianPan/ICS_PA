@@ -61,7 +61,7 @@ void unprotect(AddrSpace *as) {
 }
 
 void __am_get_cur_as(Context *c) {
-    printf("%p %p\n", c, c->pdir);
+    printf("%p %p\n", c, &c->pdir);
 	c->pdir = (vme_enable ? (void *)get_satp() : NULL);
  // printf("get addr:%p\n", c->pdir);
 }
