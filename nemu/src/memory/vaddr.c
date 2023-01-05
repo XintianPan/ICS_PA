@@ -41,7 +41,7 @@ void vaddr_write(vaddr_t addr, int len, word_t data) {
 //		assert(actual_addr == addr);
 		word_t pre = addr;
 		addr = actual_addr;
-		if(addr == 0x823b6f4b){
+		if(addr == 0x8244ec4c){
 			Log("0x%08x %d 0x%08x 0x%08x %d",pre , len , data, cpu.gpr[2], pre - cpu.gpr[2]);
 		}
 	}
