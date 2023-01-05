@@ -69,7 +69,7 @@ void __am_get_cur_as(Context *c) {
 
 void __am_switch(Context *c) {
   if (vme_enable && c->pdir != NULL) {
-	//  printf("addr:%p\n", c->pdir);
+	  printf("addr:%p\n", c->pdir);
 	  set_satp(c->pdir);
   }
 }
