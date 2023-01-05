@@ -127,11 +127,11 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 		c->gpr[i] = 0;
  	}
 //	c->mtvec = (uintptr_t)(__am_asm_trap);
-	c->gpr[0] = 1;
+	c->gpr[0] = 0;
 	c->GPRx = (uintptr_t)(arg);
 	c->mepc = (uintptr_t)(entry);
 	c->mstatus = 0x1800;
-	c->gpr[2] = (uintptr_t)(kstack.end - 2 * sizeof(Context));
+	c->gpr[2] = (uintptr_t)(kstack.end - 4 * sizeof(Context));
 //	c->mstatus |= (1 << 7);
 	c->mcause = 0;
 	c->pdir = NULL;	
