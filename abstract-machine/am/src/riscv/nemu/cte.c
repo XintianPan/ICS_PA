@@ -105,7 +105,7 @@ Context* __am_irq_handle(Context *c) {
   printf("new addr:%p\n", c);
   printf("new pdir:%p\n", c->pdir);
   __am_switch(c);
-  printf("ok then");
+  printf("ok then\n");
   return c;
 }
 
