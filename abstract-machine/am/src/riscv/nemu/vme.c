@@ -82,6 +82,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 	uintptr_t vpn0 = VPN(va_addr, 21, 12);
 	PTE *fir_dir = dir_addr + vpn1;
 	printf("addr:%p 0x%x\n", fir_dir, vpn1);
+	printf("addr:%p\n", va);
 	PTE *sec_dir;
     if((*fir_dir & 1) == 0){
 		void* new_pg = pgalloc_usr(PGSIZE);
