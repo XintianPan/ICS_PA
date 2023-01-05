@@ -61,10 +61,10 @@ Context* __am_irq_handle(Context *c) {
   uintptr_t pre_sp = get_ms();
 //  printf("os %x %x\n", pre_sp, sizeof(Context));
   if(pre_sp - sizeof(Context) != c->gpr[2]){
-	printf("user\n");
+//	printf("user\n");
 	c->gpr[0] = 1;
   }else{
-		printf("kernel\n");
+//		printf("kernel\n");
 	c->gpr[0] = 0;
   }
   c->gpr[2] = pre_sp;
