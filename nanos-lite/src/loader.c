@@ -225,6 +225,6 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
 //	Log("envp[%d]:%s", i, *(char **)arg_env_pos);
   }
   *arg_env_pos = (uintptr_t)NULL;
-  // Log("%p", pcb->cp->gpr[11]);
+  Log("%p", pcb->cp->pdir);
   entry = loader(pcb, filename);
 }
