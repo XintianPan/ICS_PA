@@ -103,8 +103,9 @@ Context* __am_irq_handle(Context *c) {
     assert(c != NULL);
   }
   printf("new addr:%p\n", c);
-  printf("new sp:%p\n", c->pdir);
+  printf("new pdir:%p\n", c->pdir);
   __am_switch(c);
+  printf("ok then");
   return c;
 }
 
