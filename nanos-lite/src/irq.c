@@ -9,11 +9,11 @@ static Context* do_event(Event e, Context* c) {
 //		printf("catch this!\n");
 		Log("yield");
 		c->mepc += 4;
-	   	c = schedule(c);
+	   	return schedule(c);
 	   	break;
 	case EVENT_IRQ_TIMER:
 		Log("timer");
-		c =  schedule(c);
+		return schedule(c);
 		break;
 	case EVENT_SYSCALL: 
 //		printf("got this!\n");
