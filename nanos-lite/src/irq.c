@@ -9,15 +9,16 @@ static Context* do_event(Event e, Context* c) {
 //		printf("catch this!\n");
 		Log("yield");
 		c->mepc += 4;
-	   	return schedule(c);
+	   	c = schedule(c);
 	   	break;
 	case EVENT_IRQ_TIMER:
 		Log("timer");
-		return schedule(c);
+		c =  schedule(c);
 		break;
 	case EVENT_SYSCALL: 
 //		printf("got this!\n");
 	   	do_syscall(c);
+		Log("sys:%p %p", c, c->gpr[2], c->pdir);
 	   	break; 
     default: panic("Unhandled event ID = %d", e.event);
   }
