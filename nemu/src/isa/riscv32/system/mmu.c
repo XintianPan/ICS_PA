@@ -26,7 +26,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 //	printf("dir: 0x%x\n", dir);
 	paddr_t pte = paddr_read(dir + vpn1 * 4, 4);
 	if((pte & 1) == 0){
-		Log("0x%08x", vaddr);
+		Log("0x%08x 0x%08x", vaddr, cpu.sys[4]);
 		assert(0);
 	}
 	paddr_t ppn = pte >> 10;
