@@ -44,7 +44,7 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
 
   set_satp(kas.ptr);
   vme_enable = 1;
-
+  printf("addr of vme_enable: %p\n", &vme_enable);
   return true;
 }
 
