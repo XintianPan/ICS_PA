@@ -122,7 +122,7 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 	printf("%p\n", kstack.end);
-	Context* c = (Context *)(kstack.end + 1 - sizeof(Context));
+	Context* c = (Context *)(kstack.end + 2 - sizeof(Context));
 	for(int i = 0; i < 32; ++i){
 		c->gpr[i] = 0;
  	}
