@@ -50,7 +50,7 @@ void context_kload(PCB *pcb, void(*entry)(void *), void *arg){
 
 void init_proc() {
     Log("Initializing processes...");
-  	context_kload(&pcb[0], hello_fun, "NO");
+  	context_uload(&pcb[0], "/bin/hello", NULL, NULL);
 //  Log("%p", &pcb[0].cp);
 //  Log("%p", pcb[0].cp);
     context_uload(&pcb[1], "/bin/hello", NULL, NULL);
