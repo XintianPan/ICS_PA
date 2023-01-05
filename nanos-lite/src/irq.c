@@ -7,7 +7,7 @@ static Context* do_event(Event e, Context* c) {
    switch (e.event) {
 	case EVENT_YIELD: 
 //		printf("catch this!\n");
-		Log("yield");
+//		Log("yield");
 		c->mepc += 4;
 	   	return schedule(c);
 	   	break;
@@ -18,7 +18,7 @@ static Context* do_event(Event e, Context* c) {
 	case EVENT_SYSCALL: 
 //		printf("got this!\n");
 	   	do_syscall(c);
-		Log("sys:%p %p", c, c->gpr[2], c->pdir);
+//		Log("sys:%p %p", c, c->gpr[2], c->pdir);
 	   	break; 
     default: panic("Unhandled event ID = %d", e.event);
   }

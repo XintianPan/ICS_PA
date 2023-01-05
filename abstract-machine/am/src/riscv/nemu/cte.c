@@ -57,7 +57,7 @@ Context* __am_irq_handle(Context *c) {
 //  printf("%x\n", c->mstatus);
 //  printf("%x\n", c->mepc);
  // printf("context size: %x\n", sizeof(Context));
-  printf("here %x\n", c->gpr[2]);
+ // printf("here %x\n", c->gpr[2]);
   uintptr_t pre_sp = get_ms();
 //  printf("os %x %x\n", pre_sp, sizeof(Context));
   if(pre_sp - sizeof(Context) != c->gpr[2]){
@@ -102,10 +102,10 @@ Context* __am_irq_handle(Context *c) {
     c = user_handler(ev, c);
     assert(c != NULL);
   }
-  printf("new addr:%p\n", c);
-  printf("new pdir:%p\n", c->pdir);
+//  printf("new addr:%p\n", c);
+//  printf("new pdir:%p\n", c->pdir);
   __am_switch(c);
-  printf("ok then\n");
+//  printf("ok then\n");
   return c;
 }
 

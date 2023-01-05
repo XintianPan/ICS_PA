@@ -8,10 +8,6 @@ PCB *current = NULL;
 
 //static int time_seg = 0;
 
-extern char _std_out_buf[10000 + 5];
-
-extern char _std_num_buf[20];
-
 static PCB *kpcb[4] = {NULL};
 
 static int id = 0;

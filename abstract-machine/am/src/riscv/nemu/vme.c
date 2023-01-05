@@ -7,7 +7,7 @@ static void* (*pgalloc_usr)(int) = NULL;
 static void (*pgfree_usr)(void*) = NULL;
 static int vme_enable = 0;
 
-extern uintptr_t kernel_thread;
+//extern uintptr_t kernel_thread;
 
 static Area segments[] = {      // Kernel memory mappings
   NEMU_PADDR_SPACE
@@ -68,9 +68,9 @@ void __am_get_cur_as(Context *c) {
 }
 
 void __am_switch(Context *c) {
-  printf("%d %p\n", vme_enable, c->pdir);
+ // printf("%d %p\n", vme_enable, c->pdir);
   if (vme_enable && c->pdir != NULL) {
-	  printf("addr:%p\n", c->pdir);
+//	  printf("addr:%p\n", c->pdir);
 	  set_satp(c->pdir);
   }
 }
