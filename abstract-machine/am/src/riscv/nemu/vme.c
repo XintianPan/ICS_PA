@@ -103,7 +103,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
 	protect(as);
-	Context* c = (Context *)(kstack.end + 1 - sizeof(Context));
+	Context* c = (Context *)(kstack.end - sizeof(Context));
 	for(int i = 0; i < 32; ++i){
 		c->gpr[i] = 0;
 	}

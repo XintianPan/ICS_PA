@@ -174,7 +174,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   uintptr_t entry = elf_ehdr.e_entry;
   Area kustack;
   kustack.start = (void *)pcb;
-  kustack.end = (void *)pcb + sizeof(PCB) - 1;
+  kustack.end = (void *)pcb + sizeof(PCB);
 //  Log("%p %p", kustack.start, kustack.end);
   pcb->cp = ucontext(&pcb->as, kustack, (void *)entry);
   void *ustack = new_page(8);

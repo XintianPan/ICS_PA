@@ -38,7 +38,7 @@ void hello_fun(void *arg) {
 void context_kload(PCB *pcb, void(*entry)(void *), void *arg){
 	Area kstack;
 	kstack.start =(void *)pcb;
-	kstack.end = (void *)pcb + sizeof(PCB) - 1;
+	kstack.end = (void *)pcb + sizeof(PCB);
 	kpcb[id++] = pcb;
 	pcb->cp = kcontext(kstack, entry, arg);
 //	Log("%p", pcb);
