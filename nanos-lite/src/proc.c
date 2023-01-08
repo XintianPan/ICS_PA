@@ -25,8 +25,8 @@ void switch_boot_pcb() {
 void hello_fun(void *arg) {
   int j = 1;
   while (1) { 
-    printf("%d %d %x %x %x %x %x %x %x\n",100,j,100,100,100,100,100,100,100);
-	//Log("Hello World from Nanos-lite with arg '%s' for the %dth time!", (char *)arg, j);
+ //   printf("%d %d %x %x %x %x %x %x %x\n",100,j,100,100,100,100,100,100,100);
+	Log("Hello World from Nanos-lite with arg '%s' for the %dth time!", (char *)arg, j);
     j ++;
     yield();
    }
