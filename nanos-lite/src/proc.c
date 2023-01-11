@@ -54,7 +54,7 @@ void init_proc() {
 //  Log("%p", pcb[0].cp);
     context_uload(&pcb[1], "/bin/nterm", NULL, NULL);
 	context_uload(&pcb[2], "/bin/pal", NULL, NULL);
-	context_uload(&pcb[3], "/bin/bird", NULL, NULL);
+	context_uload(&pcb[3], "/bin/pal", NULL, NULL);
 //  Log("%p", pcb[0].cp);
     pcbid = 1;
   switch_boot_pcb();
