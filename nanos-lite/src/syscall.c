@@ -76,7 +76,7 @@ void do_syscall(Context *c) {
 //		if(a[1] != 0) assert(0);
 //		halt(a[1]);
 		context_uload(current, "/bin/nterm", NULL, NULL);
-	   	switch_boot_pcb();
+//	   	switch_boot_pcb();
 		yield();
 		break;
 	case SYS_yield: 
@@ -134,7 +134,7 @@ void do_syscall(Context *c) {
 		if(file_check((char *)a[1])){
 //			Log("%s", (char *)a[1]);
 			context_uload(current, (char *)a[1], (char *const *)a[2], (char *const *)a[3]);
-			switch_boot_pcb();
+	//		switch_boot_pcb();
 			yield();
 			//	Log("here %x %x", c->gpr[2], c->mepc);
 		}
