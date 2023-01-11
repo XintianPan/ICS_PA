@@ -34,7 +34,10 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 //	printf("ppn: 0x%x\n", ppn);
 	paddr_t pte0 = paddr_read(ppn + vpn0 * 4, 4);
 	paddr_t pg = pte0 >> 10;
-	assert((pte0 & 1));
+	if((pte0 & 1)){
+	   Log("0x%08x 0x%08x", vaddr, cpu.sys[4]);
+	   assert(0);
+	}
 //	printf("final page: 0x%x\n", (pg << 12));
 	paddr_t paddr = (pg << 12) | pg_off;
 	if(paddr == 0x823b6f4b && type == 2){
