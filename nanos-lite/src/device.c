@@ -17,6 +17,8 @@ static int w = 0;
 
 static int h = 0;
 
+extern int pcbid;
+
 uint32_t fb_buf[400 * 300];
 
 static const char *keyname[256] __attribute__((used)) = {
@@ -45,7 +47,16 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 	else{
 		memset(events, 0, sizeof(events));
 		if(ev.keydown){
-//			Log("ok here");
+			if(ev.keycode == AM_KEY_F1){
+				pcbid = 1;
+				yield();
+			}else if(ev.keycode == AM_KEY_F2){
+				pcbid = 2;
+				yield();
+			}else if(ev.keycode == AM_KEY_F3){
+			    pcbid = 3;
+				yield();
+			}
 			sprintf((char *)events, "kd %s", keyname[ev.keycode]);
 		}else{
 			sprintf((char *)events, "ku %s", keyname[ev.keycode]);

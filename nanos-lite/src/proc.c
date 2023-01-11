@@ -8,6 +8,8 @@ PCB *current = NULL;
 
 //static int time_seg = 0;
 
+int pcbid = 0;
+
 static PCB *kpcb[4] = {NULL};
 
 static int id = 0;
@@ -47,11 +49,14 @@ void context_kload(PCB *pcb, void(*entry)(void *), void *arg){
 
 void init_proc() {
     Log("Initializing processes...");
-  	context_kload(&pcb[0], hello_fun, "NO");
+  	context_uload(&pcb[0], "/bin/hello", NULL, NULL);
 //  Log("%p", &pcb[0].cp);
 //  Log("%p", pcb[0].cp);
-    context_uload(&pcb[1], "/bin/hello", NULL, NULL);
+    context_uload(&pcb[1], "/bin/nterm", NULL, NULL);
+	context_uload(&pcb[2], "/bin/bird", NULL, NULL);
+	context_uload(&pcb[3], "/bin/pal", NULL, NULL);
 //  Log("%p", pcb[0].cp);
+    pcbid = 1;
   switch_boot_pcb();
 //  Log("%p %p", pcb[0].cp, pcb[1].cp->mepc);
 
@@ -79,6 +84,6 @@ Context* schedule(Context *prev) {
 //  Log("%p %p %p %p %p %p", pcb[0].cp, pcb[1].cp ,pcb[0].cp->gpr[2], pcb[1].cp->gpr[2], pcb[0].cp->pdir, pcb[1].cp->pdir);
 //	Log("%p %p %p %p %p %p", pcb[0].cp, pcb[1].cp, pcb[0].cp->gpr[10], pcb[1].cp->gpr[10], pcb[0].cp->mepc, pcb[1].cp->mepc);
 //    Log("%p %p", pcb[0], pcb[1]);
-    current = (current == &pcb[0]) ? &pcb[1] : &pcb[0];
+    current = (current == &pcb[0]) ? &pcb[pcbid] : &pcb[0];
 	return current->cp;
 }
