@@ -56,8 +56,9 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 			}else if(ev.keycode == AM_KEY_F3){
 			    pcbid = 3;
 				yield();
-			}
+			}else{
 			sprintf((char *)events, "kd %s", keyname[ev.keycode]);
+			}
 		}else{
 			sprintf((char *)events, "ku %s", keyname[ev.keycode]);
 		}
