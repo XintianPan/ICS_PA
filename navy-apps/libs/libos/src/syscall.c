@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <time.h>
 #include "syscall.h"
-#include <stdio.h>
+#include <errno.h>
 extern char _end;
 volatile intptr_t cur_addr = (intptr_t)(&_end);
 
@@ -95,8 +95,15 @@ int _gettimeofday(struct timeval *tv, struct timezone *tz) {
 }
 
 int _execve(const char *fname, char * const argv[], char *const envp[]) {
-	return  _syscall_(SYS_execve, (intptr_t)(fname), (intptr_t)(argv), (intptr_t)(envp));
-
+//	printf("%p %p\n", argv, envp);
+//	int i = 0;
+//	printf("%p\n", envp[0]);
+//	while(envp[i] != NULL) printf("%p\n", envp[i]), ++i;
+	if(_syscall_(SYS_execve, (intptr_t)(fname), (intptr_t)(argv), (intptr_t)(envp)) == -2){
+		errno = ENOENT;
+		return -1;
+	}
+	return 0;
 }
 
 // Syscalls below are not used in Nanos-lite.

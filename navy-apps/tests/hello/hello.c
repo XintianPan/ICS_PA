@@ -4,9 +4,8 @@
 int main() {
   write(1, "Hello World!\n", 13);
   int i = 2;
-  int count = 200000;
   volatile int j = 0;
-  while (count--) {
+  while (1) {
     j ++;
     if (j  == 10000) {
       printf("Hello World from Navy-apps for the %dth time!\n", i ++);

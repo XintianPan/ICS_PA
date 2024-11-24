@@ -33,7 +33,9 @@ static inline void csrw(vaddr_t rd, word_t rs_imm, vaddr_t csr){
 		case 0x305: id = 1; break; //mtvec
 		case 0x341: id = 2; break; //mepc
 		case 0x342: id = 3; break; //mcause
-	}
+		case 0x180: id = 4; break; //satp
+		case 0x340: id = 5; break; //mscratch
+	} 
 	if(rd != 0) R(rd) = S(id);
 	S(id) = rs_imm;
 }
@@ -44,6 +46,8 @@ static inline void csrs(vaddr_t rd, word_t rs_imm, vaddr_t csr){
 		case 0x305: id = 1; break; //mtvec
 		case 0x341: id = 2; break; //mepc
 		case 0x342: id = 3; break; //mcause
+        case 0x180: id = 4; break; //satp
+		case 0x340: id = 5; break; //mscratch
 	}
 	if(rd != 0) R(rd) = S(id);
 	uint32_t t;
@@ -59,7 +63,9 @@ static inline void csrc(vaddr_t rd, word_t rs_imm, vaddr_t csr){
 		case 0x305: id = 1; break; //mtvec
 		case 0x341: id = 2; break; //mepc
 		case 0x342: id = 3; break; //mcause
-	}
+	    case 0x180: id = 4; break; //satp
+		case 0x304: id = 5; break; //mscratch
+	} 
 	if(rd != 0) R(rd) = S(id);
 	uint32_t t;
 	for(int i = 0; i < 32; ++i){
@@ -67,9 +73,9 @@ static inline void csrc(vaddr_t rd, word_t rs_imm, vaddr_t csr){
 		if((t & rs_imm)){
 			if((t & S(id))){
 				S(id) ^= t;
-			}
-		}
-	}
+	 		}
+	 	}
+	} 
 }
 
 enum {
@@ -109,6 +115,15 @@ static void decode_operand(Decode *s, int *dest, word_t *src1, word_t *src2, wor
 //static void che(paddr_t data, paddr_t pc){
 //	if(data == 0x83076874) printf("0x%08x\n", pc);
 //}
+
+#define MPIE_REC 0x00000080
+#define MPIE_EPC 0xffffff7f
+void mstatus_r(){
+	word_t mpie = BITS(S(0), 7, 7);
+	S(0) |= (mpie << 3);
+	S(0) &= MPIE_EPC;
+}
+
 
 static int decode_exec(Decode *s, bool *jmp) {  
   int dest = 0;
@@ -186,7 +201,7 @@ static int decode_exec(Decode *s, bool *jmp) {
 
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
   INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(R(17), 1)); //R(17) is $a7 
-  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , N, s->dnpc = cpu.sys[2]);
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , N, s->dnpc = cpu.sys[2], mstatus_r());
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));
   INSTPAT_END();
 

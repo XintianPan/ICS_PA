@@ -178,6 +178,8 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 }
 
 static void exec_once(Decode *s, vaddr_t pc) {
+//  if(pc == 0x800027b4) Log("enter printf");
+//  else if(pc == 0x80002830) Log("leave printf");
   s->pc = pc;
   s->snpc = pc;
   jmp_check = false;
@@ -235,6 +237,11 @@ static void execute(uint64_t n) {
     trace_and_difftest(&s, cpu.pc);
     if (nemu_state.state != NEMU_RUNNING) break;
     IFDEF(CONFIG_DEVICE, device_update());
+	word_t intr = isa_query_intr();
+//	if(intr == INTR_EMPTY) Log("ok");
+	if(intr != INTR_EMPTY){
+		cpu.pc = isa_raise_intr(intr, 1);
+	}
   } 
 }
 

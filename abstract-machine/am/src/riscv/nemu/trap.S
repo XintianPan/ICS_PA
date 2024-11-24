@@ -30,6 +30,11 @@ f(30) f(31)
 .align 3
 .globl __am_asm_trap
 __am_asm_trap:
+  csrrw sp, mscratch, sp
+  bnez sp, save_context
+  csrr sp, mscratch
+
+save_context:
   addi sp, sp, -CONTEXT_SIZE
 
   MAP(REGS, PUSH)
@@ -41,7 +46,16 @@ __am_asm_trap:
   STORE t0, OFFSET_CAUSE(sp)
   STORE t1, OFFSET_STATUS(sp)
   STORE t2, OFFSET_EPC(sp)
-
+  STORE sp, OFFSET_SP(sp)
+#  csrr t0, mscratch
+  # save pre sp, next to save np 
+#  STORE t0, OFFSET_SP(sp) # mscratch saves the value of sp before using the kernel stack
+#  mv t1, sp # now t1 has the value of sp
+#  addi t2, zero, 1 # user stack before entering
+#  addi t0, t0, -CONTEXT_SIZE # mscratch value minus context_size if it is equal to sp, then it's kernel, otherwise it's user
+#  sub t0, t0, sp # sub
+#  bnez t0, save_np # not equal to 0 means it's user, otherwise it's user
+#  addi t2, t2, -1 # kernel stack before entering
   # set mstatus.MPRV to pass difftest
   li a0, (1 << 17)
   or t1, t1, a0
@@ -49,7 +63,13 @@ __am_asm_trap:
 
   mv a0, sp
   jal __am_irq_handle
-
+  mv sp, a0
+  LOAD t1, 0(sp)
+  addi t2, sp, CONTEXT_SIZE
+  beqz t1, skip
+  csrw mscratch, t2
+ 
+skip:
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)
   csrw mstatus, t1
@@ -57,5 +77,15 @@ __am_asm_trap:
 
   MAP(REGS, POP)
 
-  addi sp, sp, CONTEXT_SIZE
+  LOAD sp, OFFSET_SP(sp)
+#  STORE t0, 0(sp)
+#  LOAD t0, -CONTEXT_SIZE(sp)
+#  addi t0, t0, -1
+#  bnez t0, restore_sp
+#  csrw mscratch, sp	
+ 
+#restore_sp:
+#  LOAD t0, 0(sp)
+#  LOAD sp, (-CONTEXT_SIZE + OFFSET_SP)(sp)
+
   mret

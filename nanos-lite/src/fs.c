@@ -74,14 +74,16 @@ int fs_open(const char *pathname, int flags, int mode ){
 }
 
 size_t fs_read(int fd, void *buf, size_t len){
-	assert(fd < LENGTH(file_table));
-//	printf("%d %d\n", open_off[fd], file_table[fd].size);	
+//	assert(fd < LENGTH(file_table));
+//    Log("%d", fd);
+//    Log("%d", len);
+	//	printf("%d %d\n", open_off[fd], file_table[fd].size);	
 	if(file_table[fd].read == NULL){
 		if(open_off[fd] >= file_table[fd].size){
 //			Log("Cross the boundary of file!");
 			return 0;
-		}else if(open_off[fd] + len - 1 >= file_table[fd].size){
-			len = file_table[fd].size + 1 - open_off[fd];
+		}else if(open_off[fd] + len >= file_table[fd].size){
+			len = file_table[fd].size - open_off[fd];
 			size_t read_sl = ramdisk_read(buf, open_off[fd] + file_table[fd].disk_offset, len);
 			open_off[fd] += read_sl;
 			return read_sl;
@@ -97,7 +99,7 @@ size_t fs_read(int fd, void *buf, size_t len){
 }
 
 size_t fs_lseek(int fd, size_t offset, int whence){
-	assert(fd < LENGTH(file_table));
+//	assert(fd < LENGTH(file_table));
 	size_t ret;
 	switch(whence){
 		case SEEK_SET:
@@ -117,7 +119,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
 }
 
 size_t fs_write(int fd, const void *buf, size_t len){ 
-	assert(fd < LENGTH(file_table));
+//	assert(fd < LENGTH(file_table));
 	if(file_table[fd].write == NULL){
 		if(open_off[fd] + len - 1 >= file_table[fd].size){
 //			Log("cross the file boundary, reshape len");

@@ -21,6 +21,9 @@
   bool etr_en = false;
 #endif
 
+#define IRQ_TIMER 0x80000007
+#define MIE_CLEAR 0xfffffff7
+
 word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   /* TODO: Trigger a n  interrupt/exception with ``NO''.
    * Then return the address of the interrupt/exception vector.
@@ -32,11 +35,19 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 			                 break;
 		}
 #endif
+  word_t mie = BITS(cpu.sys[0], 3, 3);
+  cpu.sys[0] = cpu.sys[0] & MIE_CLEAR;
+  cpu.sys[0] |= (mie << 7);
   cpu.sys[3] = NO;
   cpu.sys[2] = cpu.pc;
   return cpu.sys[epc];
 }
 
 word_t isa_query_intr() {
-  return INTR_EMPTY;
+//	if(BITS(cpu.sys[0], 3, 3) == 0) puts("closed");
+	if(cpu.INTR && (BITS(cpu.sys[0], 3, 3))){
+		cpu.INTR = false;
+		return IRQ_TIMER;
+	}
+	return INTR_EMPTY;
 }

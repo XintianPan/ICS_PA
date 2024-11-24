@@ -13,6 +13,7 @@ ifeq ($(MAKECMDGOALS),)
   .DEFAULT_GOAL = app
 endif
 
+VME = 1
 ### Override checks when `make clean/clean-all/html/init`
 ifeq ($(findstring $(MAKECMDGOALS),clean|clean-all|html|init),)
 
@@ -166,8 +167,8 @@ $(CLEAN_ALL):
 .PHONY: clean-all $(CLEAN_ALL)
 
 ### Build fsimg and ramdisk for Nanos-lite
-APPS = bird nterm menu nslider pal
-TESTS = dummy bmp-test 
+APPS = nterm nslider menu pal bird busybox
+TESTS = dummy hello exec-test 
 
 fsimg: $(addprefix apps/, $(APPS)) $(addprefix tests/, $(TESTS))
 	-for t in $^; do $(MAKE) -s -C $(NAVY_HOME)/$$t install; done

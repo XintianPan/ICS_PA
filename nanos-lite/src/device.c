@@ -17,6 +17,8 @@ static int w = 0;
 
 static int h = 0;
 
+extern int pcbid;
+
 uint32_t fb_buf[400 * 300];
 
 static const char *keyname[256] __attribute__((used)) = {
@@ -25,6 +27,8 @@ static const char *keyname[256] __attribute__((used)) = {
 }; 
 
 size_t serial_write(const void *buf, size_t offset, size_t len) {
+//	Log("here");
+//	yield();
 	size_t i = 0;
 	const char *serial_wbuf = (const char *)buf;
 	for(; i < len; ++i){
@@ -34,14 +38,26 @@ size_t serial_write(const void *buf, size_t offset, size_t len) {
 }
 
 size_t events_read(void *buf, size_t offset, size_t len) {
+//	Log("this comes");
+//	yield();
 	AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);	
 	memset(buf, 0, len);
+	Log("%p", buf);
 	if(ev.keycode == AM_KEY_NONE)
 		return 0;
 	else{
 		memset(events, 0, sizeof(events));
 		if(ev.keydown){
-//			Log("ok here");
+			if(ev.keycode == AM_KEY_F1){
+				pcbid = 1;
+				yield();
+			}else if(ev.keycode == AM_KEY_F2){
+				pcbid = 2;
+				yield();
+			}else if(ev.keycode == AM_KEY_F3){
+			    pcbid = 3;
+				yield();
+			}
 			sprintf((char *)events, "kd %s", keyname[ev.keycode]);
 		}else{
 			sprintf((char *)events, "ku %s", keyname[ev.keycode]);
@@ -66,7 +82,9 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-//    printf("fb address: %p\n", fb_buf);
+//	Log("what");
+//	yield();
+	//    printf("fb address: %p\n", fb_buf);
 	if(len == 0){ // use len = 0 to specify the input of w and h from canvas 
 		int *arr = (int *)buf;
 		w = arr[0];
